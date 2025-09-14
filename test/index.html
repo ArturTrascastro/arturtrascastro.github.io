@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Matemàtiques - Avaluació d'entrada 2n ESO</title>
+    <meta name="description" content="Avaluació d'entrada a 2n ESO amb continguts de 1r ESO (diagnòstic inicial)">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- CAPÇALERA PRINCIPAL -->
+    <header class="main-header">
+        <h1>Test de Matemàtiques</h1>
+        <p class="subtitle">Avaluació d'entrada a 2n ESO (continguts 1r ESO)</p>
+        
+        <!-- TIMER I PROGRÉS -->
+        <div class="header-info">
+            <div class="timer-container">
+                <span class="timer-label">Temps restant:</span>
+                <div class="timer" id="timer">20:00</div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="progress-text" id="progress-text">Pregunta 0 de 20</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDOR PRINCIPAL -->
+    <main class="container">
+        
+        <!-- SECCIÓ 1: DADES DE L'ESTUDIANT -->
+        <section id="student-info" class="section active">
+            <div class="section-header">
+                <h2>Informació Personal</h2>
+                <p>Emplena les teves dades per començar el test. Aquesta informació ens ajuda a personalitzar l'avaluació.</p>
+            </div>
+
+            <form id="student-form" class="student-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student-name">Nom i cognoms *</label>
+                        <input type="text" id="student-name" name="studentName" required 
+                               placeholder="Escriu el teu nom complet">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-age">Edat *</label>
+                        <input type="number" id="student-age" name="studentAge" required 
+                               min="12" max="17" placeholder="13">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student-course">Curs actual *</label>
+                        <select id="student-course" name="studentCourse" required>
+                            <option value="">Selecciona el teu curs</option>
+                            <option value="1_eso">1r ESO</option>
+                            <option value="2_eso">2n ESO</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-school">Centre de procedència *</label>
+                        <input type="text" id="student-school" name="studentSchool" required
+                               placeholder="Nom del teu institut o escola">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="math-level">Com et sents amb les matemàtiques? *</label>
+                        <select id="math-level" name="mathLevel" required>
+                            <option value="">Selecciona una opció</option>
+                            <option value="molt_be">Molt bé - M'agrada molt i se'm donen bé</option>
+                            <option value="be">Bé - Normalment les entenc</option>
+                            <option value="regular">Regular - Unes vegades bé, altres no tant</option>
+                            <option value="dificil">Difícil - Em costa bastant</option>
+                            <option value="molt_dificil">Molt difícil - Necessito ajuda sovint</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="device-type">Dispositiu que utilitzes *</label>
+                        <select id="device-type" name="deviceType" required>
+                            <option value="">Selecciona dispositiu</option>
+                            <option value="ordenador_casa">Ordinador a casa</option>
+                            <option value="ordenador_escola">Ordinador de l'escola</option>
+                            <option value="tablet">Tablet</option>
+                            <option value="mobil">Mòbil</option>
+                            <option value="altre">Altre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="study-environment">On fas el test? *</label>
+                        <select id="study-environment" name="studyEnvironment" required>
+                            <option value="">Selecciona ubicació</option>
+                            <option value="aula">Aula de classe</option>
+                            <option value="aula_informatica">Aula d'informàtica</option>
+                            <option value="biblioteca">Biblioteca</option>
+                            <option value="casa_silenci">Casa (ambient silenciós)</option>
+                            <option value="casa_soroll">Casa (amb soroll)</option>
+                            <option value="altre">Altre lloc</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="math-confidence">Nivell de confiança avui (1-10) *</label>
+                        <input type="range" id="math-confidence" name="mathConfidence" 
+                               min="1" max="10" value="5" required>
+                        <div class="range-labels">
+                            <span>1 (Poc confident)</span>
+                            <span id="confidence-value">5</span>
+                            <span>10 (Molt confident)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="previous-experience">Has fet tests similars abans? *</label>
+                    <select id="previous-experience" name="previousExperience" required>
+                        <option value="">Selecciona una opció</option>
+                        <option value="mai">Mai he fet un test online</option>
+                        <option value="poques">Poques vegades (1-3 tests)</option>
+                        <option value="algunes">Algunes vegades (4-10 tests)</option>
+                        <option value="moltes">Moltes vegades (més de 10)</option>
+                        <option value="regular">Faig tests online regularment</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        Començar Test
+                        <span class="icon">→</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- SECCIÓ 2: TEST DE PREGUNTES -->
+        <section id="test-section" class="section">
+            <div class="question-container">
+                <div class="question-header">
+                    <span class="question-number" id="question-number">Pregunta 1 de 20</span>
+                    <span class="question-block" id="question-block">Càlcul</span>
+                </div>
+
+                <div class="question-content">
+                    <h3 class="question-text" id="question-text">
+                        <!-- La pregunta es carregarà aquí -->
+                    </h3>
+
+                    <div class="answer-options" id="answer-options">
+                        <!-- Les opcions de resposta es carregaran aquí -->
+                    </div>
+                    
+                    <!-- MÈTRIQUES PEDAGÒGIQUES AVANÇADES -->
+                    <div class="question-metrics" id="question-metrics" style="display: none;">
+                        <div class="metrics-header">
+                            <h4>Valoració de la pregunta</h4>
+                            <p>Aquestes dades ens ajuden a millorar l'avaluació</p>
+                        </div>
+                        
+                        <div class="metrics-row">
+                            <div class="metric-group">
+                                <label for="question-confidence">Quant de segur estàs de la resposta? *</label>
+                                <input type="range" id="question-confidence" name="questionConfidence" 
+                                       min="1" max="5" value="3" required>
+                                <div class="range-labels small">
+                                    <span>1 (Gens segur)</span>
+                                    <span id="q-confidence-value">3</span>
+                                    <span>5 (Molt segur)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-group">
+                                <label for="question-difficulty">Com de difícil ha estat? *</label>
+                                <input type="range" id="question-difficulty" name="questionDifficulty" 
+                                       min="1" max="5" value="3" required>
+                                <div class="range-labels small">
+                                    <span>1 (Molt fàcil)</span>
+                                    <span id="q-difficulty-value">3</span>
+                                    <span>5 (Molt difícil)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-group">
+                            <label for="solution-strategy">Què has fet per resoldre-la?</label>
+                            <select id="solution-strategy" name="solutionStrategy">
+                                <option value="">Selecciona estratègia (opcional)</option>
+                                <option value="calcul_mental">Càlcul mental</option>
+                                <option value="paper_llapis">He escrit al paper</option>
+                                <option value="visualitzacio">He imaginat la situació</option>
+                                <option value="eliminacio">He descartat opcions</option>
+                                <option value="intuicio">Per intuició</option>
+                                <option value="record">Ho recordava d'abans</option>
+                                <option value="atzar">He marcat a l'atzar</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-actions">
+                    <button type="button" class="btn btn-secondary" id="prev-btn" disabled>
+                        <span class="icon">←</span>
+                        Anterior
+                    </button>
+                    
+                    <div class="question-info">
+                        <div class="analytics-mini" id="analytics-mini" style="display: none;">
+                            <span class="analytics-item"><span id="current-time">0s</span></span>
+                            <span class="analytics-item"><span id="changes-count">0</span> canvis</span>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" id="next-btn" disabled>
+                        Següent
+                        <span class="icon">→</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+               <!-- SECCIÓ 3: RESULTATS -->
+        <section id="results-section" class="section">
+            <div class="results-container">
+                <div class="results-header">
+                    <h2>Els teus resultats</h2>
+                    <p class="results-subtitle">Has completat el test! Aquí tens un resum del teu rendiment.</p>
+                </div>
+
+                <div class="results-content" id="results-content">
+                    <!-- Els resultats es carregaran aquí dinàmicament -->
+                </div>
+
+                <div class="results-actions">
+                    <button type="button" class="btn btn-secondary" id="review-btn">
+                        Revisar Respostes
+                    </button>
+                    <button type="button" class="btn btn-primary" id="new-test-btn">
+                        Fer un altre test
+                    </button>
+                </div>
+
+                <!-- INFORMACIÓ SOBRE L'ENVIAMENT -->
+                <div class="data-info">
+                    <h4>Informació sobre les teves dades</h4>
+                    <p>Els resultats del test s'enviaran per a la investigació educativa.
+                       Les dades personals (nom, centre) no s'envien; només resultats i analítiques agregades.</p>
+                    <div class="data-status" id="data-status">
+                        <span class="status-icon"></span>
+                        <span class="status-text">Enviant resultats...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL D'AJUDA -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Ajuda del Test</h3>
+                <button class="modal-close" id="close-help">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>Com funciona el test?</h4>
+                <ul>
+                    <li><strong>Durada:</strong> Tens 20 minuts per completar 20 preguntes</li>
+                    <li><strong>Tipus:</strong> Preguntes de matemàtiques de nivell 1r ESO (diagnòstic d'inici de 2n ESO)</li>
+                    <li><strong>Blocs:</strong> Processos i mètodes, Funcions, Números i àlgebra, Geometria, Estadística i probabilitat</li>
+                    <li><strong>Navegació:</strong> Pots anar enrere i endavant entre preguntes</li>
+                    <li><strong>Resultats:</strong> Al final veuràs la teva puntuació per cada bloc</li>
+                </ul>
+                
+                <h4>Consells per fer el test:</h4>
+                <ul>
+                    <li>Llegeix cada pregunta amb atenció</li>
+                    <li>Si no saps una resposta, intenta raonar-la</li>
+                    <li>Gestiona bé el temps: aproximadament 1 minut per pregunta</li>
+                    <li>Revisa les teves respostes si et sobra temps</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTONS D'AJUDA I CONFIGURACIÓ -->
+    <div class="floating-actions">
+        <button type="button" class="btn-floating" id="help-btn" title="Ajuda">
+            <span class="icon">?</span>
+        </button>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="preguntes.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
