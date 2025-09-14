@@ -1,1 +1,269 @@
-atrascastro
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artur Trascastro - Treball de Recerca</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #fff;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            color: #3b4a79;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            background-color: #3b4a79;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header-footer {
+            background-color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .institut-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .institut-logo {
+            width: 50px;
+            height: 50px;
+            background-color: #3b4a79;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .institut-text h3 {
+            margin: 0;
+            font-size: 1em;
+            color: #3b4a79;
+        }
+
+        .institut-text p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .student-header {
+            font-size: 1.1em;
+            color: #3b4a79;
+            font-weight: bold;
+        }
+
+        .main-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+            margin: 20px 0;
+        }
+
+        .student-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .student-name {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3b4a79;
+            margin: 0;
+        }
+
+        .student-level {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .project-description {
+            margin: 20px 0;
+            text-align: justify;
+        }
+
+        .project-description h3 {
+            color: #3b4a79;
+            margin-bottom: 10px;
+        }
+
+        .objectives {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+        .objectives ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .objectives li {
+            margin-bottom: 8px;
+        }
+
+        .test-button {
+            display: block;
+            width: 250px;
+            margin: 30px auto;
+            padding: 15px;
+            background-color: #3b4a79;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 500;
+            border: 1px solid #3b4a79;
+            transition: background-color 0.3s;
+        }
+
+        .test-button:hover {
+            background-color: #2d3861;
+        }
+
+        .project-info {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+        .project-info p {
+            margin: 5px 0;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #3b4a79;
+        }
+
+        @media (max-width: 768px) {
+            .header-footer {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .institut-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .student-header {
+                font-size: 1em;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .student-name {
+                font-size: 1.6em;
+            }
+
+            .test-button {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Capçalera amb institut -->
+    <div class="header-footer">
+        <div class="institut-info">
+            <div class="institut-logo">IBF</div>
+            <div class="institut-text">
+                <h3>Institut Bernat el Ferrer</h3>
+                <p>Molins de Rei</p>
+            </div>
+        </div>
+        <div class="student-header">Artur Trascastro</div>
+    </div>
+
+    <div class="container">
+        <!-- Contingut principal -->
+        <div class="main-content">
+            <!-- Descripció del projecte -->
+            <div class="project-description">
+                <h2>Treball de Recerca</h2>
+                <h3>Avaluació del nivell de competència matemàtica en alumnes de 2n d'ESO</h3>
+                
+                <p>Aquest treball té com a objectiu desenvolupar i aplicar un test per avaluar el nivell de competència matemàtica dels estudiants de 2n d'ESO, basat en el currículum oficial establert en el Real Decret 217/2022.</p>
+
+                <div class="objectives">
+                    <h3>Objectius de l'estudi:</h3>
+                    <ul>
+                        <li>Dissenyar un test adaptat al currículum de matemàtiques de 2n d'ESO</li>
+                        <li>Avaluar el nivell actual de competència matemàtica dels estudiants</li>
+                        <li>Identificar les àrees de major i menor domini</li>
+                        <li>Proporcionar dades útils per a la millora educativa</li>
+                    </ul>
+                </div>
+
+                <p>El test està basat en els sis sentits matemàtics: numèric, de la mesura, espacial, algebraic, estocàstic i socioafectiu, tal com estableix el currículum vigent.</p>
+            </div>
+
+            <!-- Botó del test -->
+            <a href="#" class="test-button">Accedir al Test</a>
+
+            <!-- Informació del projecte -->
+            <div class="project-info">
+                <h3>Informació del projecte</h3>
+                <p><strong>Curs:</strong> 2n de Batxillerat</p>
+                <p><strong>Assignatura:</strong> Treball de Recerca</p>
+                <p><strong>Centre:</strong> Institut Bernat el Ferrer</p>
+                <p><strong>Any acadèmic:</strong> 2024-2025</p>
+                <p>Per a més informació sobre el projecte o per participar en l'estudi, pots contactar amb mi per correu electrònic.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Peu de pàgina -->
+    <div class="header-footer">
+        <footer>Treball de Recerca · Curs 2024-2025</footer>
+    </div>
+
+</body>
+</html>
