@@ -41,41 +41,56 @@ const BLOCK_LABELS = {
 };
 
 // Configuració de Google Forms (cal personalitzar amb els teus identificadors)
+// Opcional: URL d'un Web App de Google Apps Script per enviar dades en JSON sense mapatges d'entries
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbycMGH0jx6ms7nX5lUiL2b3IoTXRE9AgLj_ngdOJ8E6Chwl-FdprF7Me9M0zDngxO0Z/exec"; // Ex.: "https://script.google.com/macros/s/AKfycbx.../exec" (deixar buit per usar Google Forms)
+
 const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/[SUBSTITUIR_PER_ID_REAL]/formResponse";
 const GOOGLE_FORM_ENTRIES = {
-    // Dades bàsiques
-    temps: "entry.1234567890",          // Temps emprat total
-    total: "entry.2345678901",          // Puntuació total
-    // Blocs (configura segons el formulari real)
-    processos: "entry.3456789000",      // Puntuació bloc processos (placeholder)
-    funcions: "entry.3456789050",       // Puntuació bloc funcions (placeholder)
-    numeros_algebra: "entry.3456789012", // Puntuació bloc números i àlgebra
-    mesura: "entry.4567890123",         // Puntuació bloc mesura i magnituds (si s'usa)
-    geometria: "entry.5678901234",      // Puntuació bloc geometria
-    estadistica: "entry.6789012345",    // Puntuació bloc estadística
-    problemes: "entry.7890123456",      // Puntuació bloc problemes (si s'usa)
-    
+    // Dades bàsiques (valors totals)
+    temps: "entry.1234567890",
+    totalsEncerts: "entry.2000000001",
+    totalsErrors: "entry.2000000002",
+    totalsNoRespostes: "entry.2000000003",
+    totalsRespostes: "entry.2000000004",
+    totalsPunts: "entry.2000000005",
+    totalsNota10: "entry.2000000006",
+
+    // Per bloc (valors totals)
+    processosEncerts: "entry.2100000001",
+    processosErrors: "entry.2100000002",
+    numeros_algebraEncerts: "entry.2100000003",
+    numeros_algebraErrors: "entry.2100000004",
+    geometriaEncerts: "entry.2100000005",
+    geometriaErrors: "entry.2100000006",
+    estadisticaEncerts: "entry.2100000007",
+    estadisticaErrors: "entry.2100000008",
+    funcionsEncerts: "entry.2100000009",
+    funcionsErrors: "entry.2100000010",
+
     // Dades contextuals ampliades
-    dispositiu: "entry.8901234567",     // Tipus de dispositiu
-    ambient: "entry.9012345678",        // Ambient d'estudi
-    confiancaInicial: "entry.0123456789", // Confiança inicial
-    experienciaPrevia: "entry.1234567891", // Experiència prèvia
-    
+    centrePrimaria: "entry.8901234500",
+    confiancaInicial: "entry.0123456789",
+    horesMobil: "entry.8901234510",
+    horesSon: "entry.8901234520",
+    horesEstudiMates: "entry.8901234530",
+    reforcMates: "entry.8901234540",
+    ansietatMates: "entry.8901234550",
+
     // Analytics conductuals (JSON string)
-    tempsPerPregunta: "entry.2345678902",   // Temps per cada pregunta
-    canvisResposta: "entry.3456789013",     // Nombre de canvis per pregunta
-    confiancaPerPregunta: "entry.4567890124", // Confiança per pregunta
-    dificultatPercebuda: "entry.5678901235",  // Dificultat percebuda
-    estrategiesResolucio: "entry.6789012346", // Estratègies utilitzades
-    patronsNavegacio: "entry.7890123457",   // Patrons de navegació
-    respostesSeleccionades: "entry.7890123460", // Respostes seleccionades (JSON)
-    
+    tempsPerPregunta: "entry.2345678902",
+    canvisResposta: "entry.3456789013",
+    confiancaPerPregunta: "entry.4567890124",
+    dificultatPercebuda: "entry.5678901235",
+    estrategiesResolucio: "entry.6789012346",
+    patronsNavegacio: "entry.7890123457",
+    respostesSeleccionades: "entry.7890123460",
+
     // Metadades tècniques
-    sistemaOperatiu: "entry.8901234568",    // SO del dispositiu
-    navegador: "entry.9012345679",          // Navegador utilitzat
-    resolucio: "entry.0123456780",          // Resolució de pantalla
-    horaInici: "entry.1234567892",          // Hora d'inici del test
-    diaSetmana: "entry.2345678903"          // Dia de la setmana
+    sistemaOperatiu: "entry.8901234568",
+    navegador: "entry.9012345679",
+    resolucio: "entry.0123456780",
+    horaInici: "entry.1234567892",
+    diaSetmana: "entry.2345678903"
 };
 
 // Mapatge de blocs → clau de formulari (només s'enviaran si existeixen al formulari)
@@ -92,6 +107,10 @@ const BLOCK_TO_FORM_ENTRY = {
 function isGoogleFormConfigured() {
     return GOOGLE_FORM_ACTION_URL && !GOOGLE_FORM_ACTION_URL.includes('[SUBSTITUIR') &&
            !Object.values(GOOGLE_FORM_ENTRIES).some(v => String(v).includes('PLACEHOLDER'));
+}
+
+function isWebAppConfigured() {
+    return WEB_APP_URL && WEB_APP_URL.startsWith('https://');
 }
 
 // ========================================
@@ -118,6 +137,7 @@ let navigationPatterns = [];          // patrons de navegació
 let technicalMetadata = {};           // metadades tècniques del dispositiu
 let currentQuestionMetrics = {};      // mètriques de la pregunta actual
 let initialAnswerTimeTracking = {};   // temps fins a la primera resposta (s)
+let attemptId = null;                 // identificador únic de l'intent
 
 // ========================================
 // ELEMENTS DEL DOM
@@ -301,31 +321,30 @@ function showSection(sectionName) {
 /**
  * Gestiona l'enviament del formulari d'informació personal
  */
-/**
- * Gestiona l'enviament del formulari d'informació personal
- */
 function handleStudentFormSubmit(e) {
     e.preventDefault();
     
-    // Recollir dades del formulari actual
+    // Recollir dades del formulari
     const formData = new FormData(studentForm);
     studentData = {
-        // Dades del formulari nou
+        // Dades bàsiques
         age: parseInt(formData.get('studentAge')),
         school: formData.get('studentSchool') || 'No especificat',
         mathLevel: formData.get('mathLevel'),
+        
+        // Dades contextuals ampliades
         mathConfidence: parseInt(formData.get('mathConfidence')),
-        mobileUsage: formData.get('mobileUsage'),
-        sleepHours: formData.get('sleepHours'),
-        studyHours: formData.get('studyHours'),
-        tutoring: formData.get('tutoring'),
-        mathAnxiety: formData.get('mathAnxiety')
+        mobileUsage: formData.get('mobileUsage') ? parseInt(formData.get('mobileUsage')) : null,
+        sleepHours: formData.get('sleepHours') ? parseInt(formData.get('sleepHours')) : null,
+        studyHours: formData.get('studyHours') ? parseInt(formData.get('studyHours')) : null,
+        tutoring: formData.get('tutoring') || 'cap',
+        mathAnxiety: formData.get('mathAnxiety') ? parseInt(formData.get('mathAnxiety')) : null
     };
     
     console.log('Dades de l\'estudiant recollides:', studentData);
     
-    // Validar només els camps essencials que realment existeixen
-    if (!studentData.age || !studentData.school || !studentData.mathLevel) {
+    // Validar dades essencials
+    if (!studentData.age || !studentData.school || !studentData.mathLevel || !studentData.mathConfidence) {
         alert('Si us plau, emplena tots els camps obligatoris marcats amb *');
         return;
     }
@@ -333,6 +352,7 @@ function handleStudentFormSubmit(e) {
     // Inicialitzar test
     initializeTest();
 }
+
 // ========================================
 // GESTIÓ DEL TEST
 // ========================================
@@ -351,6 +371,7 @@ function initializeTest() {
     console.log(`Seleccionades ${testQuestions.length} preguntes aleatòries`);
     
     // Reiniciar variables del test
+    attemptId = (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : `att-${Date.now()}-${Math.random().toString(16).slice(2)}`;
     currentQuestionIndex = 0;
     userAnswers = {};
     startTime = Date.now();
@@ -820,12 +841,10 @@ function finishTest() {
     // Mostrar resultats
     displayResults(result, totalTimeUsed);
     
-    // Enviar dades a Google Forms
-    sendResultsToGoogle({
-        scores: result.exportScores,
-        timeTakenSeconds: totalTimeUsed,
-        studentData: studentData
-    });
+    // Enviar dades al backend
+    // FORÇAR Web App per evitar confusions (no usar Google Forms)
+    console.log('Enviament: Web App', WEB_APP_URL);
+    sendResultsToWebApp({ result, timeTakenSeconds: totalTimeUsed, studentData });
     
     // Canviar a la secció de resultats
     showSection('results-section');
@@ -895,9 +914,19 @@ function calculateScores() {
     calcRatios(totals);
     Object.keys(blocks).forEach(k => calcRatios(blocks[k]));
 
-    // Dades exportables per a Google Forms (percentatge penalitzat)
-    const exportScores = { total: totals.percentPenalized };
-    Object.keys(blocks).forEach(k => { exportScores[k] = blocks[k].percentPenalized; });
+    // Dades exportables per a Google Forms (valors totals)
+    const exportScores = {
+        totalsEncerts: totals.correct,
+        totalsErrors: totals.wrong,
+        totalsNoRespostes: totals.unanswered,
+        totalsRespostes: totals.answered,
+        totalsPunts: Math.round(totals.points * 100) / 100,
+        totalsNota10: totals.grade10
+    };
+    Object.keys(blocks).forEach(k => {
+        exportScores[`${k}Encerts`] = blocks[k].correct;
+        exportScores[`${k}Errors`] = blocks[k].wrong;
+    });
 
     const result = { totals, blocks, exportScores };
     console.log('Resultats calculats (sobre respostes i per bloc):', result);
@@ -1064,25 +1093,35 @@ async function sendResultsToGoogle({ scores, timeTakenSeconds, studentData }) {
         // Crear FormData amb les dades
         const formData = new FormData();
         
-        // Dades bàsiques: temps i puntuacions
-        formData.append(GOOGLE_FORM_ENTRIES.temps, timeTakenSeconds);
-        formData.append(GOOGLE_FORM_ENTRIES.total, scores.total);
-        // Enviar només els blocs que existeixen en els resultats i tinguin entrada configurada
-        Object.keys(scores)
-            .filter(k => k !== 'total')
-            .forEach(blockKey => {
-                const entryKey = BLOCK_TO_FORM_ENTRY[blockKey];
-                const entryId = GOOGLE_FORM_ENTRIES[entryKey];
-                if (entryId) {
-                    formData.append(entryId, scores[blockKey]);
-                }
-            });
+        // Dades bàsiques: temps
+        if (GOOGLE_FORM_ENTRIES.temps) formData.append(GOOGLE_FORM_ENTRIES.temps, timeTakenSeconds);
+        
+        // Dades totals
+        if (GOOGLE_FORM_ENTRIES.totalsEncerts && scores.totalsEncerts != null) formData.append(GOOGLE_FORM_ENTRIES.totalsEncerts, scores.totalsEncerts);
+        if (GOOGLE_FORM_ENTRIES.totalsErrors && scores.totalsErrors != null) formData.append(GOOGLE_FORM_ENTRIES.totalsErrors, scores.totalsErrors);
+        if (GOOGLE_FORM_ENTRIES.totalsNoRespostes && scores.totalsNoRespostes != null) formData.append(GOOGLE_FORM_ENTRIES.totalsNoRespostes, scores.totalsNoRespostes);
+        if (GOOGLE_FORM_ENTRIES.totalsRespostes && scores.totalsRespostes != null) formData.append(GOOGLE_FORM_ENTRIES.totalsRespostes, scores.totalsRespostes);
+        if (GOOGLE_FORM_ENTRIES.totalsPunts && scores.totalsPunts != null) formData.append(GOOGLE_FORM_ENTRIES.totalsPunts, scores.totalsPunts);
+        if (GOOGLE_FORM_ENTRIES.totalsNota10 && scores.totalsNota10 != null) formData.append(GOOGLE_FORM_ENTRIES.totalsNota10, scores.totalsNota10);
+        
+        // Per bloc: encerts i errors
+        ['processos','numeros_algebra','geometria','estadistica','funcions'].forEach(blockKey => {
+            const encKey = `${blockKey}Encerts`;
+            const errKey = `${blockKey}Errors`;
+            const encEntry = GOOGLE_FORM_ENTRIES[encKey];
+            const errEntry = GOOGLE_FORM_ENTRIES[errKey];
+            if (encEntry && scores[encKey] != null) formData.append(encEntry, scores[encKey]);
+            if (errEntry && scores[errKey] != null) formData.append(errEntry, scores[errKey]);
+        });
         
         // Dades contextuals ampliades
-        formData.append(GOOGLE_FORM_ENTRIES.dispositiu, studentData.deviceType);
-        formData.append(GOOGLE_FORM_ENTRIES.ambient, studentData.studyEnvironment);
-        formData.append(GOOGLE_FORM_ENTRIES.confiancaInicial, studentData.mathConfidence);
-        formData.append(GOOGLE_FORM_ENTRIES.experienciaPrevia, studentData.previousExperience);
+        if (GOOGLE_FORM_ENTRIES.centrePrimaria) formData.append(GOOGLE_FORM_ENTRIES.centrePrimaria, studentData.school);
+        if (GOOGLE_FORM_ENTRIES.confiancaInicial) formData.append(GOOGLE_FORM_ENTRIES.confiancaInicial, studentData.mathConfidence);
+        if (GOOGLE_FORM_ENTRIES.horesMobil && studentData.mobileUsage != null) formData.append(GOOGLE_FORM_ENTRIES.horesMobil, studentData.mobileUsage);
+        if (GOOGLE_FORM_ENTRIES.horesSon && studentData.sleepHours != null) formData.append(GOOGLE_FORM_ENTRIES.horesSon, studentData.sleepHours);
+        if (GOOGLE_FORM_ENTRIES.horesEstudiMates && studentData.studyHours != null) formData.append(GOOGLE_FORM_ENTRIES.horesEstudiMates, studentData.studyHours);
+        if (GOOGLE_FORM_ENTRIES.reforcMates && studentData.tutoring) formData.append(GOOGLE_FORM_ENTRIES.reforcMates, studentData.tutoring);
+        if (GOOGLE_FORM_ENTRIES.ansietatMates && studentData.mathAnxiety != null) formData.append(GOOGLE_FORM_ENTRIES.ansietatMates, studentData.mathAnxiety);
         
         // Analytics conductuals (com a JSON strings)
         formData.append(GOOGLE_FORM_ENTRIES.tempsPerPregunta, JSON.stringify(questionTimeTracking));
@@ -1127,6 +1166,51 @@ async function sendResultsToGoogle({ scores, timeTakenSeconds, studentData }) {
             timestamp: new Date().toISOString()
         }));
     }
+}
+
+/**
+ * Envia els resultats a un Web App d'Apps Script en format JSON per evitar mapatges d'entries
+ */
+async function sendResultsToWebApp({ result, timeTakenSeconds, studentData }) {
+    try {
+        const payload = buildWebAppPayload({ result, timeTakenSeconds, studentData });
+        await fetch(WEB_APP_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            mode: 'no-cors'
+        });
+        updateDataStatus('success', 'Resultats enviats correctament ✓');
+        console.log('Resultats enviats al Web App');
+    } catch (err) {
+        console.error('Error enviant al Web App:', err);
+        updateDataStatus('error', 'Error en l\'enviament. Resultats guardats localment.');
+        localStorage.setItem('testResults', JSON.stringify({ result, timeTakenSeconds, studentData, timestamp: new Date().toISOString() }));
+    }
+}
+
+function buildWebAppPayload({ result, timeTakenSeconds, studentData }) {
+    const { totals, blocks, exportScores } = result;
+    return {
+        version: 'v1',
+        attemptId,
+        timeTakenSeconds,
+        student: studentData,
+        totals,
+        blocks,
+        exportScores,
+        analytics: {
+            tempsPerPregunta: questionTimeTracking,
+            canvisResposta: answerChangeTracking,
+            confiancaPerPregunta: confidenceTracking,
+            dificultatPercebuda: difficultyTracking,
+            estrategiesResolucio: strategyTracking,
+            patronsNavegacio: navigationPatterns,
+            tempsFinsPrimera: initialAnswerTimeTracking
+        },
+        technical: technicalMetadata,
+        answers: JSON.parse(construirRespostesSeleccionadesJSON())
+    };
 }
 
 /**
