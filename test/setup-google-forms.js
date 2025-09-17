@@ -1,4 +1,22 @@
 /**
+ * GOOGLE APPS SCRIPT: CREACIÓ AUTOMÀTICA DEL FORM + IDS D'ENTRADA
+ * ===============================================================
+ * 
+ * Què fa:
+ * - Crea un Google Form amb TOTS els camps que fa servir l'app (2n ESO, diagnòstic 1r ESO)
+ * - Enllaça automàticament un Google Sheets per recollir respostes
+ * - Genera la URL d'enviament (formResponse) correcta
+ * - GENERA AUTOMÀTICAMENT el mapa d'entries (entry.XXXX) per enganxar a l'app
+ * 
+ * Ús:
+ * 1. Ves a https://script.google.com i crea un projecte nou
+ * 2. Enganxa aquest codi complet
+ * 3. Executa la funció principal: setupMathEvaluationForm()
+ * 4. Accepta permisos i, en finalitzar, copia el bloc de codi que surt al Log
+ * 5. Substitueix a la teva app (script.js) les constants amb el bloc generat
+ */
+
+/**
  * Funció principal que crea el formulari i extreu tots els IDs
  */
 function setupMathEvaluationForm() {
