@@ -301,31 +301,31 @@ function showSection(sectionName) {
 /**
  * Gestiona l'enviament del formulari d'informació personal
  */
-/**
- * Gestiona l'enviament del formulari d'informació personal
- */
 function handleStudentFormSubmit(e) {
     e.preventDefault();
     
-    // Recollir dades del formulari actual
+    // Recollir dades del formulari
     const formData = new FormData(studentForm);
     studentData = {
-        // Dades del formulari nou
+        // Dades bàsiques
+        name: formData.get('studentName'),
         age: parseInt(formData.get('studentAge')),
+        course: formData.get('studentCourse'),
         school: formData.get('studentSchool') || 'No especificat',
         mathLevel: formData.get('mathLevel'),
+        
+        // Dades contextuals ampliades
+        deviceType: formData.get('deviceType'),
+        studyEnvironment: formData.get('studyEnvironment'),
         mathConfidence: parseInt(formData.get('mathConfidence')),
-        mobileUsage: formData.get('mobileUsage'),
-        sleepHours: formData.get('sleepHours'),
-        studyHours: formData.get('studyHours'),
-        tutoring: formData.get('tutoring'),
-        mathAnxiety: formData.get('mathAnxiety')
+        previousExperience: formData.get('previousExperience')
     };
     
     console.log('Dades de l\'estudiant recollides:', studentData);
     
-    // Validar només els camps essencials que realment existeixen
-    if (!studentData.age || !studentData.school || !studentData.mathLevel) {
+    // Validar dades essencials
+    if (!studentData.name || !studentData.age || !studentData.course || !studentData.mathLevel || 
+        !studentData.deviceType || !studentData.studyEnvironment || !studentData.previousExperience) {
         alert('Si us plau, emplena tots els camps obligatoris marcats amb *');
         return;
     }
@@ -333,6 +333,7 @@ function handleStudentFormSubmit(e) {
     // Inicialitzar test
     initializeTest();
 }
+
 // ========================================
 // GESTIÓ DEL TEST
 // ========================================
