@@ -41,15 +41,32 @@
             <form id="student-form" class="student-form">
                 <div class="form-row">
                     <div class="form-group">
+                        <label for="student-name">Nom i cognoms *</label>
+                        <input type="text" id="student-name" name="studentName" required 
+                               placeholder="Escriu el teu nom complet">
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="student-age">Edat *</label>
                         <input type="number" id="student-age" name="studentAge" required 
                                min="12" max="17" placeholder="13">
                     </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student-course">Curs actual *</label>
+                        <select id="student-course" name="studentCourse" required>
+                            <option value="">Selecciona el teu curs</option>
+                            <option value="1_eso">1r ESO</option>
+                            <option value="2_eso">2n ESO</option>
+                        </select>
+                    </div>
                     
                     <div class="form-group">
-                        <label for="student-school">Centre de procedència (Primària) *</label>
+                        <label for="student-school">Centre de procedència *</label>
                         <input type="text" id="student-school" name="studentSchool" required
-                               placeholder="Nom del teu centre de Primària">
+                               placeholder="Nom del teu institut o escola">
                     </div>
                 </div>
 
@@ -67,6 +84,33 @@
                     </div>
                     
                     <div class="form-group">
+                        <label for="device-type">Dispositiu que utilitzes *</label>
+                        <select id="device-type" name="deviceType" required>
+                            <option value="">Selecciona dispositiu</option>
+                            <option value="ordenador_casa">Ordinador a casa</option>
+                            <option value="ordenador_escola">Ordinador de l'escola</option>
+                            <option value="tablet">Tablet</option>
+                            <option value="mobil">Mòbil</option>
+                            <option value="altre">Altre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="study-environment">On fas el test? *</label>
+                        <select id="study-environment" name="studyEnvironment" required>
+                            <option value="">Selecciona ubicació</option>
+                            <option value="aula">Aula de classe</option>
+                            <option value="aula_informatica">Aula d'informàtica</option>
+                            <option value="biblioteca">Biblioteca</option>
+                            <option value="casa_silenci">Casa (ambient silenciós)</option>
+                            <option value="casa_soroll">Casa (amb soroll)</option>
+                            <option value="altre">Altre lloc</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="math-confidence">Nivell de confiança avui (1-10) *</label>
                         <input type="range" id="math-confidence" name="mathConfidence" 
                                min="1" max="10" value="5" required>
@@ -78,121 +122,16 @@
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Hores d'ús del mòbil al dia</label>
-                        <div class="segmented-control" role="radiogroup" aria-label="Hores d'ús del mòbil al dia">
-                            <div class="segmented-option">
-                                <input type="radio" id="mobile-0" name="mobileUsage" value="0">
-                                <label for="mobile-0">0h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="mobile-1" name="mobileUsage" value="1">
-                                <label for="mobile-1">1h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="mobile-2" name="mobileUsage" value="2" checked>
-                                <label for="mobile-2">2h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="mobile-3" name="mobileUsage" value="3">
-                                <label for="mobile-3">3h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="mobile-4" name="mobileUsage" value="4">
-                                <label for="mobile-4">4h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="mobile-6" name="mobileUsage" value="6">
-                                <label for="mobile-6">6h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="mobile-8" name="mobileUsage" value="8">
-                                <label for="mobile-8">8h</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Hores de son per nit</label>
-                        <div class="segmented-control" role="radiogroup" aria-label="Hores de son per nit">
-                            <div class="segmented-option">
-                                <input type="radio" id="sleep-5" name="sleepHours" value="5">
-                                <label for="sleep-5">5h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="sleep-6" name="sleepHours" value="6">
-                                <label for="sleep-6">6h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="sleep-7" name="sleepHours" value="7">
-                                <label for="sleep-7">7h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="sleep-8" name="sleepHours" value="8" checked>
-                                <label for="sleep-8">8h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="sleep-9" name="sleepHours" value="9">
-                                <label for="sleep-9">9h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="sleep-10" name="sleepHours" value="10">
-                                <label for="sleep-10">10h</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Hores setmanals d'estudi de matemàtiques</label>
-                        <div class="segmented-control" role="radiogroup" aria-label="Hores setmanals d'estudi de matemàtiques">
-                            <div class="segmented-option">
-                                <input type="radio" id="study-0" name="studyHours" value="0">
-                                <label for="study-0">0h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="study-1" name="studyHours" value="1">
-                                <label for="study-1">1h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="study-2" name="studyHours" value="2" checked>
-                                <label for="study-2">2h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="study-3" name="studyHours" value="3">
-                                <label for="study-3">3h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="study-4" name="studyHours" value="4">
-                                <label for="study-4">4h</label>
-                            </div>
-                            <div class="segmented-option">
-                                <input type="radio" id="study-5" name="studyHours" value="5">
-                                <label for="study-5">5h</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="tutoring">Reforç de matemàtiques</label>
-                        <select id="tutoring" name="tutoring">
-                            <option value="cap">Cap</option>
-                            <option value="esporadic">Esporàdic</option>
-                            <option value="setmanal">Setmanal</option>
-                        </select>
-                    </div>
-                </div>
-
                 <div class="form-group">
-                    <label for="math-anxiety">Ansietat davant les matemàtiques (1-5)</label>
-                    <input type="range" id="math-anxiety" name="mathAnxiety" min="1" max="5" value="3">
-                    <div class="range-labels">
-                        <span>1 (Cap)</span>
-                        <span id="math-anxiety-value">3</span>
-                        <span>5 (Molta)</span>
-                    </div>
+                    <label for="previous-experience">Has fet tests similars abans? *</label>
+                    <select id="previous-experience" name="previousExperience" required>
+                        <option value="">Selecciona una opció</option>
+                        <option value="mai">Mai he fet un test online</option>
+                        <option value="poques">Poques vegades (1-3 tests)</option>
+                        <option value="algunes">Algunes vegades (4-10 tests)</option>
+                        <option value="moltes">Moltes vegades (més de 10)</option>
+                        <option value="regular">Faig tests online regularment</option>
+                    </select>
                 </div>
 
                 <div class="form-actions">
