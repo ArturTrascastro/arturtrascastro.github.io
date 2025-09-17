@@ -332,6 +332,49 @@ p {
     border-radius: var(--border-radius);
 }
 
+/* Controls segmentats (radiobotons estilitzats) */
+.segmented-control {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.segmented-option {
+    position: relative;
+}
+
+.segmented-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.segmented-option label {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: var(--font-size-sm);
+    user-select: none;
+}
+
+.segmented-option label:hover {
+    border-color: var(--color-primary);
+    background: #e2e8f0;
+}
+
+.segmented-option input[type="radio"]:checked + label {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15) inset;
+}
+
 /* Accions del formulari */
 .form-actions {
     text-align: center;
