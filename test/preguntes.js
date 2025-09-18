@@ -1,955 +1,951 @@
 // ========================================
-// BANCO DE PREGUNTES PROCEDIMENTALS - 6è PRIMÀRIA
+// BANCO DE PREGUNTES PROCEDIMENTALS - 6è PRIMÀRIA / 1r ESO
 // ========================================
-// 
+//
 // Basat en els continguts oficials de Matemàtiques de 6è de Primària
 // Enfocament: Identificació de procediments i estratègies
 // Cada opció representa un procediment diferent
-// Nivell: 6è Primària / 1r ESO transició
 //
 // Distribució:
-// - Bloc 1: Resolució de problemes i estratègies (15 preguntes)
-// - Bloc 2: Números i operacions (20 preguntes) 
-// - Bloc 3: Mesura i magnituds (15 preguntes)
-// - Bloc 4: Geometria (15 preguntes)
-// - Bloc 5: Estadística i probabilitat (10 preguntes)
+// - BLOC 1: CÀLCUL (20 preguntes)
+// - BLOC 2: PROBLEMES (20 preguntes)
+// - BLOC 3: SENTIT NUMÈRIC (15 preguntes)
+// - BLOC 4: ESPAI I MESURA (10 preguntes)
+// - BLOC 5: SENTIT ESTOCÀSTIC (10 preguntes)
 
 const questionBank = [
-    
+
     // ========================================
-    // BLOC 1: PROCESSOS, MÈTODES I ACTITUDS (10 preguntes)
+    // BLOC 1: CÀLCUL (20 preguntes)
     // ========================================
     {
-        id: "proc_001",
-        bloc: "processos",
-        pregunta: "Després de resoldre un problema, quin és el pas final més important per assegurar que la teva solució és correcta?",
+        id: "calc_001",
+        bloc: "calcul",
+        pregunta: "Quin és el resultat de l'operació (-5) - (-8)?",
         opcions: [
-            { id: "a", text: "Presentar el resultat de manera ordenada i neta.", correcta: false },
-            { id: "b", text: "Comprovar si el resultat té sentit en el context del problema.", correcta: true },
-            { id: "c", text: "Tornar a fer totes les operacions amb la calculadora.", correcta: false },
-            { id: "d", text: "Preguntar a un company si li ha donat el mateix.", correcta: false }
+            { id: "a", text: "-13", correcta: false },
+            { id: "b", text: "3", correcta: true },
+            { id: "c", text: "-3", correcta: false },
+            { id: "d", text: "13", correcta: false }
         ],
-        explicacio: "Sempre cal pensar si la resposta és lògica. Per exemple, no pot costar 500€ una llibreta."
+        explicacio: "Restar un nombre negatiu és el mateix que sumar el seu valor absolut: -5 + 8 = 3."
     },
     {
-        id: "proc_002",
-        bloc: "processos",
-        pregunta: "Si un problema et sembla molt difícil, quina és una bona primera estratègia?",
+        id: "calc_002",
+        bloc: "calcul",
+        pregunta: "Resol l'operació combinada: 10 + 4 * (-2)",
         opcions: [
-            { id: "a", text: "Deixar-lo en blanc i passar al següent.", correcta: false },
-            { id: "b", text: "Llegir l'enunciat diverses vegades i subratllar les dades clau.", correcta: true },
-            { id: "c", text: "Inventar-se un resultat aproximat.", correcta: false },
-            { id: "d", text: "Començar a fer operacions a l'atzar amb els números que hi ha.", correcta: false }
+            { id: "a", text: "-28", correcta: false },
+            { id: "b", text: "2", correcta: true },
+            { id: "c", text: "12", correcta: false },
+            { id: "d", text: "-12", correcta: false }
         ],
-        explicacio: "El primer pas per resoldre un problema és entendre bé què et demana."
+        explicacio: "Primer es fa la multiplicació: 4 * (-2) = -8. Després la suma: 10 + (-8) = 2."
     },
     {
-        id: "proc_003",
-        bloc: "processos",
-        pregunta: "Quina és la millor manera d'utilitzar les unitats (metres, euros, kg...) en un problema?",
+        id: "calc_003",
+        bloc: "calcul",
+        pregunta: "Calcula: 3/5 + 1/5",
         opcions: [
-            { id: "a", text: "Posar les unitats només al resultat final.", correcta: false },
-            { id: "b", text: "Acompanyar els números amb les seves unitats durant tot el procés.", correcta: true },
-            { id: "c", text: "No posar mai les unitats, només els números.", correcta: false },
-            { id: "d", text: "Inventar-se una unitat nova per al resultat.", correcta: false }
+            { id: "a", text: "4/10", correcta: false },
+            { id: "b", text: "4/5", correcta: true },
+            { id: "c", text: "3/25", correcta: false },
+            { id: "d", text: "5/4", correcta: false }
         ],
-        explicacio: "Utilitzar les unitats en cada pas t'ajuda a no perdre't i a comprovar que el resultat és coherent."
+        explicacio: "Quan les fraccions tenen el mateix denominador, se sumen els numeradors i es manté el denominador."
     },
     {
-        id: "proc_004",
-        bloc: "processos",
-        pregunta: "Davant d'un problema amb moltes dades numèriques, quina estratègia t'ajuda a organitzar la informació?",
+        id: "calc_004",
+        bloc: "calcul",
+        pregunta: "Quin és el resultat de 20 - 5 * 3 + 1?",
         opcions: [
-            { id: "a", text: "Fer les operacions per l'ordre en què apareixen.", correcta: false },
-            { id: "b", text: "Crear una taula o un esquema per classificar les dades.", correcta: true },
-            { id: "c", text: "Centrar-se només en els números més grans.", correcta: false },
-            { id: "d", text: "Memoritzar totes les dades abans de començar.", correcta: false }
+            { id: "a", text: "46", correcta: false },
+            { id: "b", text: "6", correcta: true },
+            { id: "c", text: "4", correcta: false },
+            { id: "d", text: "16", correcta: false }
         ],
-        explicacio: "Una taula o un dibuix són eines molt útils per posar ordre quan hi ha molta informació."
+        explicacio: "Primer la multiplicació: 5 * 3 = 15. Després d'esquerra a dreta: 20 - 15 = 5, i 5 + 1 = 6."
     },
     {
-        id: "proc_005",
-        bloc: "processos",
-        pregunta: "Com comproves si una divisió està ben feta?",
+        id: "calc_005",
+        bloc: "calcul",
+        pregunta: "Calcula: (-4) * (-6)",
         opcions: [
-            { id: "a", text: "Sumant el divisor i el quocient.", correcta: false },
-            { id: "b", text: "Multiplicant el divisor pel quocient i sumant-hi el residu.", correcta: true },
-            { id: "c", text: "Tornant a fer la divisió més a poc a poc.", correcta: false },
-            { id: "d", text: "Dividint el dividend pel quocient.", correcta: false }
+            { id: "a", text: "-24", correcta: false },
+            { id: "b", text: "24", correcta: true },
+            { id: "c", text: "-10", correcta: false },
+            { id: "d", text: "10", correcta: false }
         ],
-        explicacio: "És la prova de la divisió: Dividend = (divisor × quocient) + residu."
+        explicacio: "Menys per menys és més. 4 * 6 = 24."
     },
     {
-        id: "proc_006",
-        bloc: "processos",
-        pregunta: "Si has de comunicar la solució d'un problema, què és més important?",
+        id: "calc_006",
+        bloc: "calcul",
+        pregunta: "Quin és el resultat de 1/2 * 3/4?",
         opcions: [
-            { id: "a", text: "Només donar el número del resultat final.", correcta: false },
-            { id: "b", text: "Explicar els passos que has seguit i per què.", correcta: true },
-            { id: "c", text: "Dir només quines operacions has fet (sumes, restes...).", correcta: false },
-            { id: "d", text: "Fer una bona presentació visual, encara que el resultat sigui incorrecte.", correcta: false }
+            { id: "a", text: "4/6", correcta: false },
+            { id: "b", text: "3/8", correcta: true },
+            { id: "c", text: "4/8", correcta: false },
+            { id: "d", text: "3/6", correcta: false }
         ],
-        explicacio: "Explicar el teu raonament demostra que has entès el problema a fons."
+        explicacio: "Per multiplicar fraccions, es multiplica numerador per numerador i denominador per denominador: (1*3)/(2*4) = 3/8."
     },
     {
-        id: "proc_007",
-        bloc: "processos",
-        pregunta: "Què vol dir 'simplificar' una fracció?",
+        id: "calc_007",
+        bloc: "calcul",
+        pregunta: "Resol: 18 / (-3) + 2",
         opcions: [
-            { id: "a", text: "Fer que el numerador i el denominador siguin més grans.", correcta: false },
-            { id: "b", text: "Dividir el numerador i el denominador pel mateix nombre.", correcta: true },
-            { id: "c", text: "Restar el mateix nombre al numerador i al denominador.", correcta: false },
-            { id: "d", text: "Convertir la fracció en un nombre decimal.", correcta: false }
+            { id: "a", text: "-4", correcta: true },
+            { id: "b", text: "-8", correcta: false },
+            { id: "c", text: "4", correcta: false },
+            { id: "d", text: "8", correcta: false }
         ],
-        explicacio: "Simplificar és trobar una fracció equivalent amb números més petits."
+        explicacio: "Primer la divisió: 18 / (-3) = -6. Després la suma: -6 + 2 = -4."
     },
     {
-        id: "proc_008",
-        bloc: "processos",
-        pregunta: "Quina és la millor estratègia si no recordes una fórmula matemàtica?",
+        id: "calc_008",
+        bloc: "calcul",
+        pregunta: "Calcula el 50% de 120.",
         opcions: [
-            { id: "a", text: "Deixar el problema en blanc.", correcta: false },
-            { id: "b", text: "Intentar deduir-la a partir d'un exemple senzill o un dibuix.", correcta: true },
-            { id: "c", text: "Utilitzar una altra fórmula que s'hi assembli.", correcta: false },
-            { id: "d", text: "Posar un resultat a l'atzar.", correcta: false }
+            { id: "a", text: "120", correcta: false },
+            { id: "b", text: "60", correcta: true },
+            { id: "c", text: "240", correcta: false },
+            { id: "d", text: "50", correcta: false }
         ],
-        explicacio: "Les matemàtiques són lògica. Moltes fórmules es poden raonar sense necessitat de memoritzar-les."
+        explicacio: "El 50% és la meitat: 120 / 2 = 60."
     },
     {
-        id: "proc_009",
-        bloc: "processos",
-        pregunta: "Per què és útil l'estimació o el càlcul aproximat abans de resoldre un problema?",
+        id: "calc_009",
+        bloc: "calcul",
+        pregunta: "Quin és el resultat de 5²?",
         opcions: [
-            { id: "a", text: "No és útil, sempre cal calcular el resultat exacte directament.", correcta: false },
-            { id: "b", text: "Per tenir una idea del resultat esperat i detectar errors greus.", correcta: true },
-            { id: "c", text: "Per substituir el càlcul exacte i anar més ràpid.", correcta: false },
-            { id: "d", text: "Per demostrar que saps fer operacions mentals.", correcta: false }
+            { id: "a", text: "10", correcta: false },
+            { id: "b", text: "25", correcta: true },
+            { id: "c", text: "7", correcta: false },
+            { id: "d", text: "52", correcta: false }
         ],
-        explicacio: "Estimar t'ajuda a saber si el teu resultat final té sentit o si t'has equivocat molt."
+        explicacio: "5² significa 5 * 5 = 25."
     },
     {
-        id: "proc_010",
-        bloc: "processos",
-        pregunta: "Si en un problema apareix la paraula 'diferència', quina operació t'està suggerint?",
+        id: "calc_010",
+        bloc: "calcul",
+        pregunta: "Resol: 1/3 : 2/5",
         opcions: [
-            { id: "a", text: "Una suma.", correcta: false },
-            { id: "b", text: "Una resta.", correcta: true },
-            { id: "c", text: "Una multiplicació.", correcta: false },
-            { id: "d", text: "Una divisió.", correcta: false }
+            { id: "a", text: "2/15", correcta: false },
+            { id: "b", text: "5/6", correcta: true },
+            { id: "c", text: "6/5", correcta: false },
+            { id: "d", text: "3/10", correcta: false }
         ],
-        explicacio: "La paraula 'diferència' en matemàtiques sempre es refereix al resultat d'una resta."
+        explicacio: "Per dividir fraccions, es multiplica la primera pel la inversa de la segona, o en creu: (1*5)/(3*2) = 5/6."
+    },
+    {
+        id: "calc_011",
+        bloc: "calcul",
+        pregunta: "Calcula: 2,5 + 3,75",
+        opcions: [
+            { id: "a", text: "5,25", correcta: false },
+            { id: "b", text: "6,25", correcta: true },
+            { id: "c", text: "5,80", correcta: false },
+            { id: "d", text: "6,50", correcta: false }
+        ],
+        explicacio: "Es sumen com nombres decimals: 2.50 + 3.75 = 6.25."
+    },
+    {
+        id: "calc_012",
+        bloc: "calcul",
+        pregunta: "Quin és el resultat de (-2)³?",
+        opcions: [
+            { id: "a", text: "-6", correcta: false },
+            { id: "b", text: "-8", correcta: true },
+            { id: "c", text: "8", correcta: false },
+            { id: "d", text: "6", correcta: false }
+        ],
+        explicacio: "(-2)³ = (-2) * (-2) * (-2) = 4 * (-2) = -8."
+    },
+    {
+        id: "calc_013",
+        bloc: "calcul",
+        pregunta: "Calcula l'arrel quadrada de 49 (√49).",
+        opcions: [
+            { id: "a", text: "4,9", correcta: false },
+            { id: "b", text: "7", correcta: true },
+            { id: "c", text: "24,5", correcta: false },
+            { id: "d", text: "9", correcta: false }
+        ],
+        explicacio: "L'arrel quadrada d'un nombre és aquell nombre que, multiplicat per si mateix, dóna el nombre original. 7 * 7 = 49."
+    },
+    {
+        id: "calc_014",
+        bloc: "calcul",
+        pregunta: "Resol: 5 * (4 - 2) + 1",
+        opcions: [
+            { id: "a", text: "11", correcta: true },
+            { id: "b", text: "19", correcta: false },
+            { id: "c", text: "9", correcta: false },
+            { id: "d", text: "10", correcta: false }
+        ],
+        explicacio: "Primer el parèntesi: 4 - 2 = 2. Després la multiplicació: 5 * 2 = 10. Finalment la suma: 10 + 1 = 11."
+    },
+    {
+        id: "calc_015",
+        bloc: "calcul",
+        pregunta: "Calcula: 4/3 - 1/3",
+        opcions: [
+            { id: "a", text: "3/0", correcta: false },
+            { id: "b", text: "1", correcta: true },
+            { id: "c", text: "3/3", correcta: false },
+            { id: "d", text: "3/6", correcta: false }
+        ],
+        explicacio: "Quan les fraccions tenen el mateix denominador, es resten els numeradors i es manté el denominador: 3/3 = 1."
+    },
+    {
+        id: "calc_016",
+        bloc: "calcul",
+        pregunta: "Quin és el resultat de 7 * 1,5?",
+        opcions: [
+            { id: "a", text: "10,5", correcta: true },
+            { id: "b", text: "8,5", correcta: false },
+            { id: "c", text: "7,5", correcta: false },
+            { id: "d", text: "105", correcta: false }
+        ],
+        explicacio: "7 * 1 = 7, i 7 * 0.5 = 3.5. Sumant: 7 + 3.5 = 10.5."
+    },
+    {
+        id: "calc_017",
+        bloc: "calcul",
+        pregunta: "Resol: (-30) / (-5)",
+        opcions: [
+            { id: "a", text: "6", correcta: true },
+            { id: "b", text: "-6", correcta: false },
+            { id: "c", text: "5", correcta: false },
+            { id: "d", text: "-5", correcta: false }
+        ],
+        explicacio: "Menys dividit per menys és més. 30 / 5 = 6."
+    },
+    {
+        id: "calc_018",
+        bloc: "calcul",
+        pregunta: "Calcula el 10% de 200.",
+        opcions: [
+            { id: "a", text: "2", correcta: false },
+            { id: "b", text: "20", correcta: true },
+            { id: "c", text: "10", correcta: false },
+            { id: "d", text: "2000", correcta: false }
+        ],
+        explicacio: "El 10% de 200 és (10/100) * 200 = 0.10 * 200 = 20."
+    },
+    {
+        id: "calc_019",
+        bloc: "calcul",
+        pregunta: "Quin és el resultat de 2/3 de 18?",
+        opcions: [
+            { id: "a", text: "6", correcta: false },
+            { id: "b", text: "12", correcta: true },
+            { id: "c", text: "18", correcta: false },
+            { id: "d", text: "27", correcta: false }
+        ],
+        explicacio: "Per calcular una fracció d'un nombre, es divideix el nombre pel denominador i es multiplica pel numerador: (18 / 3) * 2 = 6 * 2 = 12."
+    },
+    {
+        id: "calc_020",
+        bloc: "calcul",
+        pregunta: "Resol: -5 + 12 - 3",
+        opcions: [
+            { id: "a", text: "-10", correcta: false },
+            { id: "b", text: "4", correcta: true },
+            { id: "c", text: "14", correcta: false },
+            { id: "d", text: "-4", correcta: false }
+        ],
+        explicacio: "Es fa d'esquerra a dreta: -5 + 12 = 7. Després, 7 - 3 = 4."
     },
 
     // ========================================
-    // BLOC 2: NOMBRES I ÀLGEBRA (20 preguntes)
+    // BLOC 2: PROBLEMES (20 preguntes)
     // ========================================
-
     {
-        id: "numalg_001",
-        bloc: "numeros_algebra",
-        pregunta: "Per trobar el Mínim Comú Múltiple (MCM) de dos nombres, quin procediment fas?",
+        id: "prob_001",
+        bloc: "problemes",
+        pregunta: "L'Anna té 50€ al compte. Li cobren un rebut de 75€ i rep una paga de 30€. Quin és el seu saldo final?",
         opcions: [
-            { id: "a", text: "Descompondre i agafar només els factors comuns amb l'exponent més petit.", correcta: false },
-            { id: "b", text: "Multiplicar els dos nombres entre ells.", correcta: false },
-            { id: "c", text: "Descompondre i agafar tots els factors (comuns i no comuns) amb l'exponent més gran.", correcta: true },
-            { id: "d", text: "Buscar els divisors de cada nombre i agafar el més gran.", correcta: false }
+            { id: "a", text: "155€", correcta: false },
+            { id: "b", text: "5€", correcta: true },
+            { id: "c", text: "-5€", correcta: false },
+            { id: "d", text: "95€", correcta: false }
         ],
-        explicacio: "Per al MCM, es descompon i s'agafen 'tots els actors, amb el barret més alt'."
+        explicacio: "50 - 75 + 30 = -25 + 30 = 5€."
     },
     {
-        id: "numalg_002",
-        bloc: "numeros_algebra",
-        pregunta: "En l'equació 5x - 6 = 14, quin és el primer pas correcte per començar a aïllar la 'x'?",
+        id: "prob_002",
+        bloc: "problemes",
+        pregunta: "Una samarreta que valia 40€ té un 25% de descompte. Quin és el seu preu final?",
         opcions: [
-            { id: "a", text: "Passar el 5 que multiplica a l'altre costat dividint.", correcta: false },
-            { id: "b", text: "Sumar 6 a tots dos costats de l'equació.", correcta: true },
-            { id: "c", text: "Restar 14 a tots dos costats de l'equació.", correcta: false },
-            { id: "d", text: "Dividir tota l'equació per 5.", correcta: false }
+            { id: "a", text: "15€", correcta: false },
+            { id: "b", text: "30€", correcta: true },
+            { id: "c", text: "10€", correcta: false },
+            { id: "d", text: "35€", correcta: false }
         ],
-        explicacio: "Primer es mou el que suma o resta. El '-6' passa a l'altre costat com a '+6'."
+        explicacio: "El 25% de 40€ és (25/100) * 40 = 10€. El preu final és 40€ - 10€ = 30€."
     },
     {
-        id: "numalg_003",
-        bloc: "numeros_algebra",
-        pregunta: "Com s'aplica la regla dels signes per multiplicar (-8) × (-3)?",
+        id: "prob_003",
+        bloc: "problemes",
+        pregunta: "Si en Joan llegeix 15 pàgines cada dia, quantes pàgines haurà llegit en dues setmanes?",
         opcions: [
-            { id: "a", text: "Es multipliquen els números i es posa el signe del més gran.", correcta: false },
-            { id: "b", text: "Com que els dos signes són iguals (negatius), el resultat és positiu.", correcta: true },
-            { id: "c", text: "Es multipliquen els números i el resultat sempre és negatiu.", correcta: false },
-            { id: "d", text: "Es resten els números perquè els signes són iguals.", correcta: false }
+            { id: "a", text: "105 pàgines", correcta: false },
+            { id: "b", text: "210 pàgines", correcta: true },
+            { id: "c", text: "30 pàgines", correcta: false },
+            { id: "d", text: "150 pàgines", correcta: false }
         ],
-        explicacio: "La regla és: 'menys per menys, més'."
+        explicacio: "Dues setmanes són 14 dies. 15 pàgines/dia * 14 dies = 210 pàgines."
     },
     {
-        id: "numalg_004",
-        bloc: "numeros_algebra",
-        pregunta: "Per saber si el número 123 és divisible per 3, quin criteri de divisibilitat apliques?",
+        id: "prob_004",
+        bloc: "problemes",
+        pregunta: "Un avió vola a 8.000 metres d'altura i baixa 2.500 metres. A quina altura es troba ara?",
         opcions: [
-            { id: "a", text: "Mirar si l'última xifra és 3.", correcta: false },
-            { id: "b", text: "Sumar les seves xifres (1+2+3) i comprovar si el resultat és múltiple de 3.", correcta: true },
-            { id: "c", text: "Comprovar si és un nombre parell.", correcta: false },
-            { id: "d", text: "Dividir el nombre per 2.", correcta: false }
+            { id: "a", text: "10.500 metres", correcta: false },
+            { id: "b", text: "5.500 metres", correcta: true },
+            { id: "c", text: "6.500 metres", correcta: false },
+            { id: "d", text: "2.500 metres", correcta: false }
         ],
-        explicacio: "Un nombre es pot dividir per 3 si la suma de les seves xifres també es pot dividir per 3."
+        explicacio: "8.000 - 2.500 = 5.500 metres."
     },
     {
-        id: "numalg_005",
-        bloc: "numeros_algebra",
-        pregunta: "Què és un nombre primer?",
+        id: "prob_005",
+        bloc: "problemes",
+        pregunta: "En una classe de 30 alumnes, 2/5 parts són nois. Quantes noies hi ha a la classe?",
         opcions: [
-            { id: "a", text: "Un nombre que és senar.", correcta: false },
-            { id: "b", text: "Un nombre que només es pot dividir per 1 i per si mateix.", correcta: true },
-            { id: "c", text: "Qualsevol nombre que no sigui parell.", correcta: false },
-            { id: "d", text: "Un nombre que acaba en 1, 3, 7 o 9.", correcta: false }
+            { id: "a", text: "12 noies", correcta: false },
+            { id: "b", text: "18 noies", correcta: true },
+            { id: "c", text: "10 noies", correcta: false },
+            { id: "d", text: "15 noies", correcta: false }
         ],
-        explicacio: "Els nombres primers només tenen dos divisors: l'1 i ells mateixos. Per exemple, el 7 o el 13."
+        explicacio: "Nois: (2/5) * 30 = 12 nois. Total alumnes - nois = noies: 30 - 12 = 18 noies."
     },
     {
-        id: "numalg_006",
-        bloc: "numeros_algebra",
-        pregunta: "Per calcular 3/5 de 50, quin procediment és el correcte?",
+        id: "prob_006",
+        bloc: "problemes",
+        pregunta: "Un rectangle fa 10 cm de llargada i 5 cm d'amplada. Quina és la seva àrea?",
         opcions: [
-            { id: "a", text: "Sumar 3/5 a 50.", correcta: false },
-            { id: "b", text: "Dividir 50 entre 5, i el resultat multiplicar-lo per 3.", correcta: true },
-            { id: "c", text: "Multiplicar 50 per 5 i dividir-ho entre 3.", correcta: false },
-            { id: "d", text: "Restar 3/5 de 50.", correcta: false }
+            { id: "a", text: "30 cm²", correcta: false },
+            { id: "b", text: "50 cm²", correcta: true },
+            { id: "c", text: "15 cm²", correcta: false },
+            { id: "d", text: "100 cm²", correcta: false }
         ],
-        explicacio: "Per fer la fracció d'un nombre, es divideix pel de baix (denominador) i es multiplica pel de dalt (numerador)."
+        explicacio: "L'àrea d'un rectangle és llargada * amplada: 10 cm * 5 cm = 50 cm²."
     },
     {
-        id: "numalg_007",
-        bloc: "numeros_algebra",
-        pregunta: "Quina expressió representa 'el doble d'un nombre més cinc'?",
+        id: "prob_007",
+        bloc: "problemes",
+        pregunta: "Si 3 llibretes costen 6€, quant costaran 5 llibretes?",
         opcions: [
-            { id: "a", text: "2(x+5)", correcta: false },
-            { id: "b", text: "2x + 5", correcta: true },
-            { id: "c", text: "x² + 5", correcta: false },
-            { id: "d", text: "5x + 2", correcta: false }
+            { id: "a", text: "10€", correcta: true },
+            { id: "b", text: "9€", correcta: false },
+            { id: "c", text: "11€", correcta: false },
+            { id: "d", text: "15€", correcta: false }
         ],
-        explicacio: "El 'doble d'un nombre' es tradueix com a '2x', i 'més cinc' com a '+5'."
+        explicacio: "Una llibreta costa 6€ / 3 = 2€. Aleshores, 5 llibretes costaran 5 * 2€ = 10€."
     },
     {
-        id: "numalg_008",
-        bloc: "numeros_algebra",
-        pregunta: "Per sumar les fraccions 1/2 + 1/3, quin és el primer pas necessari?",
+        id: "prob_008",
+        bloc: "problemes",
+        pregunta: "La Maria té el triple d'edat que el seu germà Pere. Si en Pere té 4 anys, quants anys tenen entre tots dos?",
         opcions: [
-            { id: "a", text: "Sumar els numeradors i els denominadors per separat.", correcta: false },
-            { id: "b", text: "Trobar un denominador comú per a les dues fraccions.", correcta: true },
-            { id: "c", text: "Multiplicar les dues fraccions.", correcta: false },
-            { id: "d", text: "Convertir les fraccions a nombres decimals.", correcta: false }
+            { id: "a", text: "12 anys", correcta: false },
+            { id: "b", text: "16 anys", correcta: true },
+            { id: "c", text: "8 anys", correcta: false },
+            { id: "d", text: "7 anys", correcta: false }
         ],
-        explicacio: "No es poden sumar fraccions si no tenen el mateix denominador. Primer cal trobar el MCM dels denominadors."
+        explicacio: "Maria té 3 * 4 = 12 anys. Entre tots dos tenen 12 + 4 = 16 anys."
     },
     {
-        id: "numalg_009",
-        bloc: "numeros_algebra",
-        pregunta: "Què vol dir calcular 5³?",
+        id: "prob_009",
+        bloc: "problemes",
+        pregunta: "Un dipòsit conté 600 litres d'aigua i perd 5 litres cada minut. Quanta aigua quedarà després de mitja hora?",
         opcions: [
-            { id: "a", text: "Multiplicar 5 per 3.", correcta: false },
-            { id: "b", text: "Multiplicar 5 per si mateix 3 vegades (5 × 5 × 5).", correcta: true },
-            { id: "c", text: "Sumar 5 tres vegades (5 + 5 + 5).", correcta: false },
-            { id: "d", text: "Dividir 5 entre 3.", correcta: false }
+            { id: "a", text: "570 litres", correcta: false },
+            { id: "b", text: "450 litres", correcta: true },
+            { id: "c", text: "300 litres", correcta: false },
+            { id: "d", text: "150 litres", correcta: false }
         ],
-        explicacio: "Una potència significa multiplicar la base (5) tantes vegades com diu l'exponent (3)."
+        explicacio: "Mitja hora són 30 minuts. Pèrdua total: 5 litres/min * 30 min = 150 litres. Aigua restant: 600 - 150 = 450 litres."
     },
     {
-        id: "numalg_010",
-        bloc: "numeros_algebra",
-        pregunta: "Per resoldre l'equació x + 8 = 3, quin procediment segueixes?",
+        id: "prob_010",
+        bloc: "problemes",
+        pregunta: "En una cursa, en Pau ha recorregut 3/4 del total. Si la cursa és de 20 km, quants km li falten per arribar?",
         opcions: [
-            { id: "a", text: "Restar 3 de 8.", correcta: false },
-            { id: "b", text: "Passar el 8 que suma a l'altre costat restant.", correcta: true },
-            { id: "c", text: "Sumar 8 i 3.", correcta: false },
-            { id: "d", text: "Passar el 8 que suma a l'altre costat multiplicant.", correcta: false }
+            { id: "a", text: "15 km", correcta: false },
+            { id: "b", text: "5 km", correcta: true },
+            { id: "c", text: "10 km", correcta: false },
+            { id: "d", text: "25 km", correcta: false }
         ],
-        explicacio: "Per aïllar la 'x', el que suma a un costat passa restant a l'altre. x = 3 - 8."
+        explicacio: "Ha recorregut (3/4) * 20 km = 15 km. Li falten 20 km - 15 km = 5 km."
     },
     {
-        id: "numalg_011",
-        bloc: "numeros_algebra",
-        pregunta: "Què és el Màxim Comú Divisor (MCD) de dos nombres?",
+        id: "prob_011",
+        bloc: "problemes",
+        pregunta: "La temperatura a la matinada era de -5°C. Al migdia, el termòmetre marcava 12°C. Quants graus ha pujat la temperatura?",
         opcions: [
-            { id: "a", text: "El nombre més gran que pot dividir els dos nombres.", correcta: true },
-            { id: "b", text: "El nombre més petit que es pot dividir pels dos nombres.", correcta: false },
-            { id: "c", text: "La suma dels dos nombres.", correcta: false },
-            { id: "d", text: "La descomposició en factors primers.", correcta: false }
+            { id: "a", text: "7°C", correcta: false },
+            { id: "b", text: "17°C", correcta: true },
+            { id: "c", text: "-17°C", correcta: false },
+            { id: "d", text: "12°C", correcta: false }
         ],
-        explicacio: "El MCD és el divisor més gran que tenen en comú dos o més nombres."
+        explicacio: "La pujada de temperatura és la diferència: 12°C - (-5°C) = 12°C + 5°C = 17°C."
     },
     {
-        id: "numalg_012",
-        bloc: "numeros_algebra",
-        pregunta: "Quina operació té prioritat en la jerarquia d'operacions?",
+        id: "prob_012",
+        bloc: "problemes",
+        pregunta: "Un pastís es divideix en 8 trossos iguals. Si ens mengem 3 trossos, quina fracció del pastís queda?",
         opcions: [
-            { id: "a", text: "Les sumes i les restes.", correcta: false },
-            { id: "b", text: "Les potències i les arrels.", correcta: true },
-            { id: "c", text: "Les operacions sempre es fan d'esquerra a dreta.", correcta: false },
-            { id: "d", text: "Les multiplicacions i les divisions.", correcta: false }
+            { id: "a", text: "3/8", correcta: false },
+            { id: "b", text: "5/8", correcta: true },
+            { id: "c", text: "8/5", correcta: false },
+            { id: "d", text: "8/3", correcta: false }
         ],
-        explicacio: "L'ordre és: 1r Parèntesis, 2n Potències i Arrels, 3r Multiplicacions i Divisions, 4t Sumes i Restes."
+        explicacio: "Si hi ha 8 trossos i se'n mengen 3, queden 8 - 3 = 5 trossos. La fracció restant és 5/8."
     },
     {
-        id: "numalg_013",
-        bloc: "numeros_algebra",
-        pregunta: "Com es tradueix 'un nombre desconegut' a l'àlgebra?",
+        id: "prob_013",
+        bloc: "problemes",
+        pregunta: "Si un tren viatja a 90 km/h, quina distància recorrerà en 3 hores?",
         opcions: [
-            { id: "a", text: "Amb un interrogant (?).", correcta: false },
-            { id: "b", text: "Amb una lletra, normalment la 'x'.", correcta: true },
-            { id: "c", text: "Amb el número zero (0).", correcta: false },
-            { id: "d", text: "Amb una paraula com 'nombre'.", correcta: false }
+            { id: "a", text: "30 km", correcta: false },
+            { id: "b", text: "270 km", correcta: true },
+            { id: "c", text: "180 km", correcta: false },
+            { id: "d", text: "93 km", correcta: false }
         ],
-        explicacio: "En àlgebra, les lletres s'utilitzen per representar valors que no coneixem."
+        explicacio: "Distància = velocitat * temps: 90 km/h * 3 h = 270 km."
     },
     {
-        id: "numalg_014",
-        bloc: "numeros_algebra",
-        pregunta: "Quin és el resultat de l'operació 7 - (+10)?",
+        id: "prob_014",
+        bloc: "problemes",
+        pregunta: "En una caixa hi ha 12 pomes, 15 taronges i 13 plàtans. Quina és la fracció de taronges respecte al total de fruites?",
         opcions: [
-            { id: "a", text: "17", correcta: false },
-            { id: "b", text: "-3", correcta: true },
-            { id: "c", text: "3", correcta: false },
-            { id: "d", text: "-17", correcta: false }
+            { id: "a", text: "15/25", correcta: false },
+            { id: "b", text: "15/40", correcta: true },
+            { id: "c", text: "15/12", correcta: false },
+            { id: "d", text: "40/15", correcta: false }
         ],
-        explicacio: "Restar un positiu és el mateix que restar normal. 7 - 10 = -3."
+        explicacio: "Total de fruites = 12 + 15 + 13 = 40. Fracció de taronges = 15/40."
     },
     {
-        id: "numalg_015",
-        bloc: "numeros_algebra",
-        pregunta: "Per multiplicar dues fraccions, quin procediment s'ha de seguir?",
+        id: "prob_015",
+        bloc: "problemes",
+        pregunta: "Un quadrat té un perímetre de 24 cm. Quina és la seva àrea?",
         opcions: [
-            { id: "a", text: "Posar el mateix denominador i multiplicar els numeradors.", correcta: false },
-            { id: "b", text: "Multiplicar els numeradors entre si i els denominadors entre si.", correcta: true },
-            { id: "c", text: "Multiplicar en creu.", correcta: false },
-            { id: "d", text: "Sumar les dues fraccions.", correcta: false }
+            { id: "a", text: "36 cm²", correcta: true },
+            { id: "b", text: "24 cm²", correcta: false },
+            { id: "c", text: "6 cm²", correcta: false },
+            { id: "d", text: "48 cm²", correcta: false }
         ],
-        explicacio: "La multiplicació de fraccions es fa 'en línia recta': el de dalt pel de dalt i el de baix pel de baix."
+        explicacio: "Si el perímetre és 24 cm i un quadrat té 4 costats iguals, cada costat mesura 24 / 4 = 6 cm. L'àrea és costat * costat = 6 cm * 6 cm = 36 cm²."
     },
     {
-        id: "numalg_016",
-        bloc: "numeros_algebra",
-        pregunta: "Quina equació representa el problema: 'Si a un nombre li sumo 8, obtinc 20'?",
+        id: "prob_016",
+        bloc: "problemes",
+        pregunta: "He comprat un llibre per 18€ i una llibreta per 2€. Si pago amb un bitllet de 50€, quants diners em tornaran?",
         opcions: [
-            { id: "a", text: "x - 8 = 20", correcta: false },
-            { id: "b", text: "x + 8 = 20", correcta: true },
-            { id: "c", text: "8x = 20", correcta: false },
-            { id: "d", text: "x = 20 + 8", correcta: false }
+            { id: "a", text: "20€", correcta: false },
+            { id: "b", text: "30€", correcta: true },
+            { id: "c", text: "32€", correcta: false },
+            { id: "d", text: "28€", correcta: false }
         ],
-        explicacio: "El nombre és 'x', i si li sumem 8, el resultat ('obtenim') és igual a 20."
+        explicacio: "Cost total: 18€ + 2€ = 20€. Canvi: 50€ - 20€ = 30€."
     },
     {
-        id: "numalg_017",
-        bloc: "numeros_algebra",
-        pregunta: "Què vol dir l'arrel quadrada d'un nombre (per exemple, √25)?",
+        id: "prob_017",
+        bloc: "problemes",
+        pregunta: "Un article costa 200€ i el seu preu augmenta un 10%. Quin és el nou preu?",
         opcions: [
-            { id: "a", text: "Dividir el nombre per 2.", correcta: false },
-            { id: "b", text: "Trobar un nombre que, multiplicat per si mateix, doni 25.", correcta: true },
-            { id: "c", text: "Multiplicar el nombre per 2.", correcta: false },
-            { id: "d", text: "Restar 2 al nombre.", correcta: false }
+            { id: "a", text: "210€", correcta: false },
+            { id: "b", text: "220€", correcta: true },
+            { id: "c", text: "180€", correcta: false },
+            { id: "d", text: "202€", correcta: false }
         ],
-        explicacio: "L'arrel quadrada és l'operació contrària a elevar al quadrat. 5 × 5 = 25, per tant √25 = 5."
+        explicacio: "El 10% de 200€ és (10/100) * 200 = 20€. El nou preu és 200€ + 20€ = 220€."
     },
     {
-        id: "numalg_018",
-        bloc: "numeros_algebra",
-        pregunta: "Per aplicar un augment del 20% a un preu, quin és el procediment?",
+        id: "prob_018",
+        bloc: "problemes",
+        pregunta: "En una sala de cinema hi ha 20 files amb 15 seients cadascuna. Quants seients hi ha en total?",
         opcions: [
-            { id: "a", text: "Restar 20 al preu.", correcta: false },
-            { id: "b", text: "Calcular el 20% del preu i sumar-lo al preu original.", correcta: true },
-            { id: "c", text: "Multiplicar el preu per 20.", correcta: false },
-            { id: "d", text: "Dividir el preu per 20.", correcta: false }
+            { id: "a", text: "35 seients", correcta: false },
+            { id: "b", text: "300 seients", correcta: true },
+            { id: "c", text: "200 seients", correcta: false },
+            { id: "d", text: "150 seients", correcta: false }
         ],
-        explicacio: "Un augment de preu implica sumar una part (el percentatge) al preu que ja teníem."
+        explicacio: "Nombre total de seients = files * seients per fila: 20 * 15 = 300 seients."
     },
     {
-        id: "numalg_019",
-        bloc: "numeros_algebra",
-        pregunta: "Per dividir dues fraccions, quin procediment és el correcte?",
+        id: "prob_019",
+        bloc: "problemes",
+        pregunta: "Si tens 6 ampolles de 1,5 litres cadascuna, quants litres tens en total?",
         opcions: [
-            { id: "a", text: "Dividir els numeradors i els denominadors en línia recta.", correcta: false },
-            { id: "b", text: "Multiplicar les fraccions en creu.", correcta: true },
-            { id: "c", text: "Posar denominador comú i dividir els numeradors.", correcta: false },
-            { id: "d", text: "Restar una fracció de l'altra.", correcta: false }
+            { id: "a", text: "7,5 litres", correcta: false },
+            { id: "b", text: "9 litres", correcta: true },
+            { id: "c", text: "6 litres", correcta: false },
+            { id: "d", text: "12 litres", correcta: false }
         ],
-        explicacio: "Dividir fraccions és el mateix que multiplicar en creu."
+        explicacio: "Litres totals = nombre d'ampolles * capacitat per ampolla: 6 * 1,5 = 9 litres."
     },
     {
-        id: "numalg_020",
-        bloc: "numeros_algebra",
-        pregunta: "Com es representa en una sola potència l'operació 5² × 5⁴?",
+        id: "prob_020",
+        bloc: "problemes",
+        pregunta: "Una excursió comença a les 9:00 del matí i acaba a les 16:30 de la tarda. Quantes hores i minuts ha durat?",
         opcions: [
-            { id: "a", text: "5⁸", correcta: false },
-            { id: "b", text: "5⁶", correcta: true },
-            { id: "c", text: "25⁶", correcta: false },
-            { id: "d", text: "5²", correcta: false }
+            { id: "a", text: "6 hores i 30 minuts", correcta: false },
+            { id: "b", text: "7 hores i 30 minuts", correcta: true },
+            { id: "c", text: "7 hores", correcta: false },
+            { id: "d", text: "8 hores", correcta: false }
         ],
-        explicacio: "Per multiplicar potències amb la mateixa base, es deixa la base i se sumen els exponents (2+4=6)."
+        explicacio: "De 9:00 a 16:00 hi ha 7 hores. De 16:00 a 16:30 hi ha 30 minuts. Total: 7 hores i 30 minuts."
     },
-
     // ========================================
-    // BLOC 3: GEOMETRIA (15 preguntes)
+// BLOC 3: SENTIT NUMÈRIC (15 preguntes)
+// ========================================
+{
+    id: "num_001",
+    bloc: "sentit_numeric",
+    pregunta: "Per trobar el Mínim Comú Múltiple (MCM) de dos nombres, quin procediment fas?",
+    opcions: [
+        { id: "a", text: "Descompondre i agafar només els factors comuns amb l'exponent més petit.", correcta: false },
+        { id: "b", text: "Descompondre i agafar tots els factors (comuns i no comuns) amb l'exponent més gran.", correcta: true },
+        { id: "c", text: "Multiplicar els dos nombres entre ells.", correcta: false },
+        { id: "d", text: "Buscar els divisors comuns i agafar el més gran.", correcta: false }
+    ],
+    explicacio: "Per al MCM, es descompon i s'agafen 'tots els actors, amb el barret més alt'."
+},
+{
+    id: "num_002",
+    bloc: "sentit_numeric",
+    pregunta: "Per saber si el número 123 és divisible per 3, quin criteri de divisibilitat apliques?",
+    opcions: [
+        { id: "a", text: "Mirar si l'última xifra és 3.", correcta: false },
+        { id: "b", text: "Sumar les seves xifres (1+2+3) i comprovar si el resultat és múltiple de 3.", correcta: true },
+        { id: "c", text: "Comprovar si és un nombre parell.", correcta: false },
+        { id: "d", text: "Dividir el nombre per 2.", correcta: false }
+    ],
+    explicacio: "Un nombre es pot dividir per 3 si la suma de les seves xifres també es pot dividir per 3."
+},
+{
+    id: "num_003",
+    bloc: "sentit_numeric",
+    pregunta: "Què és un nombre primer?",
+    opcions: [
+        { id: "a", text: "Un nombre que és senar.", correcta: false },
+        { id: "b", text: "Un nombre que només es pot dividir per 1 i per si mateix.", correcta: true },
+        { id: "c", text: "Qualsevol nombre que no sigui parell.", correcta: false },
+        { id: "d", text: "Un nombre que acaba en 1, 3, 7 o 9.", correcta: false }
+    ],
+    explicacio: "Els nombres primers només tenen dos divisors: l'1 i ells mateixos. Per exemple, el 7 o el 13."
+},
+{
+    id: "num_004",
+    bloc: "sentit_numeric",
+    pregunta: "Per sumar les fraccions 1/2 + 1/3, quin és el primer pas necessari?",
+    opcions: [
+        { id: "a", text: "Sumar els numeradors i els denominadors per separat.", correcta: false },
+        { id: "b", text: "Trobar un denominador comú per a les dues fraccions.", correcta: true },
+        { id: "c", text: "Multiplicar les dues fraccions.", correcta: false },
+        { id: "d", text: "Convertir les fraccions a nombres decimals.", correcta: false }
+    ],
+    explicacio: "No es poden sumar fraccions si no tenen el mateix denominador. Primer cal trobar el MCM dels denominadors."
+},
+{
+    id: "num_005",
+    bloc: "sentit_numeric",
+    pregunta: "Què vol dir calcular 5³?",
+    opcions: [
+        { id: "a", text: "Multiplicar 5 per 3.", correcta: false },
+        { id: "b", text: "Multiplicar 5 per si mateix 3 vegades (5 × 5 × 5).", correcta: true },
+        { id: "c", text: "Sumar 5 tres vegades (5 + 5 + 5).", correcta: false },
+        { id: "d", text: "Dividir 5 entre 3.", correcta: false }
+    ],
+    explicacio: "Una potència significa multiplicar la base (5) tantes vegades com diu l'exponent (3)."
+},
+{
+    id: "num_006",
+    bloc: "sentit_numeric",
+    pregunta: "Què és el Màxim Comú Divisor (MCD) de dos nombres?",
+    opcions: [
+        { id: "a", text: "El nombre més gran que pot dividir els dos nombres.", correcta: true },
+        { id: "b", text: "El nombre més petit que es pot dividir pels dos nombres.", correcta: false },
+        { id: "c", text: "La suma dels dos nombres.", correcta: false },
+        { id: "d", text: "La descomposició en factors primers.", correcta: false }
+    ],
+    explicacio: "El MCD és el divisor més gran que tenen en comú dos o més nombres."
+},
+{
+    id: "num_007",
+    bloc: "sentit_numeric",
+    pregunta: "Quina operació té prioritat en la jerarquia d'operacions?",
+    opcions: [
+        { id: "a", text: "Les sumes i les restes.", correcta: false },
+        { id: "b", text: "Les potències i les arrels.", correcta: true },
+        { id: "c", text: "Les operacions sempre es fan d'esquerra a dreta.", correcta: false },
+        { id: "d", text: "Les multiplicacions i les divisions.", correcta: false }
+    ],
+    explicacio: "L'ordre és: 1r Parèntesis, 2n Potències i Arrels, 3r Multiplicacions i Divisions, 4t Sumes i Restes."
+},
+{
+    id: "num_008",
+    bloc: "sentit_numeric",
+    pregunta: "Com es tradueix 'un nombre desconegut' a l'àlgebra?",
+    opcions: [
+        { id: "a", text: "Amb un interrogant (?).", correcta: false },
+        { id: "b", text: "Amb una lletra, normalment la 'x'.", correcta: true },
+        { id: "c", text: "Amb el número zero (0).", correcta: false },
+        { id: "d", text: "Amb una paraula com 'nombre'.", correcta: false }
+    ],
+    explicacio: "En àlgebra, les lletres s'utilitzen per representar valors que no coneixem."
+},
+{
+    id: "num_009",
+    bloc: "sentit_numeric",
+    pregunta: "Què vol dir l'arrel quadrada d'un nombre (per exemple, √25)?",
+    opcions: [
+        { id: "a", text: "Dividir el nombre per 2.", correcta: false },
+        { id: "b", text: "Trobar un nombre que, multiplicat per si mateix, doni 25.", correcta: true },
+        { id: "c", text: "Multiplicar el nombre per 2.", correcta: false },
+        { id: "d", text: "Restar 2 al nombre.", correcta: false }
+    ],
+    explicacio: "L'arrel quadrada és l'operació contrària a elevar al quadrat. 5 × 5 = 25, per tant √25 = 5."
+},
+{
+    id: "num_010",
+    bloc: "sentit_numeric",
+    pregunta: "Per aplicar un augment del 20% a un preu, quin és el procediment?",
+    opcions: [
+        { id: "a", text: "Restar 20 al preu.", correcta: false },
+        { id: "b", text: "Calcular el 20% del preu i sumar-lo al preu original.", correcta: true },
+        { id: "c", text: "Multiplicar el preu per 20.", correcta: false },
+        { id: "d", text: "Dividir el preu per 20.", correcta: false }
+    ],
+    explicacio: "Un augment de preu implica sumar una part (el percentatge) al preu que ja teníem."
+},
+{
+    id: "num_011",
+    bloc: "sentit_numeric",
+    pregunta: "Com es representa en una sola potència l'operació 5² × 5⁴?",
+    opcions: [
+        { id: "a", text: "5⁸", correcta: false },
+        { id: "b", text: "5⁶", correcta: true },
+        { id: "c", text: "25⁶", correcta: false },
+        { id: "d", text: "5²", correcta: false }
+    ],
+    explicacio: "Per multiplicar potències amb la mateixa base, es deixa la base i se sumen els exponents (2+4=6)."
+},
+{
+    id: "num_012",
+    bloc: "sentit_numeric",
+    pregunta: "Què significa que dos nombres són 'proporcionals'?",
+    opcions: [
+        { id: "a", text: "Que són nombres parells.", correcta: false },
+        { id: "b", text: "Que la seva divisió dóna sempre el mateix resultat (constant de proporcionalitat).", correcta: true },
+        { id: "c", text: "Que són nombres primers.", correcta: false },
+        { id: "d", text: "Que sumen el mateix.", correcta: false }
+    ],
+    explicacio: "La proporcionalitat indica que dues magnituds pugen o baixen al mateix ritme."
+},
+{
+    id: "num_013",
+    bloc: "sentit_numeric",
+    pregunta: "Quin criteri de divisibilitat s'utilitza per saber si un nombre es pot dividir per 5?",
+    opcions: [
+        { id: "a", text: "Si la suma de les seves xifres és 5.", correcta: false },
+        { id: "b", text: "Si acaba en 0 o en 5.", correcta: true },
+        { id: "c", text: "Si és un nombre senar.", correcta: false },
+        { id: "d", text: "Si és més gran que 5.", correcta: false }
+    ],
+    explicacio: "Tots els nombres divisibles per 5 acaben en 0 o 5."
+},
+{
+    id: "num_014",
+    bloc: "sentit_numeric",
+    pregunta: "Què representa el denominador en una fracció?",
+    opcions: [
+        { id: "a", text: "Les parts que agafem.", correcta: false },
+        { id: "b", text: "El nombre total de parts iguals en què es divideix la unitat.", correcta: true },
+        { id: "c", text: "El resultat de la divisió.", correcta: false },
+        { id: "d", text: "El nombre més gran de la fracció.", correcta: false }
+    ],
+    explicacio: "El denominador (el de baix) diu en quants trossos tallem la 'pizza'."
+},
+{
+    id: "num_015",
+    bloc: "sentit_numeric",
+    pregunta: "Quin és el procediment correcte per comparar dos nombres enters negatius, com -8 i -3?",
+    opcions: [
+        { id: "a", text: "El que sembla més gran (8) és el més gran.", correcta: false },
+        { id: "b", text: "El que està més a prop del zero a la recta numèrica (-3) és el més gran.", correcta: true },
+        { id: "c", text: "Sempre és més gran el que està més a l'esquerra.", correcta: false },
+        { id: "d", text: "Tots els nombres negatius són iguals.", correcta: false }
+    ],
+    explicacio: "En els negatius, és més gran el que menys 'deu', és a dir, el que està més a prop del 0."
+},
     // ========================================
+// BLOC 4: ESPAI I MESURA (10 preguntes)
+// ========================================
+{
+    id: "esp_mes_001",
+    bloc: "espai_mesura",
+    pregunta: "Quina característica defineix dues rectes com a 'perpendiculars'?",
+    opcions: [
+        { id: "a", text: "Que no es tallen mai.", correcta: false },
+        { id: "b", text: "Que es tallen formant quatre angles rectes (de 90°).", correcta: true },
+        { id: "c", text: "Que tenen la mateixa longitud.", correcta: false },
+        { id: "d", text: "Que pertanyen al mateix pla.", correcta: false }
+    ],
+    explicacio: "Les rectes perpendiculars són les que formen angles de 90° en creuar-se."
+},
+{
+    id: "esp_mes_002",
+    bloc: "espai_mesura",
+    pregunta: "Per calcular el perímetre d'un polígon, quin és el procediment correcte?",
+    opcions: [
+        { id: "a", text: "Multiplicar la base per l'altura.", correcta: false },
+        { id: "b", text: "Sumar la longitud de tots els seus costats.", correcta: true },
+        { id: "c", text: "Comptar el nombre de vèrtexs.", correcta: false },
+        { id: "d", text: "Calcular la superfície que ocupa.", correcta: false }
+    ],
+    explicacio: "El perímetre és la mesura del contorn, és a dir, la suma de tots els costats."
+},
+{
+    id: "esp_mes_003",
+    bloc: "espai_mesura",
+    pregunta: "En un triangle rectangle, com s'aplica correctament el Teorema de Pitàgores?",
+    opcions: [
+        { id: "a", text: "La suma dels dos catets és igual a la hipotenusa.", correcta: false },
+        { id: "b", text: "La suma dels quadrats dels catets és igual al quadrat de la hipotenusa.", correcta: true },
+        { id: "c", text: "El quadrat d'un catet és igual a la suma dels altres dos costats.", correcta: false },
+        { id: "d", text: "L'àrea del triangle és igual al quadrat de la hipotenusa.", correcta: false }
+    ],
+    explicacio: "La fórmula és: catet² + catet² = hipotenusa²."
+},
+{
+    id: "esp_mes_004",
+    bloc: "espai_mesura",
+    pregunta: "Quina és la definició de 'àrea' d'una figura plana?",
+    opcions: [
+        { id: "a", text: "La longitud total del contorn de la figura.", correcta: false },
+        { id: "b", text: "La mesura de la superfície que ocupa la figura.", correcta: true },
+        { id: "c", text: "La distància més llarga entre dos punts de la figura.", correcta: false },
+        { id: "d", text: "El nombre d'angles que té la figura.", correcta: false }
+    ],
+    explicacio: "L'àrea mesura l'espai interior d'una figura, normalment en unitats quadrades (cm², m²...)."
+},
+{
+    id: "esp_mes_005",
+    bloc: "espai_mesura",
+    pregunta: "Quina relació hi ha entre el radi i el diàmetre d'un cercle?",
+    opcions: [
+        { id: "a", text: "Són iguals.", correcta: false },
+        { id: "b", text: "El diàmetre és el doble que el radi.", correcta: true },
+        { id: "c", text: "El radi és el doble que el diàmetre.", correcta: false },
+        { id: "d", text: "No tenen cap relació.", correcta: false }
+    ],
+    explicacio: "El diàmetre és la línia que creua tot el cercle pel centre, i és igual a dos radis."
+},
+{
+    id: "esp_mes_006",
+    bloc: "espai_mesura",
+    pregunta: "Què tenen en comú tots els polígons regulars?",
+    opcions: [
+        { id: "a", text: "Tots tenen quatre costats.", correcta: false },
+        { id: "b", text: "Tots els seus costats i tots els seus angles són iguals.", correcta: true },
+        { id: "c", text: "Les seves diagonals sempre són iguals.", correcta: false },
+        { id: "d", text: "Només es poden dibuixar dins d'un cercle.", correcta: false }
+    ],
+    explicacio: "Un polígon és regular si tots els seus costats mesuren el mateix i tots els seus angles són iguals."
+},
+{
+    id: "esp_mes_007",
+    bloc: "espai_mesura",
+    pregunta: "Quina és la suma dels angles interiors de qualsevol triangle?",
+    opcions: [
+        { id: "a", text: "Depèn del tipus de triangle.", correcta: false },
+        { id: "b", text: "Sempre sumen 180°.", correcta: true },
+        { id: "c", text: "Sempre sumen 360°.", correcta: false },
+        { id: "d", text: "Sempre sumen 90°.", correcta: false }
+    ],
+    explicacio: "No importa si un triangle és gran, petit, equilàter o rectangle: la suma dels seus tres angles sempre és 180°."
+},
+{
+    id: "esp_mes_008",
+    bloc: "espai_mesura",
+    pregunta: "Per calcular la longitud d'una circumferència, quin procediment és el correcte?",
+    opcions: [
+        { id: "a", text: "Multiplicar el radi per π.", correcta: false },
+        { id: "b", text: "Multiplicar el diàmetre per π.", correcta: true },
+        { id: "c", text: "Elevar el radi al quadrat i multiplicar per π.", correcta: false },
+        { id: "d", text: "Multiplicar el diàmetre per 2.", correcta: false }
+    ],
+    explicacio: "La longitud de la 'corda' que forma la circumferència és L = D × π (o L = 2 × π × r)."
+},
+{
+    id: "esp_mes_009",
+    bloc: "espai_mesura",
+    pregunta: "Com es diu un angle que mesura exactament 90°?",
+    opcions: [
+        { id: "a", text: "Angle agut.", correcta: false },
+        { id: "b", text: "Angle recte.", correcta: true },
+        { id: "c", text: "Angle obtús.", correcta: false },
+        { id: "d", text: "Angle pla.", correcta: false }
+    ],
+    explicacio: "L'angle de 90 graus, que forma una 'L', s'anomena angle recte."
+},
+{
+    id: "esp_mes_010",
+    bloc: "espai_mesura",
+    pregunta: "Quina és la característica principal de les rectes paral·leles?",
+    opcions: [
+        { id: "a", text: "Es tallen en un punt.", correcta: false },
+        { id: "b", text: "No es tallen mai i mantenen sempre la mateixa distància entre elles.", correcta: true },
+        { id: "c", text: "Formen un angle de 90°.", correcta: false },
+        { id: "d", text: "Tenen la mateixa longitud.", correcta: false }
+    ],
+    explicacio: "Les rectes paral·leles són com les vies d'un tren: mai s'arriben a tocar."
+}
 
-    {
-        id: "geo_001",
-        bloc: "geometria",
-        pregunta: "Per calcular l'àrea d'un trapezi, quina informació necessites obligatòriament?",
-        opcions: [
-            { id: "a", text: "La longitud dels seus quatre costats.", correcta: false },
-            { id: "b", text: "La longitud de les seves dues bases i la seva altura.", correcta: true },
-            { id: "c", text: "Només la longitud de la base més llarga i l'altura.", correcta: false },
-            { id: "d", text: "La mesura dels seus quatre angles.", correcta: false }
-        ],
-        explicacio: "La fórmula de l'àrea necessita la base gran, la base petita i l'altura."
-    },
-    {
-        id: "geo_002",
-        bloc: "geometria",
-        pregunta: "En un triangle rectangle, com s'aplica correctament el Teorema de Pitàgores?",
-        opcions: [
-            { id: "a", text: "La suma dels dos catets és igual a la hipotenusa.", correcta: false },
-            { id: "b", text: "El quadrat d'un catet és igual a la suma dels altres dos costats.", correcta: false },
-            { id: "c", text: "La suma dels quadrats dels catets és igual al quadrat de la hipotenusa.", correcta: true },
-            { id: "d", text: "L'àrea del triangle és igual al quadrat de la hipotenusa.", correcta: false }
-        ],
-        explicacio: "La fórmula és: catet² + catet² = hipotenusa²."
-    },
-    {
-        id: "geo_003",
-        bloc: "geometria",
-        pregunta: "Quina és la definició de 'perímetre' d'una figura plana?",
-        opcions: [
-            { id: "a", text: "La superfície que ocupa la figura.", correcta: false },
-            { id: "b", text: "La longitud total del contorn de la figura.", correcta: true },
-            { id: "c", text: "La línia més llarga que es pot dibuixar dins de la figura.", correcta: false },
-            { id: "d", text: "El nombre de costats que té la figura.", correcta: false }
-        ],
-        explicacio: "El perímetre és la suma de la longitud de tots els costats, és a dir, el que 'mesura per fora'."
-    },
-    {
-        id: "geo_004",
-        bloc: "geometria",
-        pregunta: "Quina característica defineix dues rectes com a 'perpendiculars'?",
-        opcions: [
-            { id: "a", text: "Que no es tallen mai.", correcta: false },
-            { id: "b", text: "Que es tallen formant quatre angles rectes (de 90°).", correcta: true },
-            { id: "c", text: "Que tenen la mateixa longitud.", correcta: false },
-            { id: "d", text: "Que es tallen en un punt qualsevol.", correcta: false }
-        ],
-        explicacio: "Les rectes perpendiculars formen angles de 90° en el punt on es creuen."
-    },
-    {
-        id: "geo_005",
-        bloc: "geometria",
-        pregunta: "Per calcular l'àrea d'un rectangle, quin procediment segueixes?",
-        opcions: [
-            { id: "a", text: "Sumar la longitud de tots els seus costats.", correcta: false },
-            { id: "b", text: "Multiplicar la longitud de la base per la longitud de l'altura.", correcta: true },
-            { id: "c", text: "Multiplicar la longitud d'una diagonal per l'altra.", correcta: false },
-            { id: "d", text: "Sumar la base i l'altura.", correcta: false }
-        ],
-        explicacio: "La fórmula de l'àrea d'un rectangle és base × altura."
-    },
-    {
-        id: "geo_006",
-        bloc: "geometria",
-        pregunta: "Quina relació hi ha entre el radi i el diàmetre d'un cercle?",
-        opcions: [
-            { id: "a", text: "Són iguals.", correcta: false },
-            { id: "b", text: "El diàmetre és el doble que el radi.", correcta: true },
-            { id: "c", text: "El radi és el doble que el diàmetre.", correcta: false },
-            { id: "d", text: "No tenen cap relació.", correcta: false }
-        ],
-        explicacio: "El diàmetre és la línia que creua tot el cercle pel centre, i és igual a dos radis."
-    },
-    {
-        id: "geo_007",
-        bloc: "geometria",
-        pregunta: "Com es construeix la bisectriu d'un angle?",
-        opcions: [
-            { id: "a", text: "És una recta que passa pel vèrtex i és perpendicular a un dels costats.", correcta: false },
-            { id: "b", text: "És una recta que divideix l'angle en dues parts exactament iguals.", correcta: true },
-            { id: "c", text: "És una recta paral·lela a un dels costats de l'angle.", correcta: false },
-            { id: "d", text: "És un arc que uneix els dos costats de l'angle.", correcta: false }
-        ],
-        explicacio: "La bisectriu és com una 'navalla' que talla l'angle en dues meitats perfectes."
-    },
-    {
-        id: "geo_008",
-        bloc: "geometria",
-        pregunta: "Què tenen en comú tots els polígons regulars?",
-        opcions: [
-            { id: "a", text: "Tots tenen quatre costats.", correcta: false },
-            { id: "b", text: "Tots els seus costats i tots els seus angles són iguals.", correcta: true },
-            { id: "c", text: "Les seves diagonals són sempre iguals.", correcta: false },
-            { id: "d", text: "Només es poden dibuixar dins d'un cercle.", correcta: false }
-        ],
-        explicacio: "Un polígon és regular si tots els seus costats mesuren el mateix i tots els seus angles són iguals."
-    },
-    {
-        id: "geo_009",
-        bloc: "geometria",
-        pregunta: "Quin és el procediment per calcular l'àrea d'un quadrat?",
-        opcions: [
-            { id: "a", text: "Multiplicar el costat per 4.", correcta: false },
-            { id: "b", text: "Multiplicar el costat per si mateix (costat²).", correcta: true },
-            { id: "c", text: "Sumar dos dels seus costats.", correcta: false },
-            { id: "d", text: "Multiplicar el costat per 2.", correcta: false }
-        ],
-        explicacio: "L'àrea d'un quadrat es calcula com a costat × costat, que és el mateix que costat al quadrat."
-    },
-    {
-        id: "geo_010",
-        bloc: "geometria",
-        pregunta: "Com es defineix un angle 'agut'?",
-        opcions: [
-            { id: "a", text: "És un angle que mesura exactament 90°.", correcta: false },
-            { id: "b", text: "És un angle que mesura menys de 90°.", correcta: true },
-            { id: "c", text: "És un angle que mesura més de 90°.", correcta: false },
-            { id: "d", text: "És un angle que mesura 180°.", correcta: false }
-        ],
-        explicacio: "Els angles aguts són els 'tancats', que mesuren entre 0° i 90°."
-    },
-    {
-        id: "geo_011",
-        bloc: "geometria",
-        pregunta: "Per calcular el volum d'un cub (un ortoedre), quin procediment fas?",
-        opcions: [
-            { id: "a", text: "Sumar la longitud de totes les seves arestes.", correcta: false },
-            { id: "b", text: "Multiplicar la longitud, l'amplada i l'altura.", correcta: true },
-            { id: "c", text: "Calcular l'àrea d'una de les seves cares.", correcta: false },
-            { id: "d", text: "Multiplicar la longitud de l'aresta per 6.", correcta: false }
-        ],
-        explicacio: "El volum mesura l'espai que ocupa i es calcula multiplicant les tres dimensions: llarg × ample × alt."
-    },
-    {
-        id: "geo_012",
-        bloc: "geometria",
-        pregunta: "Quina és la suma dels angles interiors de qualsevol triangle?",
-        opcions: [
-            { id: "a", text: "Depèn del tipus de triangle.", correcta: false },
-            { id: "b", text: "Sempre sumen 180°.", correcta: true },
-            { id: "c", text: "Sempre sumen 360°.", correcta: false },
-            { id: "d", text: "Sempre sumen 90°.", correcta: false }
-        ],
-        explicacio: "No importa si un triangle és gran, petit, equilàter o rectangle: la suma dels seus tres angles sempre és 180°."
-    },
-    {
-        id: "geo_013",
-        bloc: "geometria",
-        pregunta: "Com es defineix la 'altura' d'un triangle?",
-        opcions: [
-            { id: "a", text: "És el costat més llarg del triangle.", correcta: false },
-            { id: "b", text: "És la línia perpendicular des d'un vèrtex fins al costat oposat.", correcta: true },
-            { id: "c", text: "És la línia que divideix el triangle en dues meitats iguals.", correcta: false },
-            { id: "d", text: "És la suma de dos dels seus costats.", correcta: false }
-        ],
-        explicacio: "L'altura és la distància 'recta' (perpendicular) des de la base fins al punt més alt."
-    },
-    {
-        id: "geo_014",
-        bloc: "geometria",
-        pregunta: "Quina característica principal tenen els prismes?",
-        opcions: [
-            { id: "a", text: "Tenen una base i acaben en punta.", correcta: false },
-            { id: "b", text: "Tenen dues bases iguals i paral·leles, i les cares laterals són rectangles.", correcta: true },
-            { id: "c", text: "Totes les seves cares són triangles.", correcta: false },
-            { id: "d", text: "No tenen cap vèrtex.", correcta: false }
-        ],
-        explicacio: "Un prisma és com una 'torre' amb dues bases iguals (la de baix i la de dalt)."
-    },
-    {
-        id: "geo_015",
-        bloc: "geometria",
-        pregunta: "Per calcular la longitud d'una circumferència, quin procediment és el correcte?",
-        opcions: [
-            { id: "a", text: "Multiplicar el radi per π.", correcta: false },
-            { id: "b", text: "Multiplicar el diàmetre per π.", correcta: true },
-            { id: "c", text: "Elevar el radi al quadrat i multiplicar per π.", correcta: false },
-            { id: "d", text: "Multiplicar el diàmetre per 2.", correcta: false }
-        ],
-        explicacio: "La longitud de la 'corda' que forma la circumferència és L = D × π (o L = 2 × π × r)."
-    },
-
-    // ========================================
-    // BLOC 4: FUNCIONS (15 preguntes)
-    // ========================================
-
-    {
-        id: "func_001",
-        bloc: "funcions",
-        pregunta: "En un gràfic de coordenades, com localitzes el punt (3, 5)?",
-        opcions: [
-            { id: "a", text: "Em moc 3 posicions cap amunt i 5 a la dreta.", correcta: false },
-            { id: "b", text: "Em moc 3 posicions a la dreta i 5 cap amunt.", correcta: true },
-            { id: "c", text: "Em moc 3 posicions a l'esquerra i 5 cap avall.", correcta: false },
-            { id: "d", text: "Em moc 5 posicions a la dreta i 3 cap amunt.", correcta: false }
-        ],
-        explicacio: "El primer número (3) és a l'eix horitzontal (X) i el segon (5) és al vertical (Y)."
-    },
-    {
-        id: "func_002",
-        bloc: "funcions",
-        pregunta: "En un gràfic que mostra la temperatura al llarg d'un dia, què representa el punt més alt de la línia?",
-        opcions: [
-            { id: "a", text: "L'hora en què ha començat el dia.", correcta: false },
-            { id: "b", text: "La temperatura màxima que s'ha assolit.", correcta: true },
-            { id: "c", text: "La temperatura mínima del dia.", correcta: false },
-            { id: "d", text: "El moment en què ha acabat el dia.", correcta: false }
-        ],
-        explicacio: "El punt més alt en l'eix vertical (temperatura) correspon al valor màxim."
-    },
-    {
-        id: "func_003",
-        bloc: "funcions",
-        pregunta: "Com es diu l'eix horitzontal en un sistema de coordenades?",
-        opcions: [
-            { id: "a", text: "Eix Y o eix d'ordenades.", correcta: false },
-            { id: "b", text: "Eix X o eix d'abscisses.", correcta: true },
-            { id: "c", text: "Eix Z o eix de profunditat.", correcta: false },
-            { id: "d", text: "L'origen de coordenades.", correcta: false }
-        ],
-        explicacio: "L'eix horitzontal és l'eix de les X, també anomenat eix d'abscisses."
-    },
-    {
-        id: "func_004",
-        bloc: "funcions",
-        pregunta: "Què representa l'origen de coordenades (0,0)?",
-        opcions: [
-            { id: "a", text: "Un punt qualsevol del gràfic.", correcta: false },
-            { id: "b", text: "El punt on es creuen els dos eixos.", correcta: true },
-            { id: "c", text: "El valor màxim del gràfic.", correcta: false },
-            { id: "d", text: "El final de l'eix X.", correcta: false }
-        ],
-        explicacio: "L'origen és el punt de partida, on tant l'eix X com l'eix Y valen zero."
-    },
-    {
-        id: "func_005",
-        bloc: "funcions",
-        pregunta: "En un gràfic que relaciona temps i distància, què indica una línia que puja?",
-        opcions: [
-            { id: "a", text: "Que el temps passa però la distància no canvia.", correcta: false },
-            { id: "b", text: "Que la distància augmenta a mesura que passa el temps.", correcta: true },
-            { id: "c", text: "Que la distància disminueix.", correcta: false },
-            { id: "d", text: "Que el temps va cap enrere.", correcta: false }
-        ],
-        explicacio: "Si la línia puja, vol dir que el valor de l'eix Y (distància) es fa més gran a mesura que avança l'eix X (temps)."
-    },
-    {
-        id: "func_006",
-        bloc: "funcions",
-        pregunta: "Quina és la funció principal d'un gràfic?",
-        opcions: [
-            { id: "a", text: "Fer que les dades semblin més complicades.", correcta: false },
-            { id: "b", text: "Representar visualment la relació entre dues magnituds.", correcta: true },
-            { id: "c", text: "Decorar un informe o un treball.", correcta: false },
-            { id: "d", text: "Substituir completament les taules de dades.", correcta: false }
-        ],
-        explicacio: "Un gràfic ens ajuda a veure d'un cop d'ull com canvien les coses, cosa que és difícil de veure en una taula plena de números."
-    },
-    {
-        id: "func_007",
-        bloc: "funcions",
-        pregunta: "Per representar una funció, quin és el primer pas que es fa normalment?",
-        opcions: [
-            { id: "a", text: "Dibuixar una línia a l'atzar.", correcta: false },
-            { id: "b", text: "Crear una taula de valors.", correcta: true },
-            { id: "c", text: "Escriure la conclusió del gràfic.", correcta: false },
-            { id: "d", text: "Pintar els eixos de colors.", correcta: false }
-        ],
-        explicacio: "La taula de valors ens dona els punts (les coordenades) que després dibuixarem al gràfic."
-    },
-    {
-        id: "func_008",
-        bloc: "funcions",
-        pregunta: "En el punt (-4, 2), quin número correspon a l'eix Y?",
-        opcions: [
-            { id: "a", text: "-4.", correcta: false },
-            { id: "b", text: "El número 2.", correcta: true },
-            { id: "c", text: "Tots dos.", correcta: false },
-            { id: "d", text: "Cap dels dos.", correcta: false }
-        ],
-        explicacio: "Les coordenades sempre van en ordre (X, Y). El segon número sempre és el de l'eix vertical Y."
-    },
-    {
-        id: "func_009",
-        bloc: "funcions",
-        pregunta: "Què és una funció en matemàtiques?",
-        opcions: [
-            { id: "a", text: "Una operació matemàtica qualsevol.", correcta: false },
-            { id: "b", text: "Una relació on a cada valor de sortida (x) li correspon un únic valor d'arribada (y).", correcta: true },
-            { id: "c", text: "Un tipus de gràfic amb línies corbes.", correcta: false },
-            { id: "d", text: "Un sinònim d'equació.", correcta: false }
-        ],
-        explicacio: "Una funció és com una 'màquina': tu li poses un número (x) i et torna només un resultat (y)."
-    },
-    {
-        id: "func_010",
-        bloc: "funcions",
-        pregunta: "Com es diu el punt on un gràfic talla l'eix Y?",
-        opcions: [
-            { id: "a", text: "Punt de tall amb l'eix X.", correcta: false },
-            { id: "b", text: "Ordenada a l'origen.", correcta: true },
-            { id: "c", text: "Vèrtex de la funció.", correcta: false },
-            { id: "d", text: "Punt màxim.", correcta: false }
-        ],
-        explicacio: "El tall amb l'eix d'ordenades (Y) s'anomena ordenada a l'origen."
-    },
-    {
-        id: "func_011",
-        bloc: "funcions",
-        pregunta: "En un gràfic de coordenades, quina zona s'anomena 'primer quadrant'?",
-        opcions: [
-            { id: "a", text: "La zona de baix a l'esquerra (X negativa, Y negativa).", correcta: false },
-            { id: "b", text: "La zona de dalt a la dreta (X positiva, Y positiva).", correcta: true },
-            { id: "c", text: "La zona de dalt a l'esquerra (X negativa, Y positiva).", correcta: false },
-            { id: "d", text: "La zona de baix a la dreta (X positiva, Y negativa).", correcta: false }
-        ],
-        explicacio: "Els quadrants es compten en sentit contrari a les agulles del rellotge. El primer és el de dalt a la dreta."
-    },
-    {
-        id: "func_012",
-        bloc: "funcions",
-        pregunta: "Si un gràfic mostra el nivell d'aigua d'una piscina durant el dia, què significa un tram que baixa?",
-        opcions: [
-            { id: "a", text: "Que la piscina s'està omplint.", correcta: false },
-            { id: "b", text: "Que el nivell de l'aigua està baixant (s'està buidant o evaporant).", correcta: true },
-            { id: "c", text: "Que el nivell de l'aigua no canvia.", correcta: false },
-            { id: "d", text: "Que fa més calor.", correcta: false }
-        ],
-        explicacio: "Una línia descendent indica que el valor de l'eix Y (nivell d'aigua) disminueix."
-    },
-    {
-        id: "func_013",
-        bloc: "funcions",
-        pregunta: "Quina és la principal diferència entre una representació gràfica i una taula de valors?",
-        opcions: [
-            { id: "a", text: "No n'hi ha cap, són el mateix.", correcta: false },
-            { id: "b", text: "La representació gràfica permet veure la tendència visualment, la taula no.", correcta: true },
-            { id: "c", text: "La taula de valors té més informació que el gràfic.", correcta: false },
-            { id: "d", text: "El gràfic només es pot fer si tens una taula de valors.", correcta: false }
-        ],
-        explicacio: "El gràfic ens dóna una 'foto' global i ràpida de com es relacionen les dades."
-    },
-    {
-        id: "func_014",
-        bloc: "funcions",
-        pregunta: "Com es diu l'eix vertical en un sistema de coordenades?",
-        opcions: [
-            { id: "a", text: "Eix X o eix d'abscisses.", correcta: false },
-            { id: "b", text: "Eix Y o eix d'ordenades.", correcta: true },
-            { id: "c", text: "Eix de simetria.", correcta: false },
-            { id: "d", text: "Línia de funció.", correcta: false }
-        ],
-        explicacio: "L'eix vertical és l'eix de les Y, també anomenat eix d'ordenades."
-    },
-    {
-        id: "func_015",
-        bloc: "funcions",
-        pregunta: "Què vol dir que una funció és 'creixent' en un interval?",
-        opcions: [
-            { id: "a", text: "Que la línia del gràfic és recta.", correcta: false },
-            { id: "b", text: "Que en avançar cap a la dreta en l'eix X, la línia del gràfic puja.", correcta: true },
-            { id: "c", text: "Que la línia del gràfic és corba.", correcta: false },
-            { id: "d", text: "Que la línia del gràfic baixa.", correcta: false }
-        ],
-        explicacio: "Una funció creix si, a mesura que augmenta la X, també augmenta la Y."
-    },
-
-    // ========================================
-    // BLOC 5: ESTADÍSTICA I PROBABILITAT (15 preguntes)
-    // ========================================
-
-    {
-        id: "est_001",
-        bloc: "estadistica",
-        pregunta: "Si en un examen les teves notes són 5, 6, 7, 7, 10, quin procediment segueixes per calcular la 'mediana'?",
-        opcions: [
-            { id: "a", text: "Sumar totes les notes i dividir entre 5.", correcta: false },
-            { id: "b", text: "Ordenar les notes i agafar el valor que queda just al mig.", correcta: true },
-            { id: "c", text: "Agafar la nota que més es repeteix.", correcta: false },
-            { id: "d", text: "Restar la nota més baixa de la més alta.", correcta: false }
-        ],
-        explicacio: "La mediana és la 'del mig' un cop has ordenat els números."
-    },
-    {
-        id: "est_002",
-        bloc: "estadistica",
-        pregunta: "En una bossa hi ha 4 boles vermelles i 1 bola blava. Quin procediment et dona la probabilitat de treure una bola blava?",
-        opcions: [
-            { id: "a", text: "Dividir el nombre de boles blaves pel nombre de boles vermelles (1/4).", correcta: false },
-            { id: "b", text: "Dividir el nombre de boles blaves pel nombre total de boles (1/5).", correcta: true },
-            { id: "c", text: "Restar les boles blaves de les vermelles (4 - 1).", correcta: false },
-            { id: "d", text: "Multiplicar el nombre de boles de cada color (4 * 1).", correcta: false }
-        ],
-        explicacio: "La probabilitat es calcula dividint els 'casos favorables' (boles blaves) entre els 'casos possibles' (totes les boles)."
-    },
-    {
-        id: "est_003",
-        bloc: "estadistica",
-        pregunta: "Quin tipus de gràfic és millor per representar els percentatges d'un total (ex: els resultats d'unes eleccions)?",
-        opcions: [
-            { id: "a", text: "Un gràfic de línies.", correcta: false },
-            { id: "b", text: "Un gràfic de sectors (un 'formatget').", correcta: true },
-            { id: "c", text: "Un pictograma.", correcta: false },
-            { id: "d", text: "Una taula de dades.", correcta: false }
-        ],
-        explicacio: "El gràfic de sectors és ideal per veure com es reparteix un total en diferents parts."
-    },
-    {
-        id: "est_004",
-        bloc: "estadistica",
-        pregunta: "Què és la 'freqüència absoluta' d'una dada?",
-        opcions: [
-            { id: "a", text: "El percentatge de vegades que apareix la dada.", correcta: false },
-            { id: "b", text: "El nombre de vegades que es repeteix una dada.", correcta: true },
-            { id: "c", text: "La dada més alta de totes.", correcta: false },
-            { id: "d", text: "La suma de totes les dades.", correcta: false }
-        ],
-        explicacio: "La freqüència absoluta és simplement comptar quantes vegades surt cada resultat."
-    },
-    {
-        id: "est_005",
-        bloc: "estadistica",
-        pregunta: "Quin procediment segueixes per calcular la 'mitjana' d'un conjunt de dades?",
-        opcions: [
-            { id: "a", text: "Ordenar les dades i agafar el valor central.", correcta: false },
-            { id: "b", text: "Sumar tots els valors i dividir pel nombre total de dades.", correcta: true },
-            { id: "c", text: "Buscar el valor que més es repeteix.", correcta: false },
-            { id: "d", text: "Agafar el valor més gran.", correcta: false }
-        ],
-        explicacio: "La mitjana és el que normalment anomenem 'la mitja', com quan calculem la nota mitjana d'un trimestre."
-    },
-    {
-        id: "est_006",
-        bloc: "estadistica",
-        pregunta: "En una enquesta, què és la 'mostra'?",
-        opcions: [
-            { id: "a", text: "Totes les persones a qui podries preguntar.", correcta: false },
-            { id: "b", text: "Un petit grup representatiu de totes les persones a qui vols estudiar.", correcta: true },
-            { id: "c", text: "Les preguntes de l'enquesta.", correcta: false },
-            { id: "d", text: "El resultat final de l'enquesta.", correcta: false }
-        ],
-        explicacio: "Com que no es pot preguntar a tothom (població), s'agafa un grup més petit (mostra) que representi al total."
-    },
-    {
-        id: "est_007",
-        bloc: "estadistica",
-        pregunta: "Què és la 'moda' d'un conjunt de dades?",
-        opcions: [
-            { id: "a", text: "La mitjana de les dades.", correcta: false },
-            { id: "b", text: "La dada que més es repeteix.", correcta: true },
-            { id: "c", text: "El valor central de les dades.", correcta: false },
-            { id: "d", text: "La dada més gran.", correcta: false }
-        ],
-        explicacio: "La moda és la dada que 'està de moda', la que surt més vegades."
-    },
-    {
-        id: "est_008",
-        bloc: "estadistica",
-        pregunta: "Quin tipus de variable estadística és 'el color preferit'?",
-        opcions: [
-            { id: "a", text: "Una variable numèrica.", correcta: false },
-            { id: "b", text: "Una variable qualitativa.", correcta: true },
-            { id: "c", text: "Una variable contínua.", correcta: false },
-            { id: "d", text: "Una variable de freqüència.", correcta: false }
-        ],
-        explicacio: "Les variables qualitatives expressen qualitats o categories, no números (com 'vermell', 'blau'...)."
-    },
-    {
-        id: "est_009",
-        bloc: "estadistica",
-        pregunta: "Què és un succés 'impossible' en probabilitat?",
-        opcions: [
-            { id: "a", text: "Un succés que és molt difícil que passi.", correcta: false },
-            { id: "b", text: "Un succés que no pot passar mai.", correcta: true },
-            { id: "c", text: "Un succés que passa sempre.", correcta: false },
-            { id: "d", text: "Un succés que passa poques vegades.", correcta: false }
-        ],
-        explicacio: "Un succés impossible té probabilitat 0, com treure un 7 en un dau de 6 cares."
-    },
-    {
-        id: "est_010",
-        bloc: "estadistica",
-        pregunta: "Quin tipus de gràfic és més adequat per representar l'evolució de la temperatura al llarg del temps?",
-        opcions: [
-            { id: "a", text: "Un gràfic de sectors.", correcta: false },
-            { id: "b", text: "Un gràfic de línies.", correcta: true },
-            { id: "c", text: "Un gràfic de barres.", correcta: false },
-            { id: "d", text: "Un histograma.", correcta: false }
-        ],
-        explicacio: "El gràfic de línies és perfecte per veure com una variable canvia amb el temps."
-    },
-    {
-        id: "est_011",
-        bloc: "estadistica",
-        pregunta: "Què és la 'freqüència relativa'?",
-        opcions: [
-            { id: "a", text: "El nombre total de dades.", correcta: false },
-            { id: "b", text: "La proporció de vegades que apareix una dada respecte al total.", correcta: true },
-            { id: "c", text: "El nombre de vegades que surt una dada.", correcta: false },
-            { id: "d", text: "La dada més important.", correcta: false }
-        ],
-        explicacio: "Es calcula dividint la freqüència absoluta entre el total de dades. Sovint es dóna en percentatge."
-    },
-    {
-        id: "est_012",
-        bloc: "estadistica",
-        pregunta: "En llançar una moneda a l'aire, quin és un 'succés segur'?",
-        opcions: [
-            { id: "a", text: "Que surti cara.", correcta: false },
-            { id: "b", text: "Que surti cara o creu.", correcta: true },
-            { id: "c", text: "Que surti creu.", correcta: false },
-            { id: "d", text: "Que la moneda quedi de cantell.", correcta: false }
-        ],
-        explicacio: "Un succés segur té probabilitat 1, és a dir, passarà sempre."
-    },
-    {
-        id: "est_013",
-        bloc: "estadistica",
-        pregunta: "Quina és la principal diferència entre una variable qualitativa i una quantitativa?",
-        opcions: [
-            { id: "a", text: "No n'hi ha cap, són el mateix.", correcta: false },
-            { id: "b", text: "La quantitativa es mesura amb números i la qualitativa amb paraules.", correcta: true },
-            { id: "c", text: "La qualitativa és més important que la quantitativa.", correcta: false },
-            { id: "d", text: "La quantitativa s'usa en ciències i la qualitativa en lletres.", correcta: false }
-        ],
-        explicacio: "Quantitativa ve de 'quantitat' (números) i qualitativa ve de 'qualitat' (categories)."
-    },
-    {
-        id: "est_014",
-        bloc: "estadistica",
-        pregunta: "Per organitzar un gran nombre de dades en una taula de freqüències, quin és el primer pas?",
-        opcions: [
-            { id: "a", text: "Calcular la mitjana directament.", correcta: false },
-            { id: "b", text: "Agrupar les dades en intervals o classes.", correcta: true },
-            { id: "c", text: "Fer un gràfic.", correcta: false },
-            { id: "d", text: "Ordenar les dades de més gran a més petita.", correcta: false }
-        ],
-        explicacio: "Quan hi ha moltes dades diferents, agrupar-les en intervals (ex: de 0 a 10, de 10 a 20...) fa que la taula sigui més fàcil d'interpretar."
-    },
-    {
-        id: "est_015",
-        bloc: "estadistica",
-        pregunta: "Què mesura el 'rang' o 'recorregut' d'un conjunt de dades?",
-        opcions: [
-            { id: "a", text: "El valor central de les dades.", correcta: false },
-            { id: "b", text: "La dispersió de les dades, és a dir, la diferència entre el valor màxim i el mínim.", correcta: true },
-            { id: "c", text: "El valor que més es repeteix.", correcta: false },
-            { id: "d", text: "El nombre total de dades.", correcta: false }
-        ],
-        explicacio: "El rang ens dóna una idea de com d'escampades estan les dades."
-    }
+   // ========================================
+// BLOC 5: SENTIT ESTOCÀSTIC (10 preguntes)
+// ========================================
+{
+    id: "estoc_001",
+    bloc: "sentit_estocastic",
+    pregunta: "Si llances un dau de sis cares, quina és la probabilitat de treure un nombre més gran que 4?",
+    opcions: [
+        { id: "a", text: "4/6", correcta: false },
+        { id: "b", text: "2/6", correcta: true },
+        { id: "c", text: "1/6", correcta: false },
+        { id: "d", text: "3/6", correcta: false }
+    ],
+    explicacio: "Els nombres més grans que 4 són el 5 i el 6 (2 casos favorables) d'un total de 6 casos possibles."
+},
+{
+    id: "estoc_002",
+    bloc: "sentit_estocastic",
+    pregunta: "Si en un examen les teves notes són 5, 6, 7, 7, 10, quin procediment segueixes per calcular la 'mediana'?",
+    opcions: [
+        { id: "a", text: "Sumar totes les notes i dividir entre 5.", correcta: false },
+        { id: "b", text: "Ordenar les notes i agafar el valor que queda just al mig.", correcta: true },
+        { id: "c", text: "Agafar la nota que més es repeteix.", correcta: false },
+        { id: "d", text: "Restar la nota més baixa de la més alta.", correcta: false }
+    ],
+    explicacio: "La mediana és la 'del mig' un cop has ordenat els números."
+},
+{
+    id: "estoc_003",
+    bloc: "sentit_estocastic",
+    pregunta: "Quin tipus de gràfic és millor per representar els percentatges d'un total (ex: els resultats d'unes eleccions)?",
+    opcions: [
+        { id: "a", text: "Un gràfic de línies.", correcta: false },
+        { id: "b", text: "Un gràfic de sectors (un 'formatget').", correcta: true },
+        { id: "c", text: "Un pictograma.", correcta: false },
+        { id: "d", text: "Una taula de dades.", correcta: false }
+    ],
+    explicacio: "El gràfic de sectors és ideal per veure com es reparteix un total en diferents parts."
+},
+{
+    id: "estoc_004",
+    bloc: "sentit_estocastic",
+    pregunta: "Què és la 'freqüència absoluta' d'una dada?",
+    opcions: [
+        { id: "a", text: "El percentatge de vegades que apareix la dada.", correcta: false },
+        { id: "b", text: "El nombre de vegades que es repeteix una dada.", correcta: true },
+        { id: "c", text: "La dada més alta de totes.", correcta: false },
+        { id: "d", text: "La suma de totes les dades.", correcta: false }
+    ],
+    explicacio: "La freqüència absoluta és simplement comptar quantes vegades surt cada resultat."
+},
+{
+    id: "estoc_005",
+    bloc: "sentit_estocastic",
+    pregunta: "Quin procediment segueixes per calcular la 'mitjana' d'un conjunt de dades?",
+    opcions: [
+        { id: "a", text: "Ordenar les dades i agafar el valor central.", correcta: false },
+        { id: "b", text: "Sumar tots els valors i dividir pel nombre total de dades.", correcta: true },
+        { id: "c", text: "Buscar el valor que més es repeteix.", correcta: false },
+        { id: "d", text: "Agafar el valor més gran.", correcta: false }
+    ],
+    explicacio: "La mitjana és el que normalment anomenem 'la mitja', com quan calculem la nota mitjana d'un trimestre."
+},
+{
+    id: "estoc_006",
+    bloc: "sentit_estocastic",
+    pregunta: "Què és la 'moda' d'un conjunt de dades?",
+    opcions: [
+        { id: "a", text: "La mitjana de les dades.", correcta: false },
+        { id: "b", text: "La dada que més es repeteix.", correcta: true },
+        { id: "c", text: "El valor central de les dades.", correcta: false },
+        { id: "d", text: "La dada més gran.", correcta: false }
+    ],
+    explicacio: "La moda és la dada que 'està de moda', la que surt més vegades."
+},
+{
+    id: "estoc_007",
+    bloc: "sentit_estocastic",
+    pregunta: "Quin tipus de variable estadística és 'el color preferit'?",
+    opcions: [
+        { id: "a", text: "Una variable numèrica.", correcta: false },
+        { id: "b", text: "Una variable qualitativa.", correcta: true },
+        { id: "c", text: "Una variable contínua.", correcta: false },
+        { id: "d", text: "Una variable de freqüència.", correcta: false }
+    ],
+    explicacio: "Les variables qualitatives expressen qualitats o categories, no números (com 'vermell', 'blau'...)."
+},
+{
+    id: "estoc_008",
+    bloc: "sentit_estocastic",
+    pregunta: "Què és un succés 'impossible' en probabilitat?",
+    opcions: [
+        { id: "a", text: "Un succés que és molt difícil que passi.", correcta: false },
+        { id: "b", text: "Un succés que no pot passar mai.", correcta: true },
+        { id: "c", text: "Un succés que passa sempre.", correcta: false },
+        { id: "d", text: "Un succés que passa poques vegades.", correcta: false }
+    ],
+    explicacio: "Un succés impossible té probabilitat 0, com treure un 7 en un dau de 6 cares."
+},
+{
+    id: "estoc_009",
+    bloc: "sentit_estocastic",
+    pregunta: "Quin tipus de gràfic és més adequat per representar l'evolució de la temperatura al llarg del temps?",
+    opcions: [
+        { id: "a", text: "Un gràfic de sectors.", correcta: false },
+        { id: "b", text: "Un gràfic de línies.", correcta: true },
+        { id: "c", text: "Un gràfic de barres.", correcta: false },
+        { id: "d", text: "Un histograma.", correcta: false }
+    ],
+    explicacio: "El gràfic de línies és perfecte per veure com una variable canvia amb el temps."
+},
+{
+    id: "estoc_010",
+    bloc: "sentit_estocastic",
+    pregunta: "En llançar una moneda a l'aire, quin és un 'succés segur'?",
+    opcions: [
+        { id: "a", text: "Que surti cara.", correcta: false },
+        { id: "b", text: "Que surti cara o creu.", correcta: true },
+        { id: "c", text: "Que surti creu.", correcta: false },
+        { id: "d", text: "Que la moneda quedi de cantell.", correcta: false }
+    ],
+    explicacio: "Un succés segur té probabilitat 1, és a dir, passarà sempre."
+}
 ];
-// Verificació: 75 preguntes total
-// Bloc 1 (Problemes): 15 preguntes
-// Bloc 2 (Números): 20 preguntes
-// Bloc 3 (Mesura): 15 preguntes
-// Bloc 4 (Geometria): 15 preguntes
-// Bloc 5 (Estadística): 10 preguntes
+// ========================================
+// VERIFICACIÓ DEL BANC DE PREGUNTES
+// ========================================
+// Distribució Final Esperada:
+// - Càlcul: 20 preguntes
+// - Problemes: 20 preguntes
+// - Sentit Numèric: 15 preguntes
+// - Espai i Mesura: 10 preguntes
+// - Sentit Estocàstic: 10 preguntes
 
-console.log(`Total preguntes: ${questionBank.length}`);
-console.log(`Bloc problemes: ${questionBank.filter(q => q.bloc === 'problemes').length}`);
-console.log(`Bloc números: ${questionBank.filter(q => q.bloc === 'numeros').length}`);
-console.log(`Bloc mesura: ${questionBank.filter(q => q.bloc === 'mesura').length}`);
-console.log(`Bloc geometria: ${questionBank.filter(q => q.bloc === 'geometria').length}`);
-console.log(`Bloc estadística: ${questionBank.filter(q => q.bloc === 'estadistica').length}`);
+console.log(`Total de preguntes carregades: ${questionBank.length}`);
+console.log(`- Bloc 'calcul': ${questionBank.filter(q => q.bloc === 'calcul').length} preguntes.`);
+console.log(`- Bloc 'problemes': ${questionBank.filter(q => q.bloc === 'problemes').length} preguntes.`);
+console.log(`- Bloc 'sentit_numeric': ${questionBank.filter(q => q.bloc === 'sentit_numeric').length} preguntes.`);
+console.log(`- Bloc 'espai_mesura': ${questionBank.filter(q => q.bloc === 'espai_mesura').length} preguntes.`);
+console.log(`- Bloc 'sentit_estocastic': ${questionBank.filter(q => q.bloc === 'sentit_estocastic').length} preguntes.`);
