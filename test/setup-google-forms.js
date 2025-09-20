@@ -19,6 +19,18 @@
 /**
  * Funció principal que crea el formulari i extreu tots els IDs
  */
+const BLOCK_CONFIG = [
+  { key: 'calcul', label: 'Càlcul', sheetLabel: 'Calcul' },
+  { key: 'problemes', label: 'Problemes', sheetLabel: 'Problemes' },
+  { key: 'sentit_numeric', label: 'Sentit numèric', sheetLabel: 'SentitNumeric' },
+  { key: 'espai_mesura', label: 'Espai i mesura', sheetLabel: 'EspaiMesura' },
+  { key: 'sentit_estocastic', label: 'Sentit estocàstic', sheetLabel: 'SentitEstocastic' }
+];
+
+const QUESTION_TYPE_KEYS = ['directa', 'competencial'];
+const QUESTION_TYPE_LABELS = { directa: 'Directes', competencial: 'Competencials' };
+const QUESTION_TYPE_SUFFIX = { directa: 'Directa', competencial: 'Competencial' };
+
 function setupMathEvaluationForm() {
   console.log('Iniciant creació automàtica del Google Form...');
 
@@ -78,30 +90,128 @@ function doPost(e) {
     if (!body) return ContentService.createTextOutput('No content').setMimeType(ContentService.MimeType.TEXT);
     appendDebug_(ss, body);
 
-    // Resum
     const resum = ensureResumSheet_(ss);
-    const t = body.totals || {};
+    const detail = ensureDetailSheet_(ss);
+
+    const totals = body.totals || {};
     const blocks = body.blocks || {};
+    const types = body.types || {};
+    const exportScores = body.exportScores || {};
     const stu = body.student || {};
     const att = body.attemptId || '';
+
+    const getTypeStats = (typeKey) => {
+      const stats = types[typeKey];
+      if (stats && typeof stats === 'object') {
+        if (stats.unanswered == null) {
+          const totalExport = Number(exportScores[`${typeKey}Preguntes`]) || 0;
+          const answered = stats.answered || 0;
+          if (stats.unanswered == null) {
+            stats.unanswered = Math.max(0, (totalExport || (answered + (stats.unanswered || 0))) - answered);
+          }
+        }
+        return stats;
+      }
+      const total = Number(exportScores[`${typeKey}Preguntes`]) || 0;
+      const answered = Number(exportScores[`${typeKey}Respostes`]) || 0;
+      const correct = Number(exportScores[`${typeKey}Encerts`]) || 0;
+      const wrong = Number(exportScores[`${typeKey}Errors`]) || 0;
+      const unanswered = Math.max(0, total - answered);
+      return { answered, correct, wrong, unanswered };
+    };
+
+    const getBlockTypeStatsFromExport = (blockKey, typeKey) => {
+      const suffix = QUESTION_TYPE_SUFFIX[typeKey];
+      const total = Number(exportScores[`${blockKey}${suffix}Preguntes`]) || 0;
+      const answered = Number(exportScores[`${blockKey}${suffix}Respostes`]) || 0;
+      const correct = Number(exportScores[`${blockKey}${suffix}Encerts`]) || 0;
+      const wrong = Number(exportScores[`${blockKey}${suffix}Errors`]) || 0;
+      const unanswered = Math.max(0, total - answered);
+      return { answered, correct, wrong, unanswered };
+    };
+
+    const getBlockStats = (blockKey) => {
+      const stats = blocks[blockKey];
+      const ensureUnanswered = (obj, totalFallback = 0) => {
+        if (obj.unanswered == null) {
+          const answered = obj.answered || 0;
+          const total = totalFallback || (answered + (obj.unanswered || 0));
+          obj.unanswered = Math.max(0, total - answered);
+        }
+      };
+
+      if (stats && typeof stats === 'object') {
+        if (!stats.byType) stats.byType = {};
+        QUESTION_TYPE_KEYS.forEach((typeKey) => {
+          if (!stats.byType[typeKey]) {
+            stats.byType[typeKey] = getBlockTypeStatsFromExport(blockKey, typeKey);
+          } else {
+            const sub = stats.byType[typeKey];
+            const totalExport = Number(exportScores[`${blockKey}${QUESTION_TYPE_SUFFIX[typeKey]}Preguntes`]) || 0;
+            ensureUnanswered(sub, totalExport);
+          }
+        });
+        const totalExport = Number(exportScores[`${blockKey}Preguntes`]) || 0;
+        ensureUnanswered(stats, totalExport);
+        return stats;
+      }
+
+      const total = Number(exportScores[`${blockKey}Preguntes`]) || 0;
+      const answered = Number(exportScores[`${blockKey}Respostes`]) || 0;
+      const correct = Number(exportScores[`${blockKey}Encerts`]) || 0;
+      const wrong = Number(exportScores[`${blockKey}Errors`]) || 0;
+      const unanswered = Math.max(0, total - answered);
+      const byType = {};
+      QUESTION_TYPE_KEYS.forEach((typeKey) => {
+        byType[typeKey] = getBlockTypeStatsFromExport(blockKey, typeKey);
+      });
+      return { answered, correct, wrong, unanswered, byType };
+    };
+
+    const totalQuestions = (totals.answered || 0) + (totals.unanswered || 0);
+
     const row = [
       new Date(),
       att,
       body.timeTakenSeconds || '',
-      t.answered || 0,
-      t.correct || 0,
-      t.wrong || 0,
-      t.unanswered || 0,
-      t.points != null ? t.points : '',
-      t.grade10 != null ? t.grade10 : ''
+      totalQuestions,
+      totals.answered || 0,
+      totals.correct || 0,
+      totals.wrong || 0,
+      totals.unanswered || 0,
+      totals.points != null ? totals.points : '',
+      totals.grade10 != null ? totals.grade10 : ''
     ];
-    // Per bloc: encerts/errors
-    const blocKeys = ['processos','numeros_algebra','geometria','estadistica','funcions'];
-    blocKeys.forEach(b => {
-      const bb = blocks[b] || {};
-      row.push(bb.correct || 0, bb.wrong || 0);
+
+    QUESTION_TYPE_KEYS.forEach((typeKey) => {
+      const stats = getTypeStats(typeKey);
+      const answered = stats.answered || 0;
+      const correct = stats.correct || 0;
+      const wrong = stats.wrong || 0;
+      const unanswered = stats.unanswered != null ? stats.unanswered : Math.max(0, (Number(exportScores[`${typeKey}Preguntes`]) || 0) - answered);
+      const total = answered + unanswered;
+      row.push(total, answered, correct, wrong, unanswered);
     });
-    // Factors de context al Resum
+
+    BLOCK_CONFIG.forEach((block) => {
+      const stats = getBlockStats(block.key);
+      const answered = stats.answered || 0;
+      const correct = stats.correct || 0;
+      const wrong = stats.wrong || 0;
+      const unanswered = stats.unanswered != null ? stats.unanswered : Math.max(0, (Number(exportScores[`${block.key}Preguntes`]) || 0) - answered);
+      const total = answered + unanswered;
+      row.push(total, answered, correct, wrong, unanswered);
+      QUESTION_TYPE_KEYS.forEach((typeKey) => {
+        const subStats = (stats.byType && stats.byType[typeKey]) ? stats.byType[typeKey] : getBlockTypeStatsFromExport(block.key, typeKey);
+        const subAnswered = subStats.answered || 0;
+        const subCorrect = subStats.correct || 0;
+        const subWrong = subStats.wrong || 0;
+        const subUnanswered = subStats.unanswered != null ? subStats.unanswered : Math.max(0, (Number(exportScores[`${block.key}${QUESTION_TYPE_SUFFIX[typeKey]}Preguntes`]) || 0) - subAnswered);
+        const subTotal = subAnswered + subUnanswered;
+        row.push(subTotal, subAnswered, subCorrect, subWrong, subUnanswered);
+      });
+    });
+
     row.push(
       stu.school || '',
       stu.mathConfidence != null ? Number(stu.mathConfidence) : '',
@@ -113,13 +223,10 @@ function doPost(e) {
     );
     resum.appendRow(row);
 
-    // Detall per pregunta (si vols), aquí ja tens body.answers (objecte)
-    const detail = ensureDetailSheet_(ss);
     const answers = body.answers || {};
-    const keys = Object.keys(answers).sort((a,b)=>Number(a)-Number(b));
-    const rowsDetall = keys.map(k => {
-      const x = answers[k];
-      // Càlcul del punt per pregunta (1 si correcta, -1/(nOpcions-1) si incorrecta, 0 si en blanc)
+    const keys = Object.keys(answers).sort((a, b) => Number(a) - Number(b));
+    const rowsDetall = keys.map((k) => {
+      const x = answers[k] || {};
       let punt = '';
       try {
         const nOpts = Array.isArray(x.opcions) ? x.opcions.length : 4;
@@ -130,14 +237,33 @@ function doPost(e) {
         } else if (x.correcta === false) {
           const pen = nOpts > 1 ? (1 / (nOpts - 1)) : 0.25;
           punt = -pen;
+        } else {
+          punt = '';
         }
-      } catch (e) { punt = ''; }
+      } catch (err) {
+        punt = '';
+      }
+
       return [
-        new Date(), att, Number(k), x.idPregunta || '', x.bloc || '', x.blocLabel || '', x.enunciat || '',
-        x.resposta || '', x.respostaText || '', x.correctaId || '', x.correctaText || '', x.correcta === true ? 'TRUE' : (x.correcta === false ? 'FALSE' : ''),
+        new Date(), att, Number(k),
+        x.idPregunta || '',
+        x.bloc || '',
+        x.blocLabel || '',
+        x.tipus || '',
+        x.tipusLabel || '',
+        x.enunciat || '',
+        x.resposta || '',
+        x.respostaText || '',
+        x.correctaId || '',
+        x.correctaText || '',
+        x.correcta === true ? 'TRUE' : (x.correcta === false ? 'FALSE' : ''),
         punt,
-        x.temps != null ? Number(x.temps) : '', x.tempsFinsPrimera != null ? Number(x.tempsFinsPrimera) : '', x.canvis != null ? Number(x.canvis) : '',
-        x.confianca != null ? Number(x.confianca) : '', x.dificultat != null ? Number(x.dificultat) : '', x.estrategia || '',
+        x.temps != null ? Number(x.temps) : '',
+        x.tempsFinsPrimera != null ? Number(x.tempsFinsPrimera) : '',
+        x.canvis != null ? Number(x.canvis) : '',
+        x.confianca != null ? Number(x.confianca) : '',
+        x.dificultat != null ? Number(x.dificultat) : '',
+        x.estrategia || '',
         stu.school || '',
         stu.mathConfidence != null ? Number(stu.mathConfidence) : '',
         stu.mobileUsage != null ? Number(stu.mobileUsage) : '',
@@ -147,6 +273,7 @@ function doPost(e) {
         stu.mathAnxiety != null ? Number(stu.mathAnxiety) : ''
       ];
     });
+
     if (rowsDetall.length) {
       detail.getRange(detail.getLastRow() + 1, 1, rowsDetall.length, rowsDetall[0].length).setValues(rowsDetall);
     }
@@ -189,15 +316,33 @@ function ensureResumSheet_(ss) {
   if (!sh) {
     sh = ss.insertSheet(name);
   }
+
   const headers = [
-    'Timestamp','AttemptId','Temps(s)','Respostes','Encerts','Errors','NoRespostes','Punts','Nota10',
-    'Proc_Encerts','Proc_Errors','NumAlg_Encerts','NumAlg_Errors','Geo_Encerts','Geo_Errors','Est_Encerts','Est_Errors','Func_Encerts','Func_Errors',
-    'CentrePrimaria','ConfiancaInicial','HoresMobil','HoresSon','HoresEstudiMates','ReforcMates','AnsietatMates'
+    'Timestamp','AttemptId','Temps(s)',
+    'Totals_Preguntes','Totals_Respostes','Totals_Encerts','Totals_Errors','Totals_NoRespostes','Totals_Punts','Totals_Nota10'
   ];
-  sh.getRange(1,1,1,headers.length).setValues([headers]);
+
+  QUESTION_TYPE_KEYS.forEach((typeKey) => {
+    const base = QUESTION_TYPE_LABELS[typeKey].replace(/\s+/g, '');
+    headers.push(`${base}_Preguntes`, `${base}_Respostes`, `${base}_Encerts`, `${base}_Errors`, `${base}_NoRespostes`);
+  });
+
+  BLOCK_CONFIG.forEach((block) => {
+    const blockBase = block.sheetLabel;
+    headers.push(`${blockBase}_Preguntes`, `${blockBase}_Respostes`, `${blockBase}_Encerts`, `${blockBase}_Errors`, `${blockBase}_NoRespostes`);
+    QUESTION_TYPE_KEYS.forEach((typeKey) => {
+      const typeSuffix = QUESTION_TYPE_SUFFIX[typeKey];
+      headers.push(`${blockBase}_${typeSuffix}_Preguntes`, `${blockBase}_${typeSuffix}_Respostes`, `${blockBase}_${typeSuffix}_Encerts`, `${blockBase}_${typeSuffix}_Errors`, `${blockBase}_${typeSuffix}_NoRespostes`);
+    });
+  });
+
+  headers.push('CentrePrimaria','ConfiancaInicial','HoresMobil','HoresSon','HoresEstudiMates','ReforcMates','AnsietatMates');
+
+  sh.getRange(1, 1, 1, headers.length).setValues([headers]);
   sh.setFrozenRows(1);
   return sh;
 }
+
 
 // ========================================
 // TRIGGER I NORMALITZACIÓ DE RESPOSTES
@@ -320,7 +465,7 @@ function ensureDetailSheet_(ss) {
     sh = ss.insertSheet(name);
   }
   const headers = [
-    'Timestamp','AttemptId','Index','IdPregunta','Bloc','BlocLabel','Enunciat',
+    'Timestamp','AttemptId','Index','IdPregunta','Bloc','BlocLabel','Tipus','TipusLabel','Enunciat',
     'RespostaId','RespostaText','CorrectaId','CorrectaText','Correcta','Punt',
     'Temps','TempsFinsPrimera','Canvis','Confianca','Dificultat','Estrategia',
     'CentrePrimaria','ConfiancaInicial','HoresMobil','HoresSon','HoresEstudiMates','ReforcMates','AnsietatMates'
@@ -329,6 +474,7 @@ function ensureDetailSheet_(ss) {
   sh.setFrozenRows(1);
   return sh;
 }
+
 
 /**
  * Crea el formulari base amb títol i descripció
@@ -357,39 +503,61 @@ function createBaseForm() {
 function addBasicFields(form) {
   console.log('Afegint camps bàsics de resultats (valors totals)...');
 
+  const defs = [];
+  const addField = (key, title, help) => {
+    defs.push({ key, title, help });
+  };
+
   // Resultats totals (valors absoluts)
-  const totals = [
-    { key: 'temps', title: 'Temps emprat (segons)', help: 'Temps total emprat per completar el test' },
-    { key: 'totalsEncerts', title: 'Encerts totals', help: 'Nombre total de respostes correctes' },
-    { key: 'totalsErrors', title: 'Errors totals', help: 'Nombre total de respostes incorrectes' },
-    { key: 'totalsNoRespostes', title: 'No respostes totals', help: 'Nombre de preguntes sense resposta' },
-    { key: 'totalsRespostes', title: 'Respostes totals', help: 'Nombre total de preguntes respostes' },
-    { key: 'totalsPunts', title: 'Punts totals (penalitzats)', help: 'Suma de punts amb penalització per errada' },
-    { key: 'totalsNota10', title: 'Nota sobre 10', help: 'Nota final sobre 10' }
-  ];
+  addField('temps', 'Temps emprat (segons)', 'Temps total emprat per completar el test');
+  addField('totalsEncerts', 'Encerts totals', 'Nombre total de respostes correctes');
+  addField('totalsErrors', 'Errors totals', 'Nombre total de respostes incorrectes');
+  addField('totalsNoRespostes', 'No respostes totals', 'Nombre de preguntes sense resposta');
+  addField('totalsRespostes', 'Respostes totals', 'Nombre total de preguntes respostes');
+  addField('totalsPunts', 'Punts totals (penalitzats)', 'Suma de punts amb penalització per errada');
+  addField('totalsNota10', 'Nota sobre 10', 'Nota final sobre 10');
 
-  // Resultats per bloc (valors absoluts)
-  const blocs = [
-    { b: 'processos', label: 'Processos i mètodes' },
-    { b: 'numeros_algebra', label: 'Números i àlgebra' },
-    { b: 'geometria', label: 'Geometria' },
-    { b: 'estadistica', label: 'Estadística i probabilitat' },
-    { b: 'funcions', label: 'Funcions' }
-  ];
+  // Resultats per tipus de pregunta
+  QUESTION_TYPE_KEYS.forEach((typeKey) => {
+    const label = QUESTION_TYPE_LABELS[typeKey];
+    const lowerLabel = label.toLowerCase();
+    addField(`${typeKey}Preguntes`, `Preguntes ${label}`, `Nombre total de preguntes ${lowerLabel}`);
+    addField(`${typeKey}Respostes`, `Respostes ${label}`, `Nombre de preguntes ${lowerLabel} respostes`);
+    addField(`${typeKey}Encerts`, `Encerts ${label}`, `Nombre d'encerts en preguntes ${lowerLabel}`);
+    addField(`${typeKey}Errors`, `Errors ${label}`, `Nombre d'errors en preguntes ${lowerLabel}`);
+    addField(`${typeKey}NoRespostes`, `No respostes ${label}`, `Nombre de preguntes ${lowerLabel} sense resposta`);
+  });
 
-  const defs = [...totals, ...blocs.flatMap(({ b, label }) => ([
-    { key: `${b}Encerts`, title: `Encerts ${label}`, help: `Nombre d'encerts al bloc ${label}` },
-    { key: `${b}Errors`, title: `Errors ${label}`, help: `Nombre d'errors al bloc ${label}` }
-  ]))];
+  // Resultats per bloc i bloc-tipus
+  BLOCK_CONFIG.forEach((block) => {
+    const blockLabel = block.label;
+    const lowerBlockLabel = blockLabel.toLowerCase();
+    addField(`${block.key}Preguntes`, `Preguntes ${blockLabel}`, `Nombre total de preguntes del bloc ${lowerBlockLabel}`);
+    addField(`${block.key}Respostes`, `Respostes ${blockLabel}`, `Nombre de preguntes respostes al bloc ${lowerBlockLabel}`);
+    addField(`${block.key}Encerts`, `Encerts ${blockLabel}`, `Nombre d'encerts al bloc ${lowerBlockLabel}`);
+    addField(`${block.key}Errors`, `Errors ${blockLabel}`, `Nombre d'errors al bloc ${lowerBlockLabel}`);
+    addField(`${block.key}NoRespostes`, `No respostes ${blockLabel}`, `Nombre de preguntes sense resposta al bloc ${lowerBlockLabel}`);
+    QUESTION_TYPE_KEYS.forEach((typeKey) => {
+      const typeLabel = QUESTION_TYPE_LABELS[typeKey];
+      const suffix = QUESTION_TYPE_SUFFIX[typeKey];
+      const lowerTypeLabel = typeLabel.toLowerCase();
+      addField(`${block.key}${suffix}Preguntes`, `Preguntes ${blockLabel} (${lowerTypeLabel})`, `Nombre de preguntes ${lowerTypeLabel} al bloc ${lowerBlockLabel}`);
+      addField(`${block.key}${suffix}Respostes`, `Respostes ${blockLabel} (${lowerTypeLabel})`, `Nombre de respostes ${lowerTypeLabel} al bloc ${lowerBlockLabel}`);
+      addField(`${block.key}${suffix}Encerts`, `Encerts ${blockLabel} (${lowerTypeLabel})`, `Nombre d'encerts ${lowerTypeLabel} al bloc ${lowerBlockLabel}`);
+      addField(`${block.key}${suffix}Errors`, `Errors ${blockLabel} (${lowerTypeLabel})`, `Nombre d'errors ${lowerTypeLabel} al bloc ${lowerBlockLabel}`);
+      addField(`${block.key}${suffix}NoRespostes`, `No respostes ${blockLabel} (${lowerTypeLabel})`, `Nombre de preguntes ${lowerTypeLabel} sense resposta al bloc ${lowerBlockLabel}`);
+    });
+  });
 
   const created = [];
-  defs.forEach(d => {
+  defs.forEach((d) => {
     const item = form.addTextItem().setTitle(d.title).setHelpText(d.help).setRequired(false);
     created.push({ key: d.key, item });
   });
   console.log(`${created.length} camps bàsics afegits`);
   return created;
 }
+
 
 /**
  * Afegeix els camps de dades contextuals (7 camps actuals)
@@ -574,80 +742,144 @@ function generateJavaScriptCode(formData) {
 
   const entries = formData.entries || {};
   const get = (k) => entries[k] || 'entry.MANUALMENT';
+  const now = new Date().toLocaleString('ca-ES');
 
-  const jsCode = `
-// ========================================
-// CONFIGURACIÓ AUTOMÀTICA DE GOOGLE FORMS
-// Generat automàticament el ${new Date().toLocaleString('ca-ES')}
-// ========================================
+  const sections = [
+    {
+      comment: '    // Dades bàsiques (valors totals)',
+      props: [
+        'temps: "' + get('temps') + '"',
+        'totalsEncerts: "' + get('totalsEncerts') + '"',
+        'totalsErrors: "' + get('totalsErrors') + '"',
+        'totalsNoRespostes: "' + get('totalsNoRespostes') + '"',
+        'totalsRespostes: "' + get('totalsRespostes') + '"',
+        'totalsPunts: "' + get('totalsPunts') + '"',
+        'totalsNota10: "' + get('totalsNota10') + '"'
+      ]
+    },
+    {
+      comment: '    // Resultats per tipus de pregunta',
+      props: QUESTION_TYPE_KEYS.flatMap((typeKey) => [
+        typeKey + 'Preguntes: "' + get(typeKey + 'Preguntes') + '"',
+        typeKey + 'Respostes: "' + get(typeKey + 'Respostes') + '"',
+        typeKey + 'Encerts: "' + get(typeKey + 'Encerts') + '"',
+        typeKey + 'Errors: "' + get(typeKey + 'Errors') + '"',
+        typeKey + 'NoRespostes: "' + get(typeKey + 'NoRespostes') + '"'
+      ])
+    },
+    {
+      comment: '    // Resultats per bloc (valors totals)',
+      props: BLOCK_CONFIG.flatMap((block) => [
+        block.key + 'Preguntes: "' + get(block.key + 'Preguntes') + '"',
+        block.key + 'Respostes: "' + get(block.key + 'Respostes') + '"',
+        block.key + 'Encerts: "' + get(block.key + 'Encerts') + '"',
+        block.key + 'Errors: "' + get(block.key + 'Errors') + '"',
+        block.key + 'NoRespostes: "' + get(block.key + 'NoRespostes') + '"'
+      ])
+    },
+    {
+      comment: '    // Resultats per bloc i tipus',
+      props: BLOCK_CONFIG.flatMap((block) => (
+        QUESTION_TYPE_KEYS.flatMap((typeKey) => {
+          const suffix = QUESTION_TYPE_SUFFIX[typeKey];
+          return [
+            block.key + suffix + 'Preguntes: "' + get(block.key + suffix + 'Preguntes') + '"',
+            block.key + suffix + 'Respostes: "' + get(block.key + suffix + 'Respostes') + '"',
+            block.key + suffix + 'Encerts: "' + get(block.key + suffix + 'Encerts') + '"',
+            block.key + suffix + 'Errors: "' + get(block.key + suffix + 'Errors') + '"',
+            block.key + suffix + 'NoRespostes: "' + get(block.key + suffix + 'NoRespostes') + '"'
+          ];
+        })
+      ))
+    },
+    {
+      comment: '    // Dades contextuals ampliades',
+      props: [
+        'centrePrimaria: "' + get('centrePrimaria') + '"',
+        'confiancaInicial: "' + get('confiancaInicial') + '"',
+        'horesMobil: "' + get('horesMobil') + '"',
+        'horesSon: "' + get('horesSon') + '"',
+        'horesEstudiMates: "' + get('horesEstudiMates') + '"',
+        'reforcMates: "' + get('reforcMates') + '"',
+        'ansietatMates: "' + get('ansietatMates') + '"'
+      ]
+    },
+    {
+      comment: '    // Analytics conductuals (JSON string)',
+      props: [
+        'tempsPerPregunta: "' + get('tempsPerPregunta') + '"',
+        'canvisResposta: "' + get('canvisResposta') + '"',
+        'confiancaPerPregunta: "' + get('confiancaPerPregunta') + '"',
+        'dificultatPercebuda: "' + get('dificultatPercebuda') + '"',
+        'estrategiesResolucio: "' + get('estrategiesResolucio') + '"',
+        'patronsNavegacio: "' + get('patronsNavegacio') + '"',
+        'respostesSeleccionades: "' + get('respostesSeleccionades') + '"'
+      ]
+    },
+    {
+      comment: '    // Metadades tècniques',
+      props: [
+        'sistemaOperatiu: "' + get('sistemaOperatiu') + '"',
+        'navegador: "' + get('navegador') + '"',
+        'resolucio: "' + get('resolucio') + '"',
+        'horaInici: "' + get('horaInici') + '"',
+        'diaSetmana: "' + get('diaSetmana') + '"'
+      ]
+    }
+  ];
 
-// URL del formulari per enviar respostes
-const GOOGLE_FORM_ACTION_URL = "${formData.responseUrl || formData.actionUrl || ''}";
+  const propertyLines = [];
+  sections.forEach((section) => {
+    propertyLines.push(section.comment);
+    section.props.forEach((prop) => propertyLines.push('    ' + prop));
+  });
 
-// IMPORTANT: Clau → entry.XXXX generada automàticament.
-// Si canvies el formulari, torna a executar l'script de creació.
-const GOOGLE_FORM_ENTRIES = {
-    // Dades bàsiques
-    temps: "${get('temps')}",
-    totalsEncerts: "${get('totalsEncerts')}",
-    totalsErrors: "${get('totalsErrors')}",
-    totalsNoRespostes: "${get('totalsNoRespostes')}",
-    totalsRespostes: "${get('totalsRespostes')}",
-    totalsPunts: "${get('totalsPunts')}",
-    totalsNota10: "${get('totalsNota10')}",
-    processosEncerts: "${get('processosEncerts')}",
-    processosErrors: "${get('processosErrors')}",
-    numeros_algebraEncerts: "${get('numeros_algebraEncerts')}",
-    numeros_algebraErrors: "${get('numeros_algebraErrors')}",
-    geometriaEncerts: "${get('geometriaEncerts')}",
-    geometriaErrors: "${get('geometriaErrors')}",
-    estadisticaEncerts: "${get('estadisticaEncerts')}",
-    estadisticaErrors: "${get('estadisticaErrors')}",
-    funcionsEncerts: "${get('funcionsEncerts')}",
-    funcionsErrors: "${get('funcionsErrors')}",
+  const lastPropertyIndex = (() => {
+    for (let i = propertyLines.length - 1; i >= 0; i--) {
+      if (!propertyLines[i].trim().startsWith('//')) return i;
+    }
+    return -1;
+  })();
 
-    // Dades contextuals
-    centrePrimaria: "${get('centrePrimaria')}",
-    confiancaInicial: "${get('confiancaInicial')}",
-    horesMobil: "${get('horesMobil')}",
-    horesSon: "${get('horesSon')}",
-    horesEstudiMates: "${get('horesEstudiMates')}",
-    reforcMates: "${get('reforcMates')}",
-    ansietatMates: "${get('ansietatMates')}",
+  const formattedProperties = propertyLines.map((line, index) => {
+    if (line.trim().startsWith('//')) {
+      return line;
+    }
+    const needsComma = index !== lastPropertyIndex;
+    return needsComma ? line + ',' : line;
+  });
 
-    // Analytics conductuals (JSON)
-    tempsPerPregunta: "${get('tempsPerPregunta')}",
-    canvisResposta: "${get('canvisResposta')}",
-    confiancaPerPregunta: "${get('confiancaPerPregunta')}",
-    dificultatPercebuda: "${get('dificultatPercebuda')}",
-    estrategiesResolucio: "${get('estrategiesResolucio')}",
-    patronsNavegacio: "${get('patronsNavegacio')}",
-    respostesSeleccionades: "${get('respostesSeleccionades')}",
+  const lines = [
+    '// ========================================',
+    '// CONFIGURACIÓ AUTOMÀTICA DE GOOGLE FORMS',
+    '// Generat automàticament el ' + now,
+    '// ========================================',
+    '',
+    '// URL del formulari per enviar respostes',
+    'const GOOGLE_FORM_ACTION_URL = "' + (formData.responseUrl || formData.actionUrl || '') + '";',
+    '',
+    '// IMPORTANT: Clau → entry.XXXX generada automàticament.',
+    "// Si canvies el formulari, torna a executar l'script de creació.",
+    'const GOOGLE_FORM_ENTRIES = {'
+  ];
 
-    // Metadades tècniques
-    sistemaOperatiu: "${get('sistemaOperatiu')}",
-    navegador: "${get('navegador')}",
-    resolucio: "${get('resolucio')}",
-    horaInici: "${get('horaInici')}",
-    diaSetmana: "${get('diaSetmana')}"
-};
+  Array.prototype.push.apply(lines, formattedProperties);
+  lines.push('};');
+  lines.push('');
+  lines.push('// ========================================');
+  lines.push('// INFORMACIÓ');
+  lines.push('// - Formulari (editar): ' + formData.editUrl);
+  lines.push('// - Formulari (veure): ' + formData.publishedUrl);
+  lines.push('// - Full de càlcul vinculat (ID): ' + (formData.sheetId || 'n/a'));
 
-// (Opcional) Si vols guardar les respostes per pregunta, afegeix un camp extra al formulari
-// i envia des de l'app un JSON amb les opcions triades: {"0":"a","1":"c",...}
-// Ex.: respostesSeleccionades: "entry.XXXX"
-
-// ========================================
-// INFORMACIÓ
-// - Formulari (editar): ${formData.editUrl}
-// - Formulari (veure): ${formData.publishedUrl}
-// - Full de càlcul vinculat (ID): ${formData.sheetId || 'n/a'}
-`;
+  const jsCode = lines.join('\n');
 
   console.log('\nCODI PER ENGANXAR A script.js');
   console.log('==========================================');
   console.log(jsCode);
   console.log('==========================================\n');
 }
+
 
 /**
  * Funció auxiliar per eliminar el formulari (només per proves)
