@@ -181,7 +181,10 @@ function doPost(e) {
       totals.wrong || 0,
       totals.unanswered || 0,
       totals.points != null ? totals.points : '',
-      totals.grade10 != null ? totals.grade10 : ''
+      totals.grade10 != null ? totals.grade10 : '',
+      stu.emailHash || '',
+      stu.emailDomain || '',
+      stu.uniqueAttemptsLocal != null ? Number(stu.uniqueAttemptsLocal) : ''
     ];
 
     QUESTION_TYPE_KEYS.forEach((typeKey) => {
@@ -265,6 +268,9 @@ function doPost(e) {
         x.confianca != null ? Number(x.confianca) : '',
         x.dificultat != null ? Number(x.dificultat) : '',
         x.estrategia || '',
+        stu.emailHash || '',
+        stu.emailDomain || '',
+        stu.uniqueAttemptsLocal != null ? Number(stu.uniqueAttemptsLocal) : '',
         stu.school || '',
         stu.mathConfidence != null ? Number(stu.mathConfidence) : '',
         stu.mobileUsage != null ? Number(stu.mobileUsage) : '',
@@ -320,7 +326,8 @@ function ensureResumSheet_(ss) {
 
   const headers = [
     'Timestamp','AttemptId','Temps(s)',
-    'Totals_Preguntes','Totals_Respostes','Totals_Encerts','Totals_Errors','Totals_NoRespostes','Totals_Punts','Totals_Nota10'
+    'Totals_Preguntes','Totals_Respostes','Totals_Encerts','Totals_Errors','Totals_NoRespostes','Totals_Punts','Totals_Nota10',
+    'EmailHash','EmailDomain','ParticipacionsLocal'
   ];
 
   QUESTION_TYPE_KEYS.forEach((typeKey) => {
@@ -449,6 +456,7 @@ function processFormSubmission(e) {
       x.confianca != null ? Number(x.confianca) : '',
       x.dificultat != null ? Number(x.dificultat) : '',
       x.estrategia || '',
+      '', '', '',
       ctx.centrePrimaria,
       ctx.confiancaInicial,
       ctx.horesMobil,
@@ -472,6 +480,7 @@ function ensureDetailSheet_(ss) {
     'Timestamp','AttemptId','Index','IdPregunta','Bloc','BlocLabel','Tipus','TipusLabel','Enunciat',
     'RespostaId','RespostaText','CorrectaId','CorrectaText','Correcta','Punt',
     'Temps','TempsFinsPrimera','Canvis','Confianca','Dificultat','Estrategia',
+    'EmailHash','EmailDomain','ParticipacionsLocal',
     'CentrePrimaria','ConfiancaInicial','HoresMobil','HoresSon','HoresEstudiMates','ReforcMates','AnsietatMates'
   ];
   sh.getRange(1,1,1,headers.length).setValues([headers]);
