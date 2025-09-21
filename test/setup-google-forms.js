@@ -20,10 +20,11 @@
  * Funció principal que crea el formulari i extreu tots els IDs
  */
 const BLOCK_CONFIG = [
-  { key: 'calcul', label: 'Càlcul', sheetLabel: 'Calcul' },
-  { key: 'problemes', label: 'Problemes', sheetLabel: 'Problemes' },
   { key: 'sentit_numeric', label: 'Sentit numèric', sheetLabel: 'SentitNumeric' },
-  { key: 'espai_mesura', label: 'Espai i mesura', sheetLabel: 'EspaiMesura' },
+  { key: 'sentit_operacions', label: 'Sentit de les operacions', sheetLabel: 'SentitOperacions' },
+  { key: 'sentit_mesura', label: 'Sentit de la mesura', sheetLabel: 'SentitMesura' },
+  { key: 'sentit_espacial', label: 'Sentit espacial', sheetLabel: 'SentitEspacial' },
+  { key: 'sentit_algebraic', label: 'Sentit algebraic', sheetLabel: 'SentitAlgebraic' },
   { key: 'sentit_estocastic', label: 'Sentit estocàstic', sheetLabel: 'SentitEstocastic' }
 ];
 
@@ -428,10 +429,13 @@ function processFormSubmission(e) {
     } catch (e) { punt = ''; }
     return [
       timestamp || new Date(),
+      '',
       Number(k),
       x.idPregunta || '',
       x.bloc || '',
       x.blocLabel || '',
+      x.tipus || '',
+      x.tipusLabel || '',
       x.enunciat || '',
       x.resposta || '',
       x.respostaText || '',
