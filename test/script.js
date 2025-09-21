@@ -8,10 +8,10 @@
  * 
  * Funcionalitats:
  * - Formulari d'informació personal
- * - Test de 20 preguntes aleatòries de 5 blocs matemàtics
+ * - Test de 16 preguntes distribuïdes en 6 blocs competencials del Decret 175/2022
  * - Temporitzador de 20 minuts
  * - Persistència de dades amb Google Forms
- * - Resultats detallats per bloc
+ * - Resultats detallats per bloc i per tipus de pregunta (directa/competencial)
  */
 
 // ========================================
@@ -23,23 +23,28 @@ const TEST_CONFIG = {
     totalQuestions: 16,
     timeLimit: 20 * 60, // 20 minuts en segons
     blocks: {
-        calcul: { total: 4 },
-        problemes: { total: 4 },
-        sentit_numeric: { total: 4 },
-        espai_mesura: { total: 2 },
-        sentit_estocastic: { total: 2 }
+        sentit_numeric: { total: 2 },
+        sentit_operacions: { total: 2 },
+        sentit_mesura: { total: 2 },
+        sentit_espacial: { total: 2 },
+        sentit_algebraic: { total: 4 },
+        sentit_estocastic: { total: 4 }
     },
     questionTypes: ['directa', 'competencial']
 };
 
 // Etiquetes amigables per a cada bloc (fallback a capitalitzar si no existeix)
 const BLOCK_LABELS = {
-    calcul: 'Càlcul',
-    problemes: 'Resolució de problemes',
     sentit_numeric: 'Sentit numèric',
-    espai_mesura: 'Espai i mesura',
+    sentit_operacions: 'Sentit de les operacions',
+    sentit_mesura: 'Sentit de la mesura',
+    sentit_espacial: 'Sentit espacial',
+    sentit_algebraic: 'Sentit algebraic',
     sentit_estocastic: 'Sentit estocàstic',
     // Compatibilitat amb possibles claus antigues
+    calcul: 'Càlcul',
+    problemes: 'Resolució de problemes',
+    espai_mesura: 'Espai i mesura',
     estadistica: 'Estadística i probabilitat',
     funcions: 'Funcions',
     geometria: 'Geometria',
@@ -56,29 +61,7 @@ const QUESTION_TYPE_LABELS = {
 const BLOCK_KEYS = Object.keys(TEST_CONFIG.blocks);
 const QUESTION_TYPE_KEYS = TEST_CONFIG.questionTypes;
 
-BLOCK_KEYS.forEach((blockKey) => {
-    const total = TEST_CONFIG.blocks[blockKey].total;
-    const base = Math.floor(total / QUESTION_TYPE_KEYS.length);
-    const remainder = total - base * QUESTION_TYPE_KEYS.length;
-    const perType = {};
-    QUESTION_TYPE_KEYS.forEach((type, index) => {
-        perType[type] = base + (index < remainder ? 1 : 0);
-    });
-    TEST_CONFIG.blocks[blockKey].perType = perType;
-});
-
-const TOTAL_REQUIRED_QUESTIONS = BLOCK_KEYS.reduce((sum, key) => sum + TEST_CONFIG.blocks[key].total, 0);
-if (TOTAL_REQUIRED_QUESTIONS !== TEST_CONFIG.totalQuestions) {
-    console.warn('Configuració inconsistent: totalQuestions no coincideix amb la suma per blocs');
-}
-
-
-// Configuració de Google Forms (cal personalitzar amb els teus identificadors)
-// Opcional: URL d'un Web App de Google Apps Script per enviar dades en JSON sense mapatges d'entries
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbycMGH0jx6ms7nX5lUiL2b3IoTXRE9AgLj_ngdOJ8E6Chwl-FdprF7Me9M0zDngxO0Z/exec"; // Ex.: "https://script.google.com/macros/s/AKfycbx.../exec" (deixar buit per usar Google Forms)
-
-const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/[SUBSTITUIR_PER_ID_REAL]/formResponse";
-const GOOGLE_FORM_ENTRIES = {
+const GOOGLE_FORM_BASE_ENTRIES = {
     // Dades bàsiques (valors totals)
     temps: "entry.MANUALMENT",
     totalsEncerts: "entry.MANUALMENT",
@@ -87,97 +70,6 @@ const GOOGLE_FORM_ENTRIES = {
     totalsRespostes: "entry.MANUALMENT",
     totalsPunts: "entry.MANUALMENT",
     totalsNota10: "entry.MANUALMENT",
-
-    // Resultats per tipus de pregunta
-    directaPreguntes: "entry.MANUALMENT",
-    directaRespostes: "entry.MANUALMENT",
-    directaEncerts: "entry.MANUALMENT",
-    directaErrors: "entry.MANUALMENT",
-    directaNoRespostes: "entry.MANUALMENT",
-    competencialPreguntes: "entry.MANUALMENT",
-    competencialRespostes: "entry.MANUALMENT",
-    competencialEncerts: "entry.MANUALMENT",
-    competencialErrors: "entry.MANUALMENT",
-    competencialNoRespostes: "entry.MANUALMENT",
-
-    // Resultats per bloc (valors totals)
-    calculPreguntes: "entry.MANUALMENT",
-    calculRespostes: "entry.MANUALMENT",
-    calculEncerts: "entry.MANUALMENT",
-    calculErrors: "entry.MANUALMENT",
-    calculNoRespostes: "entry.MANUALMENT",
-    problemesPreguntes: "entry.MANUALMENT",
-    problemesRespostes: "entry.MANUALMENT",
-    problemesEncerts: "entry.MANUALMENT",
-    problemesErrors: "entry.MANUALMENT",
-    problemesNoRespostes: "entry.MANUALMENT",
-    sentit_numericPreguntes: "entry.MANUALMENT",
-    sentit_numericRespostes: "entry.MANUALMENT",
-    sentit_numericEncerts: "entry.MANUALMENT",
-    sentit_numericErrors: "entry.MANUALMENT",
-    sentit_numericNoRespostes: "entry.MANUALMENT",
-    espai_mesuraPreguntes: "entry.MANUALMENT",
-    espai_mesuraRespostes: "entry.MANUALMENT",
-    espai_mesuraEncerts: "entry.MANUALMENT",
-    espai_mesuraErrors: "entry.MANUALMENT",
-    espai_mesuraNoRespostes: "entry.MANUALMENT",
-    sentit_estocasticPreguntes: "entry.MANUALMENT",
-    sentit_estocasticRespostes: "entry.MANUALMENT",
-    sentit_estocasticEncerts: "entry.MANUALMENT",
-    sentit_estocasticErrors: "entry.MANUALMENT",
-    sentit_estocasticNoRespostes: "entry.MANUALMENT",
-
-    // Resultats per bloc i tipus
-    calculDirectaPreguntes: "entry.MANUALMENT",
-    calculDirectaRespostes: "entry.MANUALMENT",
-    calculDirectaEncerts: "entry.MANUALMENT",
-    calculDirectaErrors: "entry.MANUALMENT",
-    calculDirectaNoRespostes: "entry.MANUALMENT",
-    calculCompetencialPreguntes: "entry.MANUALMENT",
-    calculCompetencialRespostes: "entry.MANUALMENT",
-    calculCompetencialEncerts: "entry.MANUALMENT",
-    calculCompetencialErrors: "entry.MANUALMENT",
-    calculCompetencialNoRespostes: "entry.MANUALMENT",
-    problemesDirectaPreguntes: "entry.MANUALMENT",
-    problemesDirectaRespostes: "entry.MANUALMENT",
-    problemesDirectaEncerts: "entry.MANUALMENT",
-    problemesDirectaErrors: "entry.MANUALMENT",
-    problemesDirectaNoRespostes: "entry.MANUALMENT",
-    problemesCompetencialPreguntes: "entry.MANUALMENT",
-    problemesCompetencialRespostes: "entry.MANUALMENT",
-    problemesCompetencialEncerts: "entry.MANUALMENT",
-    problemesCompetencialErrors: "entry.MANUALMENT",
-    problemesCompetencialNoRespostes: "entry.MANUALMENT",
-    sentit_numericDirectaPreguntes: "entry.MANUALMENT",
-    sentit_numericDirectaRespostes: "entry.MANUALMENT",
-    sentit_numericDirectaEncerts: "entry.MANUALMENT",
-    sentit_numericDirectaErrors: "entry.MANUALMENT",
-    sentit_numericDirectaNoRespostes: "entry.MANUALMENT",
-    sentit_numericCompetencialPreguntes: "entry.MANUALMENT",
-    sentit_numericCompetencialRespostes: "entry.MANUALMENT",
-    sentit_numericCompetencialEncerts: "entry.MANUALMENT",
-    sentit_numericCompetencialErrors: "entry.MANUALMENT",
-    sentit_numericCompetencialNoRespostes: "entry.MANUALMENT",
-    espai_mesuraDirectaPreguntes: "entry.MANUALMENT",
-    espai_mesuraDirectaRespostes: "entry.MANUALMENT",
-    espai_mesuraDirectaEncerts: "entry.MANUALMENT",
-    espai_mesuraDirectaErrors: "entry.MANUALMENT",
-    espai_mesuraDirectaNoRespostes: "entry.MANUALMENT",
-    espai_mesuraCompetencialPreguntes: "entry.MANUALMENT",
-    espai_mesuraCompetencialRespostes: "entry.MANUALMENT",
-    espai_mesuraCompetencialEncerts: "entry.MANUALMENT",
-    espai_mesuraCompetencialErrors: "entry.MANUALMENT",
-    espai_mesuraCompetencialNoRespostes: "entry.MANUALMENT",
-    sentit_estocasticDirectaPreguntes: "entry.MANUALMENT",
-    sentit_estocasticDirectaRespostes: "entry.MANUALMENT",
-    sentit_estocasticDirectaEncerts: "entry.MANUALMENT",
-    sentit_estocasticDirectaErrors: "entry.MANUALMENT",
-    sentit_estocasticDirectaNoRespostes: "entry.MANUALMENT",
-    sentit_estocasticCompetencialPreguntes: "entry.MANUALMENT",
-    sentit_estocasticCompetencialRespostes: "entry.MANUALMENT",
-    sentit_estocasticCompetencialEncerts: "entry.MANUALMENT",
-    sentit_estocasticCompetencialErrors: "entry.MANUALMENT",
-    sentit_estocasticCompetencialNoRespostes: "entry.MANUALMENT",
 
     // Dades contextuals ampliades
     centrePrimaria: "entry.MANUALMENT",
@@ -205,14 +97,74 @@ const GOOGLE_FORM_ENTRIES = {
     diaSetmana: "entry.MANUALMENT"
 };
 
+const GOOGLE_FORM_ENTRIES = (() => {
+    const entries = { ...GOOGLE_FORM_BASE_ENTRIES };
+    const suffixes = ['Preguntes', 'Respostes', 'Encerts', 'Errors', 'NoRespostes'];
+
+    QUESTION_TYPE_KEYS.forEach((type) => {
+        suffixes.forEach((suffix) => {
+            const key = `${type}${suffix}`;
+            if (!Object.prototype.hasOwnProperty.call(entries, key)) {
+                entries[key] = 'entry.MANUALMENT';
+            }
+        });
+    });
+
+    BLOCK_KEYS.forEach((blockKey) => {
+        suffixes.forEach((suffix) => {
+            const blockKeyName = `${blockKey}${suffix}`;
+            if (!Object.prototype.hasOwnProperty.call(entries, blockKeyName)) {
+                entries[blockKeyName] = 'entry.MANUALMENT';
+            }
+        });
+
+        QUESTION_TYPE_KEYS.forEach((type) => {
+            const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1);
+            suffixes.forEach((suffix) => {
+                const key = `${blockKey}${typeCapitalized}${suffix}`;
+                if (!Object.prototype.hasOwnProperty.call(entries, key)) {
+                    entries[key] = 'entry.MANUALMENT';
+                }
+            });
+        });
+    });
+
+    return entries;
+})();
+
+BLOCK_KEYS.forEach((blockKey) => {
+    const total = TEST_CONFIG.blocks[blockKey].total;
+    const base = Math.floor(total / QUESTION_TYPE_KEYS.length);
+    const remainder = total - base * QUESTION_TYPE_KEYS.length;
+    const perType = {};
+    QUESTION_TYPE_KEYS.forEach((type, index) => {
+        perType[type] = base + (index < remainder ? 1 : 0);
+    });
+    TEST_CONFIG.blocks[blockKey].perType = perType;
+});
+
+const TOTAL_REQUIRED_QUESTIONS = BLOCK_KEYS.reduce((sum, key) => sum + TEST_CONFIG.blocks[key].total, 0);
+if (TOTAL_REQUIRED_QUESTIONS !== TEST_CONFIG.totalQuestions) {
+    console.warn('Configuració inconsistent: totalQuestions no coincideix amb la suma per blocs');
+}
+
+
+// Configuració de Google Forms (cal personalitzar amb els teus identificadors)
+// Opcional: URL d'un Web App de Google Apps Script per enviar dades en JSON sense mapatges d'entries
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbycMGH0jx6ms7nX5lUiL2b3IoTXRE9AgLj_ngdOJ8E6Chwl-FdprF7Me9M0zDngxO0Z/exec"; // Ex.: "https://script.google.com/macros/s/AKfycbx.../exec" (deixar buit per usar Google Forms)
+
+const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/[SUBSTITUIR_PER_ID_REAL]/formResponse";
+
 // Mapatge de blocs → clau de formulari (només s'enviaran si existeixen al formulari)
-const BLOCK_TO_FORM_ENTRY = {
+const BLOCK_TO_FORM_ENTRY = BLOCK_KEYS.reduce((acc, key) => {
+    acc[key] = key;
+    return acc;
+}, {
+    // Compatibilitat amb formularis antics
     calcul: 'calcul',
     problemes: 'problemes',
-    sentit_numeric: 'sentit_numeric',
-    espai_mesura: 'espai_mesura',
-    sentit_estocastic: 'sentit_estocastic'
-};
+    espai_mesura: 'espai_mesura'
+});
 
 function isGoogleFormConfigured() {
     return GOOGLE_FORM_ACTION_URL && !GOOGLE_FORM_ACTION_URL.includes('[SUBSTITUIR') &&
@@ -676,7 +628,8 @@ function displayQuestion(index) {
     const totalCount = testQuestions.length || TEST_CONFIG.totalQuestions;
     questionNumber.textContent = `Pregunta ${index + 1} de ${totalCount}`;
     const blockLabel = BLOCK_LABELS[question.bloc] || capitalizeFirst(question.bloc.replace(/_/g, ' '));
-    questionBlock.textContent = blockLabel;
+    const typeLabel = QUESTION_TYPE_LABELS[question.tipus] || (question.tipus ? capitalizeFirst(question.tipus.replace(/_/g, ' ')) : '');
+    questionBlock.textContent = typeLabel ? `${blockLabel} · ${typeLabel}` : blockLabel;
     questionText.textContent = question.pregunta;
     
     // No es mostra temps estimat per pregunta
@@ -686,14 +639,15 @@ function displayQuestion(index) {
     
     // Mostrar/ocultar mètriques pedagògiques segons si ja ha contestat
     const hasAnswered = userAnswers.hasOwnProperty(index);
+    if (solutionStrategy) {
+        solutionStrategy.value = '';
+        solutionStrategy.selectedIndex = 0;
+    }
     if (hasAnswered) {
         showQuestionMetrics();
         loadQuestionMetricsValues(index);
     } else {
         hideQuestionMetrics();
-        if (solutionStrategy) {
-            solutionStrategy.value = '';
-        }
     }
     
     // Actualitzar botons de navegació
