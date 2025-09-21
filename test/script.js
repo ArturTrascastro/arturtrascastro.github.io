@@ -58,6 +58,8 @@ const QUESTION_TYPE_LABELS = {
     competencial: 'Competencials'
 };
 
+const COMPLETED_EMAILS_STORAGE_KEY = 'mathTestCompletedEmails_v1';
+
 const BLOCK_KEYS = Object.keys(TEST_CONFIG.blocks);
 const QUESTION_TYPE_KEYS = TEST_CONFIG.questionTypes;
 
@@ -215,6 +217,8 @@ const sections = {
 
 // Formulari d'estudiant
 const studentForm = document.getElementById('student-form');
+const studentEmailInput = document.getElementById('student-email');
+const attemptWarning = document.getElementById('attempt-warning');
 
 // Elements del test
 const questionNumber = document.getElementById('question-number');
@@ -386,14 +390,37 @@ function showSection(sectionName) {
  */
 function handleStudentFormSubmit(e) {
     e.preventDefault();
+    hideAttemptWarning();
     
     // Recollir dades del formulari
     const formData = new FormData(studentForm);
+    const rawEmail = (formData.get('studentEmail') || '').trim().toLowerCase();
+    if (!rawEmail) {
+        showAttemptWarning('Cal indicar un correu institucional per iniciar el test.');
+        if (studentEmailInput) {
+            studentEmailInput.focus();
+        }
+        return;
+    }
+
+    const emailHash = simpleHash(rawEmail);
+    if (hasCompletedAttempt(emailHash)) {
+        showAttemptWarning('Aquest correu ja ha completat el test. Si creus que és un error, contacta amb el professorat.');
+        if (studentEmailInput) {
+            studentEmailInput.focus();
+        }
+        return;
+    }
+
+    const emailDomain = rawEmail.includes('@') ? rawEmail.split('@')[1] : '';
     studentData = {
         // Dades bàsiques
         age: parseInt(formData.get('studentAge')),
         school: formData.get('studentSchool') || 'No especificat',
         mathLevel: formData.get('mathLevel'),
+        email: rawEmail,
+        emailHash,
+        emailDomain,
         
         // Dades contextuals ampliades
         mathConfidence: parseInt(formData.get('mathConfidence')),
@@ -993,6 +1020,12 @@ function finishTest() {
     // Calcular puntuacions
     const result = calculateScores();
     
+    // Registrar participació completada
+    if (studentData && studentData.emailHash) {
+        markAttemptCompleted(studentData.emailHash);
+        studentData.uniqueAttemptsLocal = getCompletedAttemptsCount();
+    }
+
     // Mostrar resultats
     displayResults(result, totalTimeUsed);
     
@@ -1177,6 +1210,7 @@ function displayResults(result, timeUsed) {
     const timeString = `${minutes}m ${seconds}s`;
 
     const totalQuestions = testQuestions.length || TOTAL_REQUIRED_QUESTIONS;
+    const uniqueAttemptsLocal = getCompletedAttemptsCount();
 
     // Calcular estadístiques avançades
     const totalQuestionTime = Object.values(questionTimeTracking).reduce((sum, time) => sum + time, 0);
@@ -1242,6 +1276,7 @@ function displayResults(result, timeUsed) {
                 <p>Encerts: <strong>${totals.correct}</strong> · Errors: <strong>${totals.wrong}</strong> · No respostes: <strong>${totals.unanswered}</strong></p>
                 <p>Punts (penalitzats): <strong>${Math.round(totals.points * 100) / 100}</strong> de ${totals.answered}</p>
                 <p>Respostes: <strong>${totals.answered}</strong> de ${totalQuestions} · Encerts (% sense penalitzar): <strong>${totals.percentCorrect}%</strong></p>
+                <p>Participacions úniques registrades (dispositiu): <strong>${uniqueAttemptsLocal}</strong></p>
             </div>
             
             <div class="result-card">
@@ -1390,13 +1425,14 @@ async function sendResultsToGoogle({ scores, timeTakenSeconds, studentData }) {
         }
 
         // Dades contextuals ampliades
-        if (GOOGLE_FORM_ENTRIES.centrePrimaria) formData.append(GOOGLE_FORM_ENTRIES.centrePrimaria, studentData.school);
-        if (GOOGLE_FORM_ENTRIES.confiancaInicial) formData.append(GOOGLE_FORM_ENTRIES.confiancaInicial, studentData.mathConfidence);
-        if (GOOGLE_FORM_ENTRIES.horesMobil && studentData.mobileUsage != null) formData.append(GOOGLE_FORM_ENTRIES.horesMobil, studentData.mobileUsage);
-        if (GOOGLE_FORM_ENTRIES.horesSon && studentData.sleepHours != null) formData.append(GOOGLE_FORM_ENTRIES.horesSon, studentData.sleepHours);
-        if (GOOGLE_FORM_ENTRIES.horesEstudiMates && studentData.studyHours != null) formData.append(GOOGLE_FORM_ENTRIES.horesEstudiMates, studentData.studyHours);
-        if (GOOGLE_FORM_ENTRIES.reforcMates && studentData.tutoring) formData.append(GOOGLE_FORM_ENTRIES.reforcMates, studentData.tutoring);
-        if (GOOGLE_FORM_ENTRIES.ansietatMates && studentData.mathAnxiety != null) formData.append(GOOGLE_FORM_ENTRIES.ansietatMates, studentData.mathAnxiety);
+        const sanitizedStudent = sanitizeStudentData(studentData);
+        if (GOOGLE_FORM_ENTRIES.centrePrimaria) formData.append(GOOGLE_FORM_ENTRIES.centrePrimaria, sanitizedStudent.school || '');
+        if (GOOGLE_FORM_ENTRIES.confiancaInicial && sanitizedStudent.mathConfidence != null) formData.append(GOOGLE_FORM_ENTRIES.confiancaInicial, sanitizedStudent.mathConfidence);
+        if (GOOGLE_FORM_ENTRIES.horesMobil && sanitizedStudent.mobileUsage != null) formData.append(GOOGLE_FORM_ENTRIES.horesMobil, sanitizedStudent.mobileUsage);
+        if (GOOGLE_FORM_ENTRIES.horesSon && sanitizedStudent.sleepHours != null) formData.append(GOOGLE_FORM_ENTRIES.horesSon, sanitizedStudent.sleepHours);
+        if (GOOGLE_FORM_ENTRIES.horesEstudiMates && sanitizedStudent.studyHours != null) formData.append(GOOGLE_FORM_ENTRIES.horesEstudiMates, sanitizedStudent.studyHours);
+        if (GOOGLE_FORM_ENTRIES.reforcMates && sanitizedStudent.tutoring) formData.append(GOOGLE_FORM_ENTRIES.reforcMates, sanitizedStudent.tutoring);
+        if (GOOGLE_FORM_ENTRIES.ansietatMates && sanitizedStudent.mathAnxiety != null) formData.append(GOOGLE_FORM_ENTRIES.ansietatMates, sanitizedStudent.mathAnxiety);
 
         // Analytics conductuals (com a JSON strings)
         if (GOOGLE_FORM_ENTRIES.tempsPerPregunta) formData.append(GOOGLE_FORM_ENTRIES.tempsPerPregunta, JSON.stringify(questionTimeTracking));
@@ -1469,11 +1505,13 @@ function buildWebAppPayload({ result, timeTakenSeconds, studentData }) {
         return acc;
     }, {});
 
+    const studentSanitized = sanitizeStudentData(studentData);
+
     return {
         version: 'v2',
         attemptId,
         timeTakenSeconds,
-        student: studentData,
+        student: studentSanitized,
         totals,
         blocks,
         types,
@@ -1526,6 +1564,76 @@ function updateDataStatus(status, message) {
 // ========================================
 // FUNCIONS D'UTILITAT
 // ========================================
+
+function showAttemptWarning(message) {
+    if (!attemptWarning) return;
+    attemptWarning.textContent = message;
+    attemptWarning.style.display = 'block';
+}
+
+function hideAttemptWarning() {
+    if (!attemptWarning) return;
+    attemptWarning.textContent = '';
+    attemptWarning.style.display = 'none';
+}
+
+function getCompletedEmailsRegistry() {
+    try {
+        const raw = localStorage.getItem(COMPLETED_EMAILS_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+    } catch (err) {
+        console.warn('No s\'ha pogut llegir el registre de participacions:', err);
+        return {};
+    }
+}
+
+function hasCompletedAttempt(emailHash) {
+    if (!emailHash) return false;
+    const registry = getCompletedEmailsRegistry();
+    return Boolean(registry[emailHash]);
+}
+
+function markAttemptCompleted(emailHash) {
+    if (!emailHash) return;
+    const registry = getCompletedEmailsRegistry();
+    if (!registry[emailHash]) {
+        registry[emailHash] = {
+            timestamp: new Date().toISOString(),
+            attemptId
+        };
+        try {
+            localStorage.setItem(COMPLETED_EMAILS_STORAGE_KEY, JSON.stringify(registry));
+        } catch (err) {
+            console.warn('No s\'ha pogut actualitzar el registre de participacions:', err);
+        }
+    }
+    console.log('Total de participacions úniques (dispositiu):', Object.keys(registry).length);
+}
+
+function getCompletedAttemptsCount() {
+    return Object.keys(getCompletedEmailsRegistry()).length;
+}
+
+function sanitizeStudentData(raw) {
+    if (!raw) return {};
+    const sanitized = { ...raw };
+    if (sanitized.email) {
+        sanitized.emailHash = sanitized.emailHash || simpleHash(sanitized.email);
+        sanitized.emailDomain = sanitized.emailDomain || (sanitized.email.split('@')[1] || '');
+        delete sanitized.email;
+    }
+    return sanitized;
+}
+
+function simpleHash(str) {
+    let hash = 0;
+    if (!str) return '';
+    for (let i = 0; i < str.length; i += 1) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0; // Converteix a 32 bits
+    }
+    return `h${Math.abs(hash)}`;
+}
 
 /**
  * Capitalitza la primera lletra d'una cadena
@@ -1617,6 +1725,10 @@ function startNewTest() {
 
         // Reiniciar formulari
         studentForm.reset();
+        hideAttemptWarning();
+        if (studentEmailInput) {
+            studentEmailInput.value = '';
+        }
         
         // Reiniciar timer display
         timerDisplay.textContent = '20:00';
