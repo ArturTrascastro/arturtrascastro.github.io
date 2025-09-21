@@ -23,7 +23,7 @@
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
-                <span class="progress-text" id="progress-text">Pregunta 0 de 20</span>
+                <span class="progress-text" id="progress-text">Pregunta 0 de 16</span>
             </div>
         </div>
     </header>
@@ -50,6 +50,21 @@
                         <label for="student-school">Centre de procedència (Primària) *</label>
                         <input type="text" id="student-school" name="studentSchool" required
                                placeholder="Nom del teu centre de Primària">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="student-email">Correu de l'institut *</label>
+                        <input type="email" id="student-email" name="studentEmail" required
+                               placeholder="nom.cognoms@insxx.cat">
+                        <small>Utilitzem aquest correu únicament per garantir una única participació per alumne.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Participació única</label>
+                        <p class="form-help">Si ja has completat el test, posa't en contacte amb el professorat.</p>
+                        <div id="attempt-warning" class="form-warning" style="display:none;"></div>
                     </div>
                 </div>
 
@@ -325,6 +340,11 @@
 
     </main>
 
+    <footer class="app-footer">
+        <p>Dubtes o incidències? Escriu-nos a <a href="mailto:matemateam@insartur.cat">matemateam@insartur.cat</a>.</p>
+        <p>Currículum oficial de matemàtiques ESO: <a href="https://xtec.gencat.cat/web/.content/curriculum/eso/curriculum-175-2022/Matematiques.pdf" target="_blank" rel="noopener noreferrer">Decret 175/2022</a>.</p>
+    </footer>
+
     <!-- MODAL D'AJUDA -->
     <div id="help-modal" class="modal">
         <div class="modal-content">
@@ -335,9 +355,9 @@
             <div class="modal-body">
                 <h4>Com funciona el test?</h4>
                 <ul>
-                    <li><strong>Durada:</strong> Tens 20 minuts per completar 20 preguntes</li>
-                    <li><strong>Tipus:</strong> Preguntes de matemàtiques de nivell 1r ESO (diagnòstic d'inici de 2n ESO)</li>
-                    <li><strong>Blocs:</strong> Processos i mètodes, Funcions, Números i àlgebra, Geometria, Estadística i probabilitat</li>
+                    <li><strong>Durada:</strong> Tens 20 minuts per completar 16 preguntes</li>
+                    <li><strong>Tipus:</strong> Preguntes de matemàtiques de nivell 1r ESO (diagnòstic d'inici de 2n ESO) amb preguntes directes i competencials</li>
+                    <li><strong>Blocs:</strong> Sentit numèric, Sentit de les operacions, Sentit de la mesura, Sentit espacial, Sentit algebraic i Sentit estocàstic</li>
                     <li><strong>Navegació:</strong> Pots anar enrere i endavant entre preguntes</li>
                     <li><strong>Resultats:</strong> Al final veuràs la teva puntuació per cada bloc</li>
                 </ul>
