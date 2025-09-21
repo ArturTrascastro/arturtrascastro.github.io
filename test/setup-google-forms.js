@@ -1,22 +1,4 @@
 /**
- * GOOGLE APPS SCRIPT: CREACIÓ AUTOMÀTICA DEL FORM + IDS D'ENTRADA
- * ===============================================================
- * 
- * Què fa:
- * - Crea un Google Form amb TOTS els camps que fa servir l'app (2n ESO, diagnòstic 1r ESO)
- * - Enllaça automàticament un Google Sheets per recollir respostes
- * - Genera la URL d'enviament (formResponse) correcta
- * - GENERA AUTOMÀTICAMENT el mapa d'entries (entry.XXXX) per enganxar a l'app
- * 
- * Ús:
- * 1. Ves a https://script.google.com i crea un projecte nou
- * 2. Enganxa aquest codi complet
- * 3. Executa la funció principal: setupMathEvaluationForm()
- * 4. Accepta permisos i, en finalitzar, copia el bloc de codi que surt al Log
- * 5. Substitueix a la teva app (script.js) les constants amb el bloc generat
- */
-
-/**
  * Funció principal que crea el formulari i extreu tots els IDs
  */
 const BLOCK_CONFIG = [
@@ -372,13 +354,7 @@ function setupOnSubmitTrigger(sheetId) {
     .create();
 }
 
-/**
- * Full de detall: escriu una fila per pregunta a la pestanya "Detall".
- * Columnes: Timestamp, Index, IdPregunta, Bloc, BlocLabel, Enunciat,
- * RespostaId, RespostaText, CorrectaId, CorrectaText, Correcta,
- * Temps, TempsFinsPrimera, Canvis, Confianca, Dificultat, Estrategia,
- * Dispositiu, Ambient, ConfiancaInicial, ExperienciaPrevia
- */
+//
 function processFormSubmission(e) {
   const sheet = e.range.getSheet();
   const ss = sheet.getParent();
@@ -489,9 +465,7 @@ function ensureDetailSheet_(ss) {
 }
 
 
-/**
- * Crea el formulari base amb títol i descripció
- */
+//
 function createBaseForm() {
   const form = FormApp.create('Test de Matemàtiques - Avaluació Diagnòstica (Dades d\'Investigació)');
 
@@ -510,9 +484,7 @@ function createBaseForm() {
   return form;
 }
 
-/**
- * Afegeix els camps de dades bàsiques (7 camps)
- */
+//
 function addBasicFields(form) {
   console.log('Afegint camps bàsics de resultats (valors totals)...');
 
@@ -572,9 +544,7 @@ function addBasicFields(form) {
 }
 
 
-/**
- * Afegeix els camps de dades contextuals (7 camps actuals)
- */
+//
 function addContextualFields(form) {
   console.log('Afegint camps contextuals...');
   const defs = [
@@ -595,9 +565,7 @@ function addContextualFields(form) {
   return created;
 }
 
-/**
- * Afegeix els camps d'analytics conductuals (6 camps JSON)
- */
+//
 function addBehavioralAnalyticsFields(form) {
   console.log("Afegint camps d'analytics conductuals (JSON)...");
   const defs = [
@@ -618,9 +586,7 @@ function addBehavioralAnalyticsFields(form) {
   return created;
 }
 
-/**
- * Afegeix els camps de metadades tècniques (5 camps)
- */
+//
 function addTechnicalMetadataFields(form) {
   console.log('Afegint camps de metadades tècniques...');
   const defs = [
@@ -640,9 +606,7 @@ function addTechnicalMetadataFields(form) {
   return created;
 }
 
-/**
- * Configura els settings avançats del formulari
- */
+//
 function configureFormSettings(form) {
   console.log('Configurant settings del formulari...');
   
@@ -662,9 +626,7 @@ function configureFormSettings(form) {
   console.log('Settings configurats');
 }
 
-/**
- * Crea un Google Sheets enllaçat automàticament
- */
+//
 function createLinkedSpreadsheet(form) {
   console.log('Creant Google Sheets enllaçat...');
   
@@ -691,9 +653,7 @@ function createLinkedSpreadsheet(form) {
   }
 }
 
-/**
- * Crea un URL preomplert i obté el mapping entry.XXXX → clau de camp
- */
+//
 function buildEntryMappingFromPrefill(form, items) {
   console.log('Generant URL preomplert per detectar entries...');
   const token = 'KEY__';
@@ -747,9 +707,7 @@ function buildEntryMappingFromPrefill(form, items) {
   return { actionUrl, entries, prefillUrl };
 }
 
-/**
- * Genera el codi JavaScript amb tots els IDs reals
- */
+//
 function generateJavaScriptCode(formData) {
   console.log('Generant codi JavaScript...');
 
@@ -894,10 +852,7 @@ function generateJavaScriptCode(formData) {
 }
 
 
-/**
- * Funció auxiliar per eliminar el formulari (només per proves)
- * ATENCIÓ: Aquesta funció elimina permanentment el formulari
- */
+//
 function deleteTestForm() {
   const forms = DriveApp.getFilesByType('application/vnd.google-apps.form');
   
