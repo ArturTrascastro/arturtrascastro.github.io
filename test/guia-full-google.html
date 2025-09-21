@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>Guia del full Google: Resum i Detall</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; line-height: 1.6; }
+    h1, h2, h3 { color: #1a3c6e; }
+    ul { margin-top: 0.8rem; }
+    li { margin-bottom: 0.4rem; }
+    code { background: #f5f5f5; padding: 0.1rem 0.3rem; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <h1>Guia del full de càlcul (Resum i Detall)</h1>
+  <p>Aquest document explica la finalitat de cada camp que s’escriu automàticament al full de càlcul generat per l’aplicació (<code>setup-google-forms.js</code>). Pots consultar el full compartit aquí: <a href="https://docs.google.com/spreadsheets/d/1gTflQJ9waTMsbU47eckSALVSgb_fgeeq0z_xfA4M32U/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Resum &amp; Detall del test</a>.</p>
+
+  <h2>Pestanya «Resum»</h2>
+  <ul>
+    <li><strong>Timestamp</strong>: data i hora en què s’ha rebut el test.</li>
+    <li><strong>AttemptId</strong>: identificador únic de l’intent (UUID).</li>
+    <li><strong>Temps(s)</strong>: temps total invertit en el test (en segons).</li>
+    <li><strong>Totals_Preguntes</strong>: nombre total de preguntes que formaven el test (16).</li>
+    <li><strong>Totals_Respostes, _Encerts, _Errors, _NoRespostes, _Punts, _Nota10</strong>: valors globals de rendiment.</li>
+    <li><strong>EmailHash</strong>: hash del correu institucional (ajuda a identificar la mostra sense guardar el correu en clar).</li>
+    <li><strong>EmailDomain</strong>: domini del correu (per verificar que és l’adreça del centre).</li>
+    <li><strong>ParticipacionsLocal</strong>: nombre de participacions úniques registrades al dispositiu (valor enviat pel navegador).</li>
+    <li><strong>Directes/Competencials...</strong>: per a cada tipus de pregunta, nombre total, respostes, encerts, errors i no respostes.</li>
+    <li><strong>..._Preguntes per bloc</strong>: per a cada bloc (SentitNumeric, SentitOperacions, etc.) i subtipus, valors totals i desglossats.</li>
+    <li><strong>CentrePrimaria</strong>: escola de procedència (camp del formulari).</li>
+    <li><strong>ConfiançaInicial, HoresMobil, HoresSon, HoresEstudiMates, ReforcMates, AnsietatMates</strong>: dades de context aportades per l’alumne.</li>
+  </ul>
+
+  <h2>Pestanya «Detall»</h2>
+  <ul>
+    <li><strong>Timestamp</strong>: mateix moment de recepció que al resum.</li>
+    <li><strong>AttemptId</strong>: identificador de l’intent (per enllaçar amb el resum).</li>
+    <li><strong>Index</strong>: número de la pregunta dins del test actual.</li>
+    <li><strong>IdPregunta</strong>: identificador del banc (<code>sn_001</code>, <code>sa_010</code>, …).</li>
+    <li><strong>Bloc</strong> i <strong>BlocLabel</strong>: bloc competencial (clau interna i etiqueta en català).</li>
+    <li><strong>Tipus</strong> i <strong>TipusLabel</strong>: <em>directa</em> o <em>competencial</em>.</li>
+    <li><strong>Enunciat</strong>: text de la pregunta.</li>
+    <li><strong>RespostaId / RespostaText</strong>: opció triada per l’alumne.</li>
+    <li><strong>CorrectaId / CorrectaText</strong>: resposta correcta.</li>
+    <li><strong>Correcta</strong>: <code>TRUE</code> si la resposta és correcta, <code>FALSE</code> si és incorrecta.</li>
+    <li><strong>Punt</strong>: puntuació (1 per encert, penalització proporcional per error).</li}
+    <li><strong>Temps</strong>: temps total dedicat a la pregunta (en segons).</li>
+    <li><strong>TempsFinsPrimera</strong>: temps fins a la primera resposta.</li>
+    <li><strong>Canvis</strong>: nombre de canvis de resposta.</li>
+    <li><strong>Confianca</strong> i <strong>Dificultat</strong>: valors de les escales 1-5 introduïdes per l’alumne.</li>
+    <li><strong>Estrategia</strong>: estratègia de resolució seleccionada.</li>
+    <li><strong>EmailHash / EmailDomain / ParticipacionsLocal</strong>: mateixos valors que al resum, duplicats per a traçabilitat de cada pregunta.</li>
+    <li><strong>CentrePrimaria, ConfiançaInicial, HoresMobil, HoresSon, HoresEstudiMates, ReforcMates, AnsietatMates</strong>: repetició de les dades de context amb la resposta individual.</li>
+  </ul>
+
+  <p>Aquestes dades permeten analitzar la mostra (via <strong>EmailHash</strong> i <strong>EmailDomain</strong>), els resultats generals i el detall de cada pregunta. El hash garanteix una única participació per alumne sense guardar el correu en clar.</p>
+</body>
+</html>
